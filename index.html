@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multiverse, No Nonsense — Magic for returning veterans</title>
+<meta name="description" content="Played Magic in the 90s and got lost? Find your profile, relearn the rules, play a guided game and catch up on 30 years of story.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      colors: {
+        void: '#0b0812', ink: '#120e1c', slate2: '#1b1727', slate3: '#262033', line: '#352d47',
+        gold: { DEFAULT: '#c9a24b', soft: '#e3c77d', dim: '#8d7233' }, parch: '#e9e2d0', mute: '#a79fb8'
+      },
+      fontFamily: {
+        display: ['Cinzel', 'Georgia', 'serif'],
+        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif']
+      }
+    } }
+  }
+</script>
+<style>
+  :root { color-scheme: dark; }
+  body {
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(94, 52, 140, .28), transparent 60%),
+      radial-gradient(900px 500px at -10% 30%, rgba(201, 162, 75, .07), transparent 60%),
+      #0b0812;
+    background-attachment: fixed;
+  }
+  ::selection { background: rgba(201,162,75,.35); }
+  :focus-visible { outline: 2px solid #e3c77d; outline-offset: 3px; border-radius: 6px; }
+  .gold-text { background: linear-gradient(180deg, #f1dc9c, #c9a24b 60%, #9a7a30); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .rule { height: 1px; background: linear-gradient(90deg, transparent, #c9a24b66, transparent); }
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  .panel { background: linear-gradient(180deg, rgba(38,32,51,.75), rgba(27,23,39,.85)); border: 1px solid #352d47; border-radius: 14px; transition: border-color .3s, transform .3s, box-shadow .3s; }
+  .panel:hover { border-color: #8d723388; }
+  .lift:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -18px rgba(0,0,0,.8), 0 0 0 1px #c9a24b44; }
+  .pip { display:inline-flex; width:1.35rem; height:1.35rem; border-radius:50%; align-items:center; justify-content:center; font:600 .7rem Inter; color:#111; box-shadow: inset 0 -2px 3px rgba(0,0,0,.25), 0 0 0 1px rgba(0,0,0,.4); flex:none; }
+  .pip-w{background:#f4efd6}.pip-u{background:#8ec1ea}.pip-b{background:#9b8fa6}.pip-r{background:#e8836a}.pip-g{background:#7fbf84}.pip-c{background:#cfcbd6}
+  .pip-lg { width:3.25rem; height:3.25rem; font-size:1.1rem; cursor:pointer; transition: transform .25s, box-shadow .25s, opacity .25s; }
+  .pip-lg:hover { transform: translateY(-3px); }
+  .pip-lg[aria-pressed="true"] { box-shadow: 0 0 0 3px #0b0812, 0 0 0 5px #c9a24b, 0 0 24px #c9a24b88; }
+  .pip-lg[aria-pressed="false"] { opacity:.55; }
+
+  .opt { text-align:left; width:100%; padding:1rem 1.15rem; border-radius:12px; border:1px solid #352d47; background: rgba(18,14,28,.7); color:#e9e2d0; transition: all .25s ease; cursor:pointer; }
+  .opt:hover { border-color:#c9a24b; background: rgba(201,162,75,.08); transform: translateX(4px); }
+  .opt[aria-pressed="true"] { border-color:#c9a24b; background: rgba(201,162,75,.16); }
+  .step { animation: stepIn .45s ease both; }
+  @keyframes stepIn { from { opacity:0; transform: translateX(24px);} to {opacity:1; transform:none;} }
+
+  .tl-scroll { scrollbar-width: thin; scrollbar-color: #8d7233 #1b1727; scroll-snap-type: x proximity; scroll-padding-left: 1.25rem; }
+  .tl-scroll::-webkit-scrollbar { height: 8px; }
+  .tl-scroll::-webkit-scrollbar-track { background:#1b1727; border-radius: 99px; }
+  .tl-scroll::-webkit-scrollbar-thumb { background:#8d7233; border-radius: 99px; }
+  .tl-item { flex: 0 0 300px; width: 300px; overflow: hidden; scroll-snap-align: start; transition: flex-basis .6s ease, width .6s ease, opacity .45s ease, margin .6s ease, transform .6s ease; margin-right: 1.25rem; }
+  .tl-item > .inner { width: 300px; }
+  .tl-item.cross-hidden { flex-basis: 0; width: 0; opacity: 0; margin-right: 0; transform: scale(.9); pointer-events: none; }
+  .tl-line { position:absolute; left:0; right:0; top: 14px; height:1px; background: linear-gradient(90deg, #c9a24b00, #c9a24b99 6%, #c9a24b99 94%, #c9a24b00); }
+  .tl-dot { width:29px; height:29px; border-radius:50%; background:#120e1c; border:2px solid #c9a24b; display:flex; align-items:center; justify-content:center; font-size:.7rem; color:#e3c77d; position:relative; z-index:1; }
+  .tl-item.cross .tl-dot { border-color:#a678e0; color:#cfb2ff; box-shadow: 0 0 14px #a678e066; }
+  .tl-item.cross .card-edge { border-color:#6b4aa0aa; background: linear-gradient(180deg, rgba(70,40,110,.35), rgba(27,23,39,.9)); }
+
+  .switch { position:relative; width:52px; height:30px; border-radius:99px; background:#352d47; transition: background .3s; flex:none; }
+  .switch::after { content:""; position:absolute; top:3px; left:3px; width:24px; height:24px; border-radius:50%; background:#e9e2d0; transition: transform .3s; }
+  [aria-checked="true"] > .switch { background:#c9a24b; }
+  [aria-checked="true"] > .switch::after { transform: translateX(22px); background:#120e1c; }
+
+  .mtg-card { background: linear-gradient(160deg,#2a2236,#17121f); border:6px solid #0a0710; border-radius: 16px; box-shadow: 0 0 0 1px #c9a24b55, 0 20px 40px -20px #000; }
+  .hot { position:relative; cursor:pointer; transition: background .25s, box-shadow .25s; border-radius:8px; }
+  .hot:hover, .hot.on { background: rgba(201,162,75,.18); box-shadow: 0 0 0 1px #c9a24b; }
+  .chip { transition: all .25s; cursor:pointer; border:1px solid #352d47; border-radius:10px; }
+  .chip:hover, .chip.on, .chip[aria-selected="true"] { background: rgba(201,162,75,.16); border-color:#c9a24b; color:#f1dc9c; }
+  .stack-item { animation: pop .35s ease both; }
+  @keyframes pop { from { opacity:0; transform: translateY(-14px) scale(.96);} to { opacity:1; transform:none; } }
+  .stack-out { animation: out .35s ease both; }
+  @keyframes out { to { opacity:0; transform: translateX(40px);} }
+
+  /* simulator */
+  .gc { width: 74px; height: 100px; border-radius: 9px; border:1px solid #4a4062; background: linear-gradient(165deg,#2e2640,#191422); padding:5px 6px; display:flex; flex-direction:column; justify-content:space-between; text-align:left; font-size:10px; line-height:1.15; color:#e9e2d0; transition: transform .25s, box-shadow .25s, opacity .25s, border-color .25s; position:relative; flex:none; }
+  button.gc { cursor:pointer; }
+  button.gc:hover { border-color:#c9a24b; transform: translateY(-4px); }
+  .gc.land { background: linear-gradient(165deg,#3a3320,#1c1810); }
+  .gc.burn { background: linear-gradient(165deg,#4a2420,#1f1210); }
+  .gc.fly { background: linear-gradient(165deg,#22384d,#131c26); }
+  .gc.dim { opacity:.45; }
+  .gc.tapped { transform: rotate(9deg); opacity:.6; }
+  .gc.sel { border-color:#e3c77d; box-shadow: 0 0 0 2px #c9a24b, 0 0 18px #c9a24b88; transform: translateY(-8px); }
+  .gc.atk { border-color:#ff8f7a; box-shadow: 0 0 0 2px #e8836a, 0 0 18px #e8836a88; }
+  .gc .pt { align-self:flex-end; font-weight:600; font-size:12px; color:#e3c77d; }
+  .gc .tag { position:absolute; top:-8px; right:-6px; background:#0b0812; border:1px solid #c9a24b; border-radius:99px; padding:1px 6px; font-size:9px; color:#e3c77d; }
+  .zone { min-height:112px; border:1px dashed #352d47; border-radius:12px; padding:8px; display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+  .sbtn { padding:.55rem .9rem; border-radius:10px; font-size:.8rem; font-weight:600; transition: all .2s; }
+  .sbtn-p { background:#c9a24b; color:#0b0812; } .sbtn-p:hover { background:#e3c77d; }
+  .sbtn-s { border:1px solid #352d47; } .sbtn-s:hover { border-color:#c9a24b; color:#e3c77d; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    .reveal { opacity:1; transform:none; }
+  }
+</style>
+</head>
+<body class="font-sans text-parch antialiased">
+
+<header class="sticky top-0 z-50 backdrop-blur-md bg-void/75 border-b border-line/60">
+  <nav class="max-w-6xl mx-auto px-5 h-14 flex items-center justify-between gap-4">
+    <a href="#top" class="font-display tracking-widest text-gold-soft text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap">
+      <span class="pip pip-c" aria-hidden="true">✦</span> <span data-t="brand"></span>
+    </a>
+    <div class="hidden lg:flex items-center gap-5 text-sm text-mute">
+      <a class="hover:text-gold-soft transition" href="#quiz" data-t="nQuiz"></a>
+      <a class="hover:text-gold-soft transition" href="#timeline" data-t="nTime"></a>
+      <a class="hover:text-gold-soft transition" href="#lore" data-t="nLore"></a>
+      <a class="hover:text-gold-soft transition" href="#planes" data-t="nPlanes"></a>
+      <a class="hover:text-gold-soft transition" href="#colors" data-t="nColors"></a>
+      <a class="hover:text-gold-soft transition" href="#guide" data-t="nGuide"></a>
+      <a class="hover:text-gold-soft transition" href="#play" data-t="nPlay"></a>
+      <a class="hover:text-gold-soft transition" href="#formats" data-t="nFormats"></a>
+    </div>
+    <div class="flex rounded-lg border border-line overflow-hidden text-xs font-semibold" role="group" aria-label="Language">
+      <button data-lang="en" class="langBtn px-3 py-1.5 transition">EN</button>
+      <button data-lang="pt" class="langBtn px-3 py-1.5 transition">PT</button>
+    </div>
+  </nav>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="relative overflow-hidden">
+  <div class="max-w-4xl mx-auto px-5 pt-20 pb-24 sm:pt-28 sm:pb-32 text-center">
+    <div class="flex justify-center gap-2 mb-8" aria-hidden="true">
+      <span class="pip pip-w">W</span><span class="pip pip-u">U</span><span class="pip pip-b">B</span><span class="pip pip-r">R</span><span class="pip pip-g">G</span>
+    </div>
+    <h1 class="font-display font-semibold text-3xl sm:text-5xl lg:text-6xl leading-tight gold-text" data-t="h1"></h1>
+    <p class="font-serif italic text-2xl sm:text-4xl mt-3 text-parch" data-t="h1b"></p>
+    <p class="mt-8 text-mute max-w-2xl mx-auto leading-relaxed text-base sm:text-lg" data-t="heroSub"></p>
+    <a href="#quiz" class="go inline-block mt-10 px-8 py-4 rounded-xl font-semibold text-void bg-gradient-to-b from-gold-soft to-gold hover:from-[#f3dd9d] hover:to-gold-soft shadow-[0_10px_30px_-10px_rgba(201,162,75,.7)] hover:-translate-y-0.5 transition" data-t="cta"></a>
+    <p class="mt-5 text-xs text-mute/80 tracking-wide" data-t="ctaSub"></p>
+  </div>
+  <div class="rule"></div>
+</section>
+
+<!-- QUIZ -->
+<section id="quiz" class="max-w-3xl mx-auto px-5 py-20 sm:py-28 scroll-mt-14">
+  <div class="text-center mb-10 reveal">
+    <p class="text-gold text-xs tracking-[.3em] uppercase mb-3" data-t="qK"></p>
+    <h2 class="font-display text-2xl sm:text-4xl text-parch" data-t="qH"></h2>
+  </div>
+  <div class="panel p-6 sm:p-9 reveal" aria-live="polite">
+    <div class="flex items-center gap-3 mb-7" aria-hidden="true">
+      <div class="flex-1 h-1.5 rounded-full bg-slate3 overflow-hidden"><div id="bar" class="h-full bg-gold transition-all duration-500" style="width:0%"></div></div>
+      <span id="stepLabel" class="text-xs text-mute tabular-nums"></span>
+    </div>
+    <div id="quizBody"></div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline" class="py-20 sm:py-28 bg-ink/60 border-y border-line/50 scroll-mt-14">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="text-center mb-10 reveal">
+      <p class="text-gold text-xs tracking-[.3em] uppercase mb-3" data-t="tK"></p>
+      <h2 class="font-display text-2xl sm:text-4xl text-parch" data-t="tH"></h2>
+      <p class="text-mute mt-4 max-w-xl mx-auto" data-t="tSub"></p>
+    </div>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8 reveal">
+      <button id="crossToggle" role="switch" aria-checked="false" class="flex items-center gap-4 panel px-5 py-3 hover:border-gold transition text-left">
+        <span class="switch" aria-hidden="true"></span>
+        <span class="text-sm sm:text-base font-medium" data-t="tToggle"></span>
+      </button>
+      <span id="tlCount" class="text-xs text-mute tabular-nums"></span>
+    </div>
+    <div class="relative reveal">
+      <div class="flex justify-end gap-2 mb-4">
+        <button id="tlPrev" aria-label="Previous" class="w-10 h-10 rounded-full bg-void/90 border border-line hover:border-gold hover:text-gold-soft transition">‹</button>
+        <button id="tlNext" aria-label="Next" class="w-10 h-10 rounded-full bg-void/90 border border-line hover:border-gold hover:text-gold-soft transition">›</button>
+      </div>
+      <div id="tlScroll" class="tl-scroll overflow-x-auto pb-6 -mx-5 px-5" tabindex="0" aria-label="Timeline">
+        <div class="relative flex w-max pt-1" id="tlTrack"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LORE -->
+<section id="lore" class="max-w-6xl mx-auto px-5 py-20 sm:py-28 scroll-mt-14">
+  <div class="text-center mb-10 reveal">
+    <p class="text-gold text-xs tracking-[.3em] uppercase mb-3" data-t="lK"></p>
+    <h2 class="font-display text-2xl sm:text-4xl text-parch" data-t="lH"></h2>
+    <p class="text-mute mt-4 max-w-2xl mx-auto" data-t="lSub"></p>
+  </div>
+  <div id="loreTabs" class="flex flex-wrap justify-center gap-2 mb-8 reveal" role="tablist"></div>
+  <div id="loreGrid" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"></div>
+  <p class="text-center text-sm text-mute mt-8"><a class="underline decoration-gold/50 hover:text-gold-soft" href="https://magic.wizards.com/en/story" target="_blank" rel="noopener" data-t="lMore"></a></p>
+</section>
+
+<!-- PLANES & PLANESWALKERS -->
+<section id="planes" class="py-20 sm:py-28 bg-ink/60 border-y border-line/50 scroll-mt-14">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="text-center mb-12 reveal">
+      <p class="text-gold text-xs tracking-[.3em] uppercase mb-3" data-t="pK"></p>
+      <h2 class="font-display text-2xl sm:text-4xl text-parch" data-t="pH"></h2>
+      <p class="text-mute mt-4 max-w-2xl mx-auto" data-t="pSub"></p>
+    </div>
+    <div id="pwFacts" class="grid gap-5 md:grid-cols-3 mb-12"></div>
+    <div class="grid gap-8 lg:grid-cols-2">
+      <div class="reveal">
+        <h3 class="font-display text-xl text-gold-soft mb-4" data-t="pPlanes"></h3>
+        <div id="planeChips" class="flex flex-wrap gap-2 mb-4"></div>
+        <div id="planeBody" class="panel p-6 min-h-[170px]"></div>
+      </div>
+      <div class="reveal">
+        <h3 class="font-display text-xl text-gold-soft mb-4" data-t="pWalkers"></h3>
+        <div id="walkerList" class="grid sm:grid-cols-2 gap-3"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLORS -->
+<section id="colors" class="max-w-5xl mx-auto px-5 py-20 sm:py-28 scroll-mt-14">
+  <div class="text-center mb-10 reveal">
+    <p class="text-gold text-xs tracking-[.3em] uppercase mb-3" data-t="cK"></p>
+    <h2 class="font-display text-2xl sm:text-4xl text-parch" data-t="cH"></h2>
+    <p class="text-mute mt-4 max-w-2xl mx-auto" data-t="cSub"></p>
+  </div>
+  <div class="panel p-6 sm:p-9 reveal">
+    <div id="colorPips" class="flex justify-center gap-4 sm:gap-6 mb-8"></div>
+    <div id="colorBody" class="min-h-[190px]" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- GUIDE -->
+<section id="guide" class="py-20 sm:py-28 bg-ink/60 border-y border-line/50 scroll-mt-14">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="text-center mb-14 reveal">
+      <p class="text-gold text-xs tracking-[.3em] uppercase mb-3" data-t="gK"></p>
+      <h2 class="font-display text-2xl sm:text-4xl text-parch" data-t="gH"></h2>
+      <p class="text-mute mt-4 max-w-xl mx-auto" data-t="gSub"></p>
+    </div>
+    <div class="grid gap-6 lg:grid-cols-2">
+
+      <article class="panel p-6 sm:p-8 reveal">
+        <h3 class="font-display text-xl text-gold-soft mb-1" data-t="g1"></h3>
+        <p class="text-mute text-sm mb-6" data-t="g1s"></p>
+        <div class="grid sm:grid-cols-[210px_1fr] gap-6 items-start">
+          <div class="mtg-card p-3 w-[210px] mx-auto text-[11px] select-none" id="anatomyCard">
+            <div class="flex justify-between items-center gap-1 bg-slate3/70 rounded-lg">
+              <button class="hot px-2 py-1.5 font-display text-[12px] flex-1 text-left" data-a="name" data-t="aName"></button>
+              <button class="hot flex gap-0.5 px-1.5 py-1.5" data-a="cost" aria-label="Mana cost"><span class="pip pip-c" style="width:1.1rem;height:1.1rem">2</span><span class="pip pip-u" style="width:1.1rem;height:1.1rem">U</span></button>
+            </div>
+            <div class="my-2 h-20 rounded bg-gradient-to-br from-[#3a2a5c] to-[#1a2a44] flex items-center justify-center text-3xl" aria-hidden="true">🔮</div>
+            <button class="hot block w-full text-left px-2 py-1 bg-slate3/70" data-a="type" data-t="aType"></button>
+            <button class="hot block w-full text-left mt-2 px-2 py-2 bg-parch/10 min-h-[58px] leading-snug" data-a="text" data-t="aText"></button>
+            <div class="flex justify-end mt-2"><button class="hot px-2 py-0.5 bg-slate3/90 font-semibold" data-a="pt">2/2</button></div>
+          </div>
+          <div id="anatomyInfo" class="text-sm leading-relaxed min-h-[180px]"></div>
+        </div>
+      </article>
+
+      <article class="panel p-6 sm:p-8 reveal">
+        <h3 class="font-display text-xl text-gold-soft mb-1" data-t="g2"></h3>
+        <p class="text-mute text-sm mb-5" data-t="g2s"></p>
+        <div id="typeChips" class="flex flex-wrap gap-2 mb-5"></div>
+        <div id="typeBody" class="text-sm leading-relaxed min-h-[190px]"></div>
+      </article>
+
+      <article class="panel p-6 sm:p-8 reveal">
+        <h3 class="font-display text-xl text-gold-soft mb-1" data-t="g3"></h3>
+        <p class="text-mute text-sm mb-5" data-t="g3s"></p>
+        <div id="phases" class="grid grid-cols-5 gap-1.5 mb-3 text-center text-[11px] sm:text-xs"></div>
+        <p id="phaseInfo" class="text-sm text-parch/90 leading-relaxed min-h-[64px] mb-6"></p>
+        <div class="rule mb-5"></div>
+        <h4 class="font-semibold text-parch mb-1" data-t="stH"></h4>
+        <p class="text-mute text-sm mb-4" data-t="stS"></p>
+        <div id="spellBtns" class="flex flex-wrap gap-2 mb-4"></div>
+        <ol id="stack" class="flex flex-col gap-1.5 min-h-[120px] p-3 rounded-lg bg-void/60 border border-line/70 text-sm" aria-live="polite"></ol>
+        <p id="stackMsg" class="text-xs text-mute mt-3 min-h-[18px]"></p>
+      </article>
+
+      <div class="grid gap-6">
+        <article class="panel p-6 sm:p-8 reveal">
+          <h3 class="font-display text-xl text-gold-soft mb-1" data-t="g4"></h3>
+          <p class="text-mute text-sm mb-5" data-t="g4s"></p>
+          <div role="tablist" class="flex flex-wrap gap-2 mb-5" id="zoneTabs"></div>
+          <div id="zoneBody" class="text-sm leading-relaxed min-h-[120px]"></div>
+        </article>
+        <article class="panel p-6 sm:p-8 reveal">
+          <h3 class="font-display text-xl text-gold-soft mb-1" data-t="g5"></h3>
+          <p class="text-mute text-sm mb-5" data-t="g5s"></p>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div class="rounded-xl border border-line p-4 bg-void/40">
+              <p class="font-semibold mb-2" data-t="ctH"></p>
+              <p class="text-mute text-xs leading-relaxed mb-4" data-t="ctS"></p>
+              <div class="flex items-center gap-3">
+                <button id="cMinus" aria-label="-" class="w-8 h-8 rounded-full border border-line hover:border-gold transition">−</button>
+                <div class="mtg-card w-20 py-3 text-center">
+                  <div class="font-display text-[10px] text-mute" data-t="bear"></div>
+                  <div id="cStat" class="text-xl font-semibold text-gold-soft">2/2</div>
+                  <div id="cDots" class="flex justify-center flex-wrap gap-0.5 mt-1 min-h-[10px]"></div>
+                </div>
+                <button id="cPlus" aria-label="+" class="w-8 h-8 rounded-full border border-line hover:border-gold transition">+</button>
+              </div>
+            </div>
+            <div class="rounded-xl border border-line p-4 bg-void/40">
+              <p class="font-semibold mb-2" data-t="tkH"></p>
+              <p class="text-mute text-xs leading-relaxed mb-4" data-t="tkS"></p>
+              <button id="tokenBtn" class="px-3 py-2 rounded-lg border border-line text-xs hover:border-gold hover:text-gold-soft transition mb-3" data-t="tkBtn"></button>
+              <div id="tokens" class="flex flex-wrap gap-2 min-h-[44px]"></div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <article class="panel p-6 sm:p-8 reveal lg:col-span-2">
+        <h3 class="font-display text-xl text-gold-soft mb-1" data-t="g6"></h3>
+        <p class="text-mute text-sm mb-5" data-t="g6s"></p>
+        <div id="thenNow" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 text-sm"></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- SIMULATOR -->
+<section id="play" class="max-w-6xl mx-auto px-5 py-20 sm:py-28 scroll-mt-14">
+  <div class="text-center mb-10 reveal">
+    <p class="text-gold text-xs tracking-[.3em] uppercase mb-3" data-t="sK"></p>
+    <h2 class="font-display text-2xl sm:text-4xl text-parch" data-t="sH"></h2>
+    <p class="text-mute mt-4 max-w-2xl mx-auto" data-t="sSub"></p>
+  </div>
+  <div id="sim" class="panel p-4 sm:p-6 reveal"></div>
+</section>
+
+<!-- FORMATS -->
+<section id="formats" class="py-20 sm:py-28 bg-ink/60 border-y border-line/50 scroll-mt-14">
+  <div class="max-w-6xl mx-auto px-5">
+    <div class="text-center mb-12 reveal">
+      <p class="text-gold text-xs tracking-[.3em] uppercase mb-3" data-t="fK"></p>
+      <h2 class="font-display text-2xl sm:text-4xl text-parch" data-t="fH"></h2>
+      <p class="text-mute mt-4 max-w-2xl mx-auto" data-t="fSub"></p>
+    </div>
+    <div id="fmtMain" class="grid gap-5 md:grid-cols-3 mb-8"></div>
+    <article class="panel p-6 sm:p-9 reveal border-gold/40 mb-8">
+      <div class="flex flex-col lg:flex-row gap-8">
+        <div class="lg:w-1/3">
+          <h3 class="font-display text-2xl text-gold-soft mb-2" data-t="cmH"></h3>
+          <p class="text-mute text-sm leading-relaxed" data-t="cmS"></p>
+        </div>
+        <ol id="cmdList" class="flex-1 grid sm:grid-cols-3 gap-4"></ol>
+      </div>
+    </article>
+    <h3 class="font-display text-xl text-gold-soft mb-4 reveal" data-t="fOther"></h3>
+    <div id="fmtOther" class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3"></div>
+  </div>
+</section>
+
+<!-- GET STARTED -->
+<section id="start" class="max-w-6xl mx-auto px-5 py-20 sm:py-28 scroll-mt-14">
+  <div class="text-center mb-12 reveal">
+    <p class="text-gold text-xs tracking-[.3em] uppercase mb-3" data-t="bK"></p>
+    <h2 class="font-display text-2xl sm:text-4xl text-parch" data-t="bH"></h2>
+  </div>
+  <div id="startGrid" class="grid gap-5 md:grid-cols-3"></div>
+</section>
+
+</main>
+
+<footer class="max-w-6xl mx-auto px-5 py-12 text-center">
+  <div class="rule mb-8"></div>
+  <p class="font-serif italic text-xl text-parch" data-t="ftQ"></p>
+  <p class="text-xs text-mute mt-4 max-w-2xl mx-auto leading-relaxed" data-t="ftD"></p>
+</footer>
+
+<script>
+(() => {
+  "use strict";
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  let li = 0; // 0 = en, 1 = pt
+  try { if (localStorage.getItem("mtgLang") === "pt") li = 1; } catch (e) {}
+  const tr = x => (Array.isArray(x) ? x[li] : x);
+
+  /* ---------- reveal ---------- */
+  const io = "IntersectionObserver" in window
+    ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .08 })
+    : null;
+  const observe = el => { if (el.classList.contains("in")) return; io ? io.observe(el) : el.classList.add("in"); };
+
+  /* =========================================================
+     STATIC STRINGS
+  ========================================================= */
+  const S = {
+    brand: ["MULTIVERSE, NO NONSENSE", "MULTIVERSO SEM ENROLAÇÃO"],
+    nQuiz: ["Profile", "Perfil"], nTime: ["Timeline", "Linha do tempo"], nLore: ["Story", "História"], nPlanes: ["Planes", "Planos"],
+    nColors: ["Colors", "Cores"], nGuide: ["Rules", "Regras"], nPlay: ["Play", "Jogar"], nFormats: ["Formats", "Formatos"],
+    h1: ["Stopped playing in the 90s?", "Parou de jogar nos anos 90?"],
+    h1b: ["The Multiverse changed. We explain it, no nonsense.", "O Multiverso mudou. Nós te explicamos sem enrolação."],
+    heroSub: ["Today there are tens of thousands of cards, a dozen formats and crossovers with everything from hobbits to Final Fantasy. The official site feels like a mall on sale day. This is the opposite: one clean map for people who remember when a <em class='text-parch not-italic'>Black Lotus</em> was cheap and just want to get back to the table.",
+      "Hoje existem dezenas de milhares de cartas, uma dúzia de formatos e crossovers com tudo, de hobbits a Final Fantasy. O site oficial parece um shopping em dia de promoção. Aqui é o oposto: um mapa limpo para quem lembra de <em class='text-parch not-italic'>Black Lotus</em> barata e só quer voltar à mesa."],
+    cta: ["Discover your player profile", "Descubra seu perfil de jogador"],
+    ctaSub: ["3 questions · under a minute", "3 perguntas · menos de 1 minuto"],
+    qK: ["Step by step", "Passo a passo"], qH: ["Which veteran are you?", "Qual veterano você é?"],
+    tK: ["1993 — today", "1993 — hoje"], tH: ["Three decades in one scroll", "Três décadas em um scroll"],
+    tSub: ["Drag sideways or use the arrows. Purple cards are Universes Beyond crossovers.", "Arraste para o lado ou use as setas. Os cards roxos são crossovers do Universes Beyond."],
+    tToggle: ["Hide Crossovers <span class='text-mute font-normal'>(Original Magic only)</span>", "Ocultar Crossovers <span class='text-mute font-normal'>(Ver apenas o Magic Original)</span>"],
+    lK: ["Lore sanctuary", "Santuário da história"], lH: ["The whole story, in five acts", "A história inteira, em cinco atos"],
+    lSub: ["Thirty years of plot in short cards. Pick an act or read straight through.", "Trinta anos de enredo em cards curtos. Escolha um ato ou leia tudo em sequência."],
+    lMore: ["Read the official stories at magic.wizards.com/story ↗", "Leia as histórias oficiais em magic.wizards.com/story ↗"],
+    pK: ["Planes & Planeswalkers", "Planos e Planeswalkers"], pH: ["Where it happens, and who walks there", "Onde acontece, e quem caminha por lá"],
+    pSub: ["In the 90s almost everything happened on Dominaria. Today each set visits a different world.", "Nos anos 90 quase tudo se passava em Dominaria. Hoje cada coleção visita um mundo diferente."],
+    pPlanes: ["Planes worth knowing", "Planos que vale conhecer"], pWalkers: ["Planeswalkers worth knowing", "Planeswalkers que vale conhecer"],
+    cK: ["The color pie", "A roda de cores"], cH: ["Five colors, five philosophies", "Cinco cores, cinco filosofias"],
+    cSub: ["Pick one color to see what it does. Pick two to see the pair and its Ravnica guild name, which players use as shorthand.", "Escolha uma cor para ver o que ela faz. Escolha duas para ver o par e o nome da guilda de Ravnica, que os jogadores usam como apelido."],
+    gK: ["The modern veteran's guide", "Guia do veterano moderno"], gH: ["Rules and mechanics, today", "Regras e mecânicas, hoje"],
+    gSub: ["Tap things. Everything here is interactive.", "Toque nos elementos. Tudo aqui é interativo."],
+    g1: ["1 · Card anatomy", "1 · Anatomia da carta"], g1s: ["Click a part of the card.", "Clique em uma parte da carta."],
+    aName: ["Veteran Mage", "Mago Veterano"], aType: ["Creature — Human Wizard", "Criatura — Humano Mago"],
+    aText: ["Flying<br><em class='text-mute'>When this enters, draw a card.</em>", "Voar<br><em class='text-mute'>Quando esta criatura entra, compre um card.</em>"],
+    g2: ["2 · Card types", "2 · Tipos de carta"], g2s: ["Eight types today. Two of them did not exist in the 90s.", "Oito tipos hoje. Dois deles não existiam nos anos 90."],
+    g3: ["3 · Turn structure & the Stack", "3 · Turno e a Pilha"], g3s: ["Five phases. Tap one.", "Cinco fases. Toque em uma."],
+    stH: ["The Stack (it replaced Interrupts and batches)", "A Pilha (substituiu Interrupts e lotes)"],
+    stS: ["Last in, first out. Try it:", "Último a entrar, primeiro a resolver. Teste:"],
+    g4: ["4 · Zones", "4 · Zonas"], g4s: ["Where cards live (and die).", "Onde as cartas vivem (e morrem)."],
+    g5: ["5 · Counters & Tokens", "5 · Marcadores e Fichas"], g5s: ["Far more common now than in the 90s.", "Muito mais comuns hoje do que nos anos 90."],
+    ctH: ["Counters", "Marcadores"], ctS: ["Sit <em>on</em> a card and change it: +1/+1, loyalty, poison, time.", "Ficam <em>na</em> carta e mudam o que ela é: +1/+1, lealdade, veneno, tempo."],
+    bear: ["Bear", "Urso"],
+    tkH: ["Tokens", "Fichas"], tkS: ["Permanents <em>created</em> by effects. Not cards; they vanish when they leave the battlefield.", "Permanentes <em>criadas</em> por efeitos. Não são cartas; somem ao sair do campo."],
+    tkBtn: ["Create a 1/1 Soldier token", "Criar ficha: Soldado 1/1"],
+    g6: ["6 · Then vs. now", "6 · Antes e agora"], g6s: ["The words on your old cards, translated to today's rules.", "As palavras das suas cartas antigas, traduzidas para as regras de hoje."],
+    sK: ["Game simulator", "Simulador de jogo"], sH: ["Play a guided game", "Jogue uma partida guiada"],
+    sSub: ["A simplified duel against a bot: lands, creatures, one burn spell, combat. The coach line tells you what to do at each step.", "Um duelo simplificado contra um bot: terrenos, criaturas, uma mágica de dano, combate. A linha do treinador diz o que fazer em cada passo."],
+    fK: ["Formats", "Formatos"], fH: ["The most popular ways to play", "As formas mais populares de jogar"],
+    fSub: ["A format decides which cards are legal and how decks are built. The core rules stay the same.", "Um formato define quais cartas valem e como montar o baralho. As regras básicas não mudam."],
+    cmH: ["What is Commander?", "O que é Commander?"],
+    cmS: ["The ultimate casual format. If you played multiplayer at the kitchen table in the 90s, this is the official version of that.", "O formato casual definitivo. Se você jogava multiplayer na mesa da cozinha nos anos 90, é a versão oficial disso."],
+    fOther: ["Other formats you will hear about", "Outros formatos que você vai ouvir"],
+    bK: ["Getting back in", "Voltando ao jogo"], bH: ["Learn, buy smart, find tools", "Aprenda, compre bem, ache ferramentas"],
+    ftQ: ["“Welcome back, Planeswalker.”", "“Bem-vindo de volta, Planeswalker.”"],
+    ftD: ["Fan project, not affiliated with Wizards of the Coast. Magic: The Gathering is a trademark of Wizards of the Coast LLC. Dates and summaries are simplified; always check the official rules.",
+      "Projeto de fã, sem afiliação com a Wizards of the Coast. Magic: The Gathering é marca registrada da Wizards of the Coast LLC. Datas e resumos são simplificados; confira sempre as regras oficiais."]
+  };
+
+  /* =========================================================
+     TIMELINE
+  ========================================================= */
+  const ERAS = [
+    { y: "1993", n: "Alpha / Beta", t: ["The game is born", "Nasce o jogo"], d: ["Richard Garfield releases Magic in August. 295 cards, the Power Nine, and no idea how big it will get.", "Richard Garfield lança Magic em agosto. 295 cartas, o Power Nine e nenhuma ideia do tamanho que isso teria."] },
+    { y: "1995", n: "Ice Age", t: ["The block era starts", "Começa a era dos blocos"], d: ["First large standalone expansion with its own story and mechanics like cumulative upkeep.", "Primeira grande expansão independente, com história própria e mecânicas como manutenção cumulativa."] },
+    { y: "1997", n: "Weatherlight", t: ["The saga begins", "A saga começa"], d: ["The crew of the skyship Weatherlight starts Magic's first long, continuous storyline.", "A tripulação da nave Weatherlight inicia a primeira história longa e contínua de Magic."] },
+    { y: "1998", n: "Urza's Saga", t: ["Peak chaos", "O auge do caos"], d: ["Legendary combos and a broken metagame. Veterans still talk about “Combo Winter”.", "Combos lendários e um metagame quebrado. Veteranos ainda falam do “Inverno dos Combos”."] },
+    { y: "1999", n: ["Sixth Edition", "Sexta Edição"], t: ["The rules reboot", "A reforma das regras"], d: ["The Stack arrives. Interrupts, batches and several odd timing rules are gone for good.", "Chega a Pilha. Interrupts, lotes e várias regras estranhas de tempo somem de vez."] },
+    { y: "2000", n: "Invasion", t: ["Phyrexia attacks", "Phyrexia ataca"], d: ["Multicolor block and the invasion of Dominaria. The arc that closes the 90s storyline.", "Bloco multicolorido e a invasão de Dominaria. O arco que fecha a história dos anos 90."] },
+    { y: "2003", n: ["Mirrodin & the new frame", "Mirrodin e a nova moldura"], t: ["The Modern era begins", "Começa a era Modern"], d: ["Cards get the modern frame, which is why the Modern format starts here. Artifacts take center stage.", "As cartas ganham a moldura moderna; por isso o formato Modern começa aqui. Artefatos viram o centro do jogo."] },
+    { y: "2007", n: "Lorwyn", t: ["Planeswalker cards debut", "Estreiam os cards de Planeswalker"], d: ["A brand-new card type. From here on the story follows a recurring cast of walkers.", "Um tipo de carta inteiramente novo. Daqui em diante a história segue um elenco fixo de planeswalkers."] },
+    { y: "2009", n: "Magic 2010", t: ["Second rules cleanup", "Segunda limpeza de regras"], d: ["Mana burn and damage on the stack are removed. “Exile” and “battlefield” become official words.", "Queimadura de mana e dano na pilha são removidos. “Exílio” e “campo de batalha” viram termos oficiais."] },
+    { y: "2011", n: "Commander", t: ["Casual goes official", "O casual vira oficial"], d: ["The first preconstructed Commander decks ship. It becomes the most played way to enjoy Magic.", "Chegam os primeiros baralhos pré-montados de Commander. Vira a forma mais jogada de curtir Magic."] },
+    { y: "2019", n: "War of the Spark", t: ["The big finale", "O grande final"], d: ["Dozens of planeswalkers face Nicol Bolas on Ravnica. MTG Arena also leaves beta this year.", "Dezenas de planeswalkers enfrentam Nicol Bolas em Ravnica. O MTG Arena também sai do beta neste ano."] },
+    { y: "2022", n: "Warhammer 40,000", t: ["Universes Beyond", "Universes Beyond"], d: ["First heavyweight crossover, as four Commander decks.", "Primeiro crossover de peso, em quatro baralhos de Commander."], cross: true },
+    { y: "2023", n: ["The Lord of the Rings", "O Senhor dos Anéis"], t: ["Middle-earth in Magic", "Terra-média em Magic"], d: ["A full set that proved crossovers can carry a whole release. It sold extremely well.", "Uma coleção completa que provou que crossovers sustentam um lançamento inteiro. Vendeu muitíssimo."], cross: true },
+    { y: "2023", n: "March of the Machine", t: ["Phyrexia falls again", "Phyrexia cai de novo"], d: ["The multiverse-wide invasion ends. Omenpaths open between planes and most walkers lose their spark.", "A invasão do multiverso termina. Portais (Omenpaths) se abrem entre os planos e muitos planeswalkers perdem a centelha."] },
+    { y: "2024", n: "Fallout", t: ["Playable wasteland", "Wasteland jogável"], d: ["Commander decks based on the post-apocalyptic video games.", "Baralhos de Commander baseados nos jogos pós-apocalípticos."], cross: true },
+    { y: "2025", n: "Final Fantasy", t: ["Crystals and chocobos", "Cristais e chocobos"], d: ["One of the biggest crossovers so far, and Standard-legal. Marvel's Spider-Man and Avatar followed.", "Um dos maiores crossovers até hoje, e válido no Padrão. Depois vieram Marvel's Spider-Man e Avatar."], cross: true },
+    { y: ["Today", "Hoje"], n: ["Original Magic", "Magic Original"], t: ["A growing multiverse", "Multiverso em expansão"], d: ["Original sets keep telling the story of the planes, side by side with crossovers.", "Coleções originais seguem contando a história dos planos, lado a lado com os crossovers."] }
+  ];
+  let crossHidden = false;
+  function renderTimeline() {
+    $("#tlTrack").innerHTML = "<div class='tl-line'></div>" + ERAS.map(e => `
+      <div class="tl-item${e.cross ? " cross" : ""}${e.cross && crossHidden ? " cross-hidden" : ""}" data-cross="${e.cross ? 1 : 0}" aria-hidden="${e.cross && crossHidden}">
+        <div class="inner">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="tl-dot" aria-hidden="true">${e.cross ? "✦" : "◆"}</span>
+            <span class="font-display text-xl gold-text">${tr(e.y)}</span>
+            ${e.cross ? "<span class='text-[10px] uppercase tracking-widest text-[#cfb2ff] border border-[#6b4aa0] rounded-full px-2 py-0.5'>Crossover</span>" : ""}
+          </div>
+          <div class="card-edge panel p-5 h-[210px] lift">
+            <p class="font-display text-parch text-lg leading-tight">${tr(e.n)}</p>
+            <p class="text-gold text-xs mt-1 mb-3 tracking-wide">${tr(e.t)}</p>
+            <p class="text-sm text-mute leading-relaxed">${tr(e.d)}</p>
+          </div>
+        </div>
+      </div>`).join("");
+    setCross(crossHidden);
+  }
+  function setCross(hidden) {
+    crossHidden = hidden;
+    $("#crossToggle").setAttribute("aria-checked", String(hidden));
+    let shown = 0;
+    $$(".tl-item").forEach(it => {
+      const hide = hidden && it.dataset.cross === "1";
+      it.classList.toggle("cross-hidden", hide);
+      it.setAttribute("aria-hidden", String(hide));
+      if (!hide) shown++;
+    });
+    $("#tlCount").textContent = tr([`${shown} of ${ERAS.length} eras shown`, `${shown} de ${ERAS.length} eras visíveis`]);
+  }
+  $("#crossToggle").addEventListener("click", () => setCross(!crossHidden));
+  const tlScroll = $("#tlScroll");
+  const stepBy = d => tlScroll.scrollBy({ left: d * 640, behavior: "smooth" });
+  $("#tlPrev").addEventListener("click", () => stepBy(-1));
+  $("#tlNext").addEventListener("click", () => stepBy(1));
+  tlScroll.addEventListener("keydown", e => {
+    if (e.key === "ArrowRight") { e.preventDefault(); stepBy(1); }
+    if (e.key === "ArrowLeft") { e.preventDefault(); stepBy(-1); }
+  });
+  let down = false, sx = 0, sl = 0;
+  tlScroll.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse") return; down = true; sx = e.clientX; sl = tlScroll.scrollLeft; });
+  window.addEventListener("pointerup", () => { down = false; });
+  window.addEventListener("pointermove", e => { if (down) tlScroll.scrollLeft = sl - (e.clientX - sx); });
+
+  /* =========================================================
+     QUIZ
+  ========================================================= */
+  const QUESTIONS = [
+    { key: "era", q: ["When did you last play?", "Quando foi a última vez que você jogou?"], opts: [
+      ["90s", ["90s Classic Era", "Era Clássica dos anos 90"], ["Alpha, Ice Age, Urza… you lived the early days.", "Alpha, Ice Age, Urza… você viveu o começo."]],
+      ["2000s", ["The 2000s", "Anos 2000"], ["Mirrodin, Ravnica, the first Planeswalkers.", "Mirrodin, Ravnica, os primeiros Planeswalkers."]],
+      ["new", ["Total beginner", "Iniciante total"], ["Never played, but curiosity struck.", "Nunca joguei, mas a curiosidade bateu."]] ] },
+    { key: "cmd", q: ["Do you know the Commander format?", "Você conhece o formato Commander?"], opts: [
+      ["yes", ["Yes", "Sim"], ["Heard of it or played it.", "Já ouvi falar ou joguei."]],
+      ["no", ["What is that?", "O que é isso?"], ["No problem, we explain it in 3 bullets.", "Sem problema, explicamos em 3 tópicos."]] ] },
+    { key: "lore", q: ["What do you prefer?", "O que você prefere?"], opts: [
+      ["pure", ["Pure Magic Lore", "Lore pura de Magic"], ["Only the original multiverse. No crossovers.", "Só o multiverso original. Sem crossovers."]],
+      ["all", ["All Universes", "Todos os universos"], ["Crossovers like Final Fantasy included.", "Inclui crossovers como Final Fantasy."]] ] }
+  ];
+  const ans = {};
+  let step = 0;
+  function renderQuiz() {
+    const body = $("#quizBody");
+    if (step >= QUESTIONS.length) return renderResult();
+    const q = QUESTIONS[step];
+    $("#bar").style.width = (step / QUESTIONS.length * 100) + "%";
+    $("#stepLabel").textContent = `${step + 1} / ${QUESTIONS.length}`;
+    body.innerHTML = `<div class="step">
+      <h3 class="font-serif text-2xl sm:text-3xl mb-6 text-parch">${tr(q.q)}</h3>
+      <div class="grid gap-3">${q.opts.map(([v, t, s]) => `
+        <button class="opt" data-v="${v}" aria-pressed="${ans[q.key] === v}"><span class="block font-semibold">${tr(t)}</span><span class="block text-sm text-mute mt-0.5">${tr(s)}</span></button>`).join("")}</div>
+      ${step > 0 ? `<button id="back" class="mt-6 text-sm text-mute hover:text-gold-soft transition">← ${tr(["Back", "Voltar"])}</button>` : ""}</div>`;
+    $$(".opt", body).forEach(b => b.addEventListener("click", () => {
+      ans[q.key] = b.dataset.v; b.setAttribute("aria-pressed", "true");
+      setTimeout(() => { step++; renderQuiz(); }, 260);
+    }));
+    const back = $("#back"); if (back) back.addEventListener("click", () => { step--; renderQuiz(); });
+  }
+  function renderResult() {
+    $("#bar").style.width = "100%"; $("#stepLabel").textContent = "✓";
+    const { era, cmd, lore } = ans; let name, quote; const tips = [];
+    if (era === "90s") {
+      name = ["The Old Guard Mage", "O Mago da Velha Guarda"];
+      quote = ["You know what mana burn is. A lot changed, but the heart of the game is the same.", "Você sabe o que é queimadura de mana. Muita coisa mudou, mas o coração do jogo é o mesmo."];
+      tips.push(["Start with “Then vs. now” and the Stack in the rules guide: that is what changed most.", "Comece por “Antes e agora” e pela Pilha no guia de regras: foi o que mais mudou."]);
+      tips.push(["Your 90s cards still work in Legacy, Vintage and Commander.", "Suas cartas dos anos 90 ainda valem em Legacy, Vintage e Commander."]);
+    } else if (era === "2000s") {
+      name = ["The Modern-Era Traveler", "O Viajante da Era Moderna"];
+      quote = ["You caught the start of today's Magic. Only about 15 years of news to go.", "Você pegou o início do Magic atual. Faltam só uns 15 anos de novidades."];
+      tips.push(["Read the story from act III on: the Gatewatch, Bolas and the new Phyrexia.", "Leia a história a partir do ato III: as Sentinelas, Bolas e a nova Phyrexia."]);
+      tips.push(["The Modern format was built for your generation of cards (2003 onward).", "O formato Modern foi feito para a sua geração de cartas (de 2003 em diante)."]);
+    } else {
+      name = ["The Newly Sparked Planeswalker", "O Planeswalker Recém-Desperto"];
+      quote = ["Starting now is an advantage: no old habits, and the game has never been easier to learn.", "Começar agora é uma vantagem: sem vícios antigos, e o jogo nunca foi tão fácil de aprender."];
+      tips.push(["Play the guided simulator first, then read the color pie.", "Jogue primeiro o simulador guiado, depois leia a roda de cores."]);
+      tips.push(["Start with casual 60-card games before jumping into Commander.", "Comece com partidas casuais de 60 cartas antes de pular para o Commander."]);
+    }
+    tips.push(cmd === "no"
+      ? ["Commander is where most people play today. See it explained in 3 bullets under Formats.", "Commander é onde a maioria joga hoje. Veja o formato em 3 tópicos na seção Formatos."]
+      : ["You already know Commander: check the Command Zone and the newer card types.", "Você já conhece Commander: confira a Zona de Comando e os tipos de carta mais novos."]);
+    tips.push(lore === "pure"
+      ? ["Filter applied: crossovers are now hidden on the timeline.", "Filtro aplicado: os crossovers foram ocultados da linha do tempo."]
+      : ["Crossovers on: you will see Final Fantasy, The Lord of the Rings and others on the timeline.", "Crossovers ligados: você verá Final Fantasy, O Senhor dos Anéis e outros na linha do tempo."]);
+    $("#quizBody").innerHTML = `<div class="step text-center">
+      <p class="text-gold text-xs tracking-[.3em] uppercase mb-3">${tr(["Your profile", "Seu perfil"])}</p>
+      <h3 class="font-display text-2xl sm:text-4xl gold-text mb-4">${tr(name)}</h3>
+      <p class="font-serif italic text-xl text-parch mb-7">${tr(quote)}</p>
+      <ul class="text-left max-w-xl mx-auto space-y-3 mb-8">${tips.map(t => `<li class="flex gap-3 text-sm text-parch/90 leading-relaxed"><span class="text-gold mt-0.5">◆</span><span>${tr(t)}</span></li>`).join("")}</ul>
+      <div class="flex flex-wrap justify-center gap-3">
+        <a href="#play" class="go px-5 py-3 rounded-lg bg-gold text-void font-semibold text-sm hover:bg-gold-soft transition">${tr(["Play the simulator", "Jogar o simulador"])}</a>
+        <a href="#guide" class="go px-5 py-3 rounded-lg border border-line text-sm hover:border-gold hover:text-gold-soft transition">${tr(["Rules guide", "Guia de regras"])}</a>
+        <button id="redo" class="px-5 py-3 rounded-lg text-sm text-mute hover:text-gold-soft transition">${tr(["Retake", "Refazer"])}</button>
+      </div></div>`;
+    setCross(lore === "pure");
+    $("#redo").addEventListener("click", () => { step = 0; Object.keys(ans).forEach(k => delete ans[k]); renderQuiz(); });
+  }
+
+  /* =========================================================
+     LORE
+  ========================================================= */
+  const ACTS = [
+    ["all", ["All", "Tudo"]],
+    ["1", ["I · Dominaria (to 2002)", "I · Dominaria (até 2002)"]],
+    ["2", ["II · New worlds (2003–12)", "II · Novos mundos (2003–12)"]],
+    ["3", ["III · Gatewatch vs. Bolas (2013–19)", "III · Sentinelas vs. Bolas (2013–19)"]],
+    ["4", ["IV · Phyrexia returns (2020–23)", "IV · Phyrexia retorna (2020–23)"]],
+    ["5", ["V · Omenpaths (2023–now)", "V · Omenpaths (2023–hoje)"]]
+  ];
+  const LORE = [
+    { a: "1", i: "⚙", s: "Antiquities · The Brothers' War", t: ["The Brothers' War", "A Guerra dos Irmãos"], d: ["Urza and Mishra, artificer brothers, fight over two halves of a powerstone and wreck a continent. Mishra is corrupted by Phyrexia; Urza ends the war with a blast that starts an ice age and becomes a planeswalker.", "Urza e Mishra, irmãos artífices, disputam as metades de uma pedra de poder e arrasam um continente. Mishra é corrompido por Phyrexia; Urza encerra a guerra com uma explosão que inicia uma era glacial e se torna planeswalker."] },
+    { a: "1", i: "❄", s: "Ice Age · Alliances", t: ["The Ice Age", "A Era Glacial"], d: ["Millennia of winter. The necromancer Lim-Dûl rises, the kingdoms of Kjeldor and Balduvia unite, and the planeswalker Freyalise casts the World Spell that thaws Dominaria.", "Milênios de inverno. O necromante Lim-Dûl ascende, os reinos de Kjeldor e Balduvia se unem, e a planeswalker Freyalise conjura a Mágica Mundial que descongela Dominaria."] },
+    { a: "1", i: "🚀", s: "Weatherlight · Tempest · Urza's Saga", t: ["The Weatherlight Saga", "A Saga da Weatherlight"], d: ["Gerrard and the crew of the skyship Weatherlight chase the pieces of the Legacy across Rath and Mercadia. Behind it all, Urza has been breeding heroes and building weapons for a war he knows is coming.", "Gerrard e a tripulação da nave Weatherlight buscam as peças do Legado por Rath e Mercádia. Por trás de tudo, Urza vinha criando heróis e armas para uma guerra que sabia que viria."] },
+    { a: "1", i: "☣", s: "Invasion · Planeshift · Apocalypse", t: ["The Phyrexian Invasion", "A Invasão Phyrexiana"], d: ["Yawgmoth's machine hell invades Dominaria. Urza and Gerrard die firing the Legacy Weapon that destroys Yawgmoth. The 90s storyline ends here.", "O inferno mecânico de Yawgmoth invade Dominaria. Urza e Gerrard morrem ao disparar a Arma do Legado, que destrói Yawgmoth. A história dos anos 90 termina aqui."] },
+    { a: "1", i: "🔮", s: "Odyssey · Onslaught", t: ["The Mirari and Karona", "O Mirari e Karona"], d: ["On the continent of Otaria, a wish-granting orb drives pit fighters and cabalists mad. The barbarian Kamahl ends up facing Karona, a false god born from magic itself.", "No continente de Otaria, uma esfera que realiza desejos enlouquece gladiadores e cabalistas. O bárbaro Kamahl acaba enfrentando Karona, uma falsa deusa nascida da própria magia."] },
+    { a: "2", i: "🪙", s: "Mirrodin · Kamigawa · Ravnica", t: ["Leaving Dominaria", "Saindo de Dominaria"], d: ["The story starts touring new planes: the metal world of Mirrodin (built by Karn), the spirit war of Kamigawa, and Ravnica, a city-plane run by ten two-color guilds.", "A história passa a visitar novos planos: o mundo metálico de Mirrodin (criado por Karn), a guerra dos espíritos em Kamigawa e Ravnica, um plano-cidade governado por dez guildas de duas cores."] },
+    { a: "2", i: "⏳", s: "Time Spiral · Future Sight", t: ["The Mending", "A Emenda"], d: ["Time itself is cracking on Dominaria. To seal the rifts, old planeswalkers give up their sparks or their lives. Afterwards walkers are no longer near-gods: they are mortal mages who can travel. This is why Planeswalker cards exist.", "O próprio tempo está rachando em Dominaria. Para selar as fendas, planeswalkers antigos entregam suas centelhas ou suas vidas. Depois disso eles deixam de ser quase deuses: são magos mortais que viajam. É por isso que existem cards de Planeswalker."] },
+    { a: "2", i: "🐉", s: "Lorwyn · Shards of Alara", t: ["Enter Nicol Bolas", "Entra Nicol Bolas"], d: ["A new cast debuts: Jace, Chandra, Liliana, Garruk, Ajani. On the shattered plane of Alara, the elder dragon Nicol Bolas schemes to get his godlike power back.", "Estreia um novo elenco: Jace, Chandra, Liliana, Garruk, Ajani. No plano fragmentado de Alara, o dragão ancião Nicol Bolas trama para recuperar seu poder divino."] },
+    { a: "2", i: "🕳", s: "Zendikar · Scars of Mirrodin · Innistrad", t: ["Old horrors wake up", "Velhos horrores despertam"], d: ["On Zendikar the Eldrazi titans are freed. Mirrodin is conquered from within and becomes New Phyrexia. On gothic Innistrad the angel Avacyn returns to protect humanity.", "Em Zendikar, os titãs Eldrazi são libertados. Mirrodin é conquistado por dentro e vira a Nova Phyrexia. Na gótica Innistrad, o anjo Avacyn retorna para proteger a humanidade."] },
+    { a: "3", i: "🏛", s: "Theros · Khans of Tarkir", t: ["Gods and dragons", "Deuses e dragões"], d: ["Elspeth is betrayed by a god on Greek-inspired Theros. On Tarkir, Sarkhan travels back in time, saves the spirit dragon Ugin and rewrites his world's history.", "Elspeth é traída por um deus em Theros, inspirado na Grécia. Em Tarkir, Sarkhan volta no tempo, salva o dragão espírito Ugin e reescreve a história de seu mundo."] },
+    { a: "3", i: "🛡", s: "Battle for Zendikar · Shadows over Innistrad", t: ["The Gatewatch", "As Sentinelas"], d: ["Gideon, Jace, Chandra and Nissa swear an oath to protect the multiverse and destroy two Eldrazi titans. Liliana joins as they seal the third, Emrakul, inside Innistrad's moon.", "Gideon, Jace, Chandra e Nissa juram proteger o multiverso e destroem dois titãs Eldrazi. Liliana se junta ao grupo quando selam o terceiro, Emrakul, na lua de Innistrad."] },
+    { a: "3", i: "⚔", s: "Kaladesh · Amonkhet · Ixalan · Dominaria · War of the Spark", t: ["War of the Spark", "A Guerra da Centelha"], d: ["Bolas crushes the Gatewatch on Amonkhet, then lures every planeswalker to Ravnica to harvest their sparks. They beat him at a price: Gideon gives his life. A decade of story closes.", "Bolas esmaga as Sentinelas em Amonkhet e depois atrai todos os planeswalkers a Ravnica para colher suas centelhas. Eles vencem, a um preço: Gideon dá a vida. Uma década de história se fecha."] },
+    { a: "4", i: "🧪", s: "Kaldheim · Neon Dynasty · Dominaria United", t: ["Phyrexia in the shadows", "Phyrexia nas sombras"], d: ["Phyrexian praetors appear on other planes and learn to “compleat” planeswalkers. Sleeper agents surface on Dominaria. Karn, Teferi and old allies realize the invasion is starting again.", "Pretores phyrexianos surgem em outros planos e aprendem a “completar” planeswalkers. Agentes infiltrados aparecem em Dominaria. Karn, Teferi e velhos aliados percebem que a invasão recomeçou."] },
+    { a: "4", i: "🌳", s: "The Brothers' War · Phyrexia: All Will Be One · March of the Machine", t: ["March of the Machine", "A Marcha das Máquinas"], d: ["A strike on New Phyrexia fails and heroes are compleated. Elesh Norn invades every plane at once through a corrupted world tree. The planes fight back together and Phyrexia is sealed away.", "Um ataque à Nova Phyrexia fracassa e heróis são completados. Elesh Norn invade todos os planos ao mesmo tempo por uma árvore-mundo corrompida. Os planos resistem juntos e Phyrexia é selada."] },
+    { a: "5", i: "🌀", s: "March of the Machine: The Aftermath", t: ["Omenpaths open", "Os Omenpaths se abrem"], d: ["The war leaves doorways between worlds that anyone can cross. Most planeswalkers lose their sparks. Stories are now about ordinary people stepping into other planes.", "A guerra deixa portais entre os mundos que qualquer um pode atravessar. A maioria dos planeswalkers perde a centelha. As histórias agora são sobre gente comum pisando em outros planos."] },
+    { a: "5", i: "🤠", s: "Eldraine · Ixalan · Karlov Manor · Thunder Junction · Bloomburrow · Duskmourn", t: ["A new genre every set", "Um gênero novo por coleção"], d: ["Fairy tales, an underground expedition, a murder mystery, a western heist, a world of small animals, a haunted-house plane. One thread links them: who controls the Omenpaths.", "Contos de fadas, uma expedição subterrânea, um mistério de assassinato, um assalto de faroeste, um mundo de pequenos animais, um plano-casa assombrada. Um fio liga tudo: quem controla os Omenpaths."] },
+    { a: "5", i: "🏁", s: "Aetherdrift · Tarkir: Dragonstorm · Edge of Eternities · Lorwyn Eclipsed", t: ["Where the story is now", "Onde a história está agora"], d: ["A race across three planes, dragonstorms returning to Tarkir, a jump into deep space, and a return to Lorwyn. Check the official story page for the current chapter.", "Uma corrida por três planos, tempestades de dragões de volta a Tarkir, um salto ao espaço profundo e o retorno a Lorwyn. Veja a página oficial de história para o capítulo atual."] },
+    { a: "5", i: "🧙", s: "Universes Beyond", t: ["Are crossovers canon?", "Crossovers são cânone?"], d: ["No. The Lord of the Rings, Final Fantasy and the others are separate universes that borrow Magic's rules. If you only want original lore, you can skip them and miss nothing.", "Não. O Senhor dos Anéis, Final Fantasy e os demais são universos à parte que usam as regras de Magic. Se você só quer a lore original, pode pular sem perder nada."] }
+  ];
+  let act = "all";
+  function renderLore() {
+    $("#loreTabs").innerHTML = ACTS.map(([k, n]) => `<button role="tab" aria-selected="${act === k}" data-act="${k}" class="chip px-3 py-2 text-xs sm:text-sm">${tr(n)}</button>`).join("");
+    $$("#loreTabs button").forEach(b => b.addEventListener("click", () => { act = b.dataset.act; renderLore(); }));
+    $("#loreGrid").innerHTML = LORE.filter(l => act === "all" || l.a === act).map(l => `
+      <article class="panel lift p-6 step">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="w-11 h-11 rounded-full bg-void border border-gold/50 flex items-center justify-center text-xl flex-none" aria-hidden="true">${l.i}</span>
+          <p class="text-[10px] uppercase tracking-widest text-gold leading-snug">${["I","II","III","IV","V"][l.a - 1]} · ${l.s}</p>
+        </div>
+        <h3 class="font-display text-xl text-parch mb-3">${tr(l.t)}</h3>
+        <p class="text-sm text-mute leading-relaxed">${tr(l.d)}</p>
+      </article>`).join("");
+  }
+
+  /* =========================================================
+     PLANES & PLANESWALKERS
+  ========================================================= */
+  const PWFACTS = [
+    ["🌍", ["What is a plane?", "O que é um plano?"], ["A self-contained world with its own rules, peoples and magic. Together the planes form the Multiverse. Each new set is usually a trip to one plane.", "Um mundo completo, com suas próprias regras, povos e magia. Juntos, os planos formam o Multiverso. Cada coleção costuma ser uma visita a um plano."]],
+    ["✨", ["What is a planeswalker?", "O que é um planeswalker?"], ["A mage born with a “spark” that lets them travel between planes. In the game's fiction you, the player, are one, and your cards are the spells and allies you call.", "Um mago nascido com uma “centelha” que permite viajar entre planos. Na ficção do jogo você, o jogador, é um deles, e suas cartas são as mágicas e aliados que você convoca."]],
+    ["🃏", ["The Planeswalker card", "O card de Planeswalker"], ["A permanent that enters with loyalty counters. Once per turn, on your turn, use one ability: + adds loyalty, − spends it. Opponents can attack it; at zero loyalty it dies.", "Uma permanente que entra com marcadores de lealdade. Uma vez por turno, no seu turno, use uma habilidade: + soma lealdade, − gasta. Oponentes podem atacá-lo; com zero de lealdade, ele morre."]]
+  ];
+  const PLANES = [
+    ["Dominaria", ["The original setting. Home of Urza, Serra, Llanowar, Benalia and nearly every 90s set.", "O cenário original. Lar de Urza, Serra, Llanowar, Benália e de quase todas as coleções dos anos 90."], ["Classic high fantasy", "Alta fantasia clássica"]],
+    ["Ravnica", ["One endless city run by ten guilds, one for each two-color pair. Fan favorite.", "Uma cidade sem fim governada por dez guildas, uma para cada par de cores. Favorita dos fãs."], ["Urban intrigue", "Intriga urbana"]],
+    ["Innistrad", ["Vampires, werewolves, zombies and frightened humans under a silver moon.", "Vampiros, lobisomens, zumbis e humanos assustados sob uma lua de prata."], ["Gothic horror", "Horror gótico"]],
+    ["Zendikar", ["A wild land of floating rocks and deadly ruins, once the prison of the Eldrazi.", "Uma terra selvagem de rochas flutuantes e ruínas mortais, antiga prisão dos Eldrazi."], ["Adventure and exploration", "Aventura e exploração"]],
+    ["Mirrodin / New Phyrexia", ["A metal world slowly infected and rebuilt as the heart of the machine empire.", "Um mundo de metal lentamente infectado e reconstruído como o coração do império das máquinas."], ["Body horror", "Horror corporal"]],
+    ["Theros", ["Heroes, monsters and a pantheon of gods who feed on belief.", "Heróis, monstros e um panteão de deuses que se alimentam de crença."], ["Greek myth", "Mitologia grega"]],
+    ["Kamigawa", ["Feudal spirits in the old sets, a neon cyberpunk future in the new one.", "Espíritos feudais nas coleções antigas, um futuro cyberpunk de neon na nova."], ["Japan-inspired", "Inspiração japonesa"]],
+    ["Tarkir", ["Five warrior clans and the dragons that keep returning to rule them.", "Cinco clãs guerreiros e os dragões que sempre voltam para dominá-los."], ["Clans and dragons", "Clãs e dragões"]],
+    ["Ixalan", ["Pirates, vampire conquistadors, merfolk and feathered dinosaurs racing for a golden city.", "Piratas, vampiros conquistadores, tritões e dinossauros emplumados em busca de uma cidade dourada."], ["Age of exploration", "Era das navegações"]],
+    ["Eldraine", ["Knights of five courts and the dark fairy-tale wilds around them.", "Cavaleiros de cinco cortes e a floresta sombria de conto de fadas ao redor."], ["Fairy tales", "Contos de fadas"]],
+    ["Lorwyn / Shadowmoor", ["A sunny storybook world that flips into its own twilight mirror.", "Um mundo ensolarado de livro de histórias que se inverte em seu reflexo crepuscular."], ["Celtic folklore", "Folclore celta"]],
+    ["Bloomburrow", ["A world with no humans, only brave mice, frogs, rabbits and otters.", "Um mundo sem humanos, só ratos, sapos, coelhos e lontras corajosos."], ["Animal fable", "Fábula animal"]]
+  ];
+  const WALKERS = [
+    ["Urza", "u", ["The artificer whose war and schemes drive the 90s story. Dead since Apocalypse.", "O artífice cujas guerras e planos movem a história dos anos 90. Morto desde Apocalypse."]],
+    ["Karn", "c", ["A silver golem built by Urza. Creator of Mirrodin, eternal enemy of Phyrexia.", "Golem de prata criado por Urza. Criador de Mirrodin, inimigo eterno de Phyrexia."]],
+    ["Teferi", "wu", ["Time mage from Urza's academy, now the elder statesman of the heroes.", "Mago do tempo da academia de Urza, hoje o veterano entre os heróis."]],
+    ["Jace Beleren", "u", ["Mind mage and the face of the game for a decade.", "Mago mental e rosto do jogo por uma década."]],
+    ["Chandra Nalaar", "r", ["Impulsive pyromancer from Kaladesh. If it can burn, she has tried.", "Piromante impulsiva de Kaladesh. Se queima, ela já tentou."]],
+    ["Liliana Vess", "b", ["Necromancer who bargained with demons for youth, then spent years killing them.", "Necromante que negociou juventude com demônios e passou anos matando-os."]],
+    ["Nissa Revane", "g", ["Elf from Zendikar who speaks to the soul of the land itself.", "Elfa de Zendikar que fala com a alma da própria terra."]],
+    ["Gideon Jura", "w", ["Invulnerable soldier and heart of the Gatewatch. Fell in War of the Spark.", "Soldado invulnerável e coração das Sentinelas. Caiu na Guerra da Centelha."]],
+    ["Ajani Goldmane", "w", ["Leonin healer and mentor to half the cast.", "Curandeiro leonino e mentor de meio elenco."]],
+    ["Elspeth Tirel", "w", ["Knight who escaped Phyrexia as a child and keeps being called back to war.", "Cavaleira que escapou de Phyrexia quando criança e é sempre chamada de volta à guerra."]],
+    ["Sorin Markov", "wb", ["Ancient vampire of Innistrad who created its guardian angel.", "Vampiro ancião de Innistrad que criou o anjo guardião do plano."]],
+    ["Nicol Bolas", "ubr", ["Elder dragon, the great villain from 2008 to 2019. You may know him from Legends (1994).", "Dragão ancião, o grande vilão de 2008 a 2019. Você talvez o conheça de Legends (1994)."]]
+  ];
+  let planeSel = 0;
+  function renderPlanes() {
+    $("#pwFacts").innerHTML = PWFACTS.map(([i, t, d]) => `<article class="panel p-6 reveal in"><div class="text-2xl mb-3" aria-hidden="true">${i}</div><h3 class="font-display text-lg text-parch mb-2">${tr(t)}</h3><p class="text-sm text-mute leading-relaxed">${tr(d)}</p></article>`).join("");
+    $("#planeChips").innerHTML = PLANES.map((p, i) => `<button class="chip px-3 py-1.5 text-xs sm:text-sm${i === planeSel ? " on" : ""}" data-i="${i}">${p[0]}</button>`).join("");
+    $$("#planeChips button").forEach(b => b.addEventListener("click", () => { planeSel = +b.dataset.i; renderPlanes(); }));
+    const p = PLANES[planeSel];
+    $("#planeBody").innerHTML = `<div class="step"><p class="text-[11px] uppercase tracking-widest text-gold mb-2">${tr(p[2])}</p><h4 class="font-display text-2xl text-parch mb-3">${p[0]}</h4><p class="text-parch/90 leading-relaxed">${tr(p[1])}</p></div>`;
+    $("#walkerList").innerHTML = WALKERS.map(([n, c, d]) => `<div class="rounded-xl border border-line bg-void/40 p-4 hover:border-gold/60 transition">
+      <div class="flex items-center gap-2 mb-1.5"><span class="flex gap-0.5">${[...c].map(x => `<span class="pip pip-${x}" style="width:.9rem;height:.9rem"></span>`).join("")}</span><span class="font-semibold text-sm">${n}</span></div>
+      <p class="text-xs text-mute leading-relaxed">${tr(d)}</p></div>`).join("");
+  }
+
+  /* =========================================================
+     COLORS
+  ========================================================= */
+  const ORDER = "wubrg";
+  const COLORS = {
+    w: { n: ["White", "Branco"], v: ["Order, community, justice", "Ordem, comunidade, justiça"], g: ["Small efficient creatures, lifegain, removal for anything, board wipes.", "Criaturas pequenas e eficientes, ganho de vida, remoção para tudo, limpezas de mesa."], b: ["Struggles to draw cards.", "Tem dificuldade para comprar cartas."] },
+    u: { n: ["Blue", "Azul"], v: ["Knowledge, reason, perfection", "Conhecimento, razão, perfeição"], g: ["Card draw, counterspells, bounce, flyers, milling the opponent's library.", "Compra de cartas, contramágicas, devolver à mão, voadores, triturar o grimório do oponente."], b: ["Weakest creatures; awkward against threats already on the battlefield.", "Criaturas mais fracas; lida mal com ameaças que já estão no campo."] },
+    b: { n: ["Black", "Preto"], v: ["Power at any price", "Poder a qualquer preço"], g: ["Best creature removal, discard, graveyard recursion, trading life for cards.", "Melhor remoção de criaturas, descarte, reciclagem do cemitério, troca de vida por cartas."], b: ["Pays in life and sacrifices; weak against artifacts and enchantments.", "Paga com vida e sacrifícios; fraco contra artefatos e encantamentos."] },
+    r: { n: ["Red", "Vermelho"], v: ["Impulse, freedom, emotion", "Impulso, liberdade, emoção"], g: ["Fast aggressive creatures, haste, direct damage (burn), chaos.", "Criaturas rápidas e agressivas, ímpeto, dano direto (burn), caos."], b: ["Runs out of gas in long games; big creatures survive its burn.", "Fica sem recursos em jogos longos; criaturas grandes sobrevivem ao seu dano."] },
+    g: { n: ["Green", "Verde"], v: ["Nature, growth, instinct", "Natureza, crescimento, instinto"], g: ["The biggest creatures for the cost, mana acceleration (ramp), fight effects.", "As maiores criaturas pelo custo, aceleração de mana (ramp), efeitos de luta."], b: ["Nearly everything depends on having creatures in play.", "Quase tudo depende de ter criaturas em jogo."] }
+  };
+  const PAIRS = {
+    wu: ["Azorius", ["Control: counterspells and card draw backed by white removal. Also flyers.", "Controle: contramágicas e compra de cartas com remoção branca. Também voadores."]],
+    ub: ["Dimir", ["The sneaky pair: removal, discard, mill, rogues and ninjas.", "O par traiçoeiro: remoção, descarte, mill, ladinos e ninjas."]],
+    br: ["Rakdos", ["Aggressive and ruthless: burn, sacrifice, discard.", "Agressivo e impiedoso: dano direto, sacrifício, descarte."]],
+    rg: ["Gruul", ["Big creatures, fast. Dinosaurs and dragons with haste.", "Criaturas grandes, rápido. Dinossauros e dragões com ímpeto."]],
+    wg: ["Selesnya", ["Creatures everywhere: armies of tokens that pump each other.", "Criaturas por toda parte: exércitos de fichas que se fortalecem."]],
+    wb: ["Orzhov", ["Drain and grind: lifegain, sacrifice and creatures that come back.", "Drenar e desgastar: ganho de vida, sacrifício e criaturas que voltam."]],
+    ur: ["Izzet", ["Spellslinger: lots of instants and sorceries, with creatures that reward casting them.", "Spellslinger: muitas mágicas instantâneas e feitiços, com criaturas que premiam conjurá-las."]],
+    bg: ["Golgari", ["The graveyard as a second hand: grow, die, return.", "O cemitério como segunda mão: crescer, morrer, voltar."]],
+    wr: ["Boros", ["The army: go wide, attack every turn, equipment and combat tricks.", "O exército: muitas criaturas, atacar todo turno, equipamentos e truques de combate."]],
+    ug: ["Simic", ["Ramp and card draw: more lands, more cards, bigger things.", "Ramp e compra: mais terrenos, mais cartas, coisas maiores."]]
+  };
+  let csel = ["w"];
+  function renderColors() {
+    $("#colorPips").innerHTML = [...ORDER].map(c => `<button class="pip pip-${c} pip-lg" data-c="${c}" aria-pressed="${csel.includes(c)}" aria-label="${tr(COLORS[c].n)}">${c.toUpperCase()}</button>`).join("");
+    $$("#colorPips button").forEach(b => b.addEventListener("click", () => {
+      const c = b.dataset.c;
+      if (csel.includes(c)) { if (csel.length > 1) csel = csel.filter(x => x !== c); }
+      else { csel.push(c); if (csel.length > 2) csel.shift(); }
+      renderColors();
+    }));
+    const body = $("#colorBody");
+    if (csel.length === 1) {
+      const c = COLORS[csel[0]];
+      body.innerHTML = `<div class="step max-w-2xl mx-auto text-center">
+        <h3 class="font-display text-3xl gold-text">${tr(c.n)}</h3>
+        <p class="font-serif italic text-xl text-parch mt-1 mb-6">${tr(c.v)}</p>
+        <div class="grid sm:grid-cols-2 gap-4 text-left text-sm">
+          <div class="rounded-xl border border-line bg-void/40 p-4"><p class="text-gold text-xs uppercase tracking-widest mb-2">${tr(["Good at", "Bom em"])}</p><p class="text-parch/90 leading-relaxed">${tr(c.g)}</p></div>
+          <div class="rounded-xl border border-line bg-void/40 p-4"><p class="text-gold text-xs uppercase tracking-widest mb-2">${tr(["Weak spot", "Ponto fraco"])}</p><p class="text-parch/90 leading-relaxed">${tr(c.b)}</p></div>
+        </div></div>`;
+    } else {
+      const key = [...csel].sort((a, b) => ORDER.indexOf(a) - ORDER.indexOf(b)).join("");
+      const p = PAIRS[key];
+      const i0 = ORDER.indexOf(key[0]), i1 = ORDER.indexOf(key[1]);
+      const allied = (i1 - i0 === 1) || (i1 - i0 === 4);
+      body.innerHTML = `<div class="step max-w-2xl mx-auto text-center">
+        <p class="text-gold text-xs uppercase tracking-widest mb-2">${tr(COLORS[key[0]].n)} + ${tr(COLORS[key[1]].n)} · ${tr(allied ? ["allied colors", "cores aliadas"] : ["enemy colors", "cores inimigas"])}</p>
+        <h3 class="font-display text-3xl gold-text mb-4">${p[0]}</h3>
+        <p class="text-parch/90 leading-relaxed mb-5">${tr(p[1])}</p>
+        <p class="text-xs text-mute">${tr(["Allied or enemy is a matter of philosophy. In play, every pair is equally well supported.", "Aliadas ou inimigas é questão de filosofia. No jogo, todos os pares têm o mesmo suporte."])}</p></div>`;
+    }
+  }
+
+  /* =========================================================
+     GUIDE
+  ========================================================= */
+  const ANAT = {
+    name: [["Name", "Nome"], ["Identifies the card. In Commander you may run only one card with each name (basic lands aside).", "Identifica a carta. No Commander você só pode ter uma carta de cada nome (fora os terrenos básicos)."]],
+    cost: [["Mana cost and mana value", "Custo de mana e valor de mana"], ["The symbols are the cost. Their total is the <strong>mana value</strong>, the current name for “converted mana cost”. Here: 2 generic + 1 blue = <strong>3</strong>.", "Os símbolos são o custo. A soma é o <strong>valor de mana</strong>, nome atual do “custo de mana convertido”. Aqui: 2 genéricos + 1 azul = <strong>3</strong>."]],
+    type: [["Type line", "Linha de tipo"], ["Card type first, subtypes after the dash. Old cards said “Summon Wizard”; today it is “Creature — Human Wizard”. Subtypes matter for “typal” decks (elves, goblins, zombies).", "Primeiro o tipo, depois do traço os subtipos. Cartas antigas diziam “Summon Wizard”; hoje é “Criatura — Humano Mago”. Subtipos importam em baralhos tribais (elfos, goblins, zumbis)."]],
+    text: [["Text box", "Caixa de texto"], ["Abilities. Keywords like Flying compress long rules. Italic text in parentheses is a reminder; italic text alone is flavor.", "Habilidades. Palavras-chave como Voar resumem regras longas. Itálico entre parênteses é lembrete; itálico solto é ambientação."]],
+    pt: [["Power / Toughness", "Poder / Resistência"], ["Damage the creature deals and damage needed to destroy it. Damage wears off at end of turn. Planeswalkers show loyalty here instead.", "Dano que a criatura causa e dano necessário para destruí-la. O dano some no fim do turno. Planeswalkers mostram lealdade aqui."]]
+  };
+  let anatSel = "cost";
+  function renderAnat() {
+    $$("#anatomyCard .hot").forEach(h => h.classList.toggle("on", h.dataset.a === anatSel));
+    const [t, d] = ANAT[anatSel];
+    $("#anatomyInfo").innerHTML = `<div class="step"><p class="font-semibold text-gold-soft mb-2">${tr(t)}</p><p class="text-parch/90">${tr(d)}</p></div>`;
+  }
+  $$("#anatomyCard .hot").forEach(h => h.addEventListener("click", () => { anatSel = h.dataset.a; renderAnat(); }));
+
+  const TYPES = [
+    ["⛰", ["Land", "Terreno"], ["Produces mana. You may play one per turn, and playing it is not a spell, so it cannot be countered.", "Produz mana. Você pode jogar um por turno, e jogá-lo não é uma mágica, então não pode ser anulado."], ["Same as ever. Dual lands now come in dozens of cheaper variants.", "Igual a sempre. Terrenos duplos hoje existem em dezenas de variantes mais baratas."]],
+    ["🐺", ["Creature", "Criatura"], ["Attacks and blocks. Has power/toughness and cannot attack the turn it arrives (summoning sickness).", "Ataca e bloqueia. Tem poder/resistência e não ataca no turno em que chega (enjoo de invocação)."], ["Was “Summon X”. Walls are now creatures with the Defender keyword.", "Era “Summon X”. Muralhas hoje são criaturas com a palavra-chave Defensor."]],
+    ["⚡", ["Instant", "Mágica instantânea"], ["Cast any time you have priority, even on the opponent's turn. Resolves, then goes to the graveyard.", "Conjure sempre que tiver prioridade, até no turno do oponente. Resolve e vai para o cemitério."], ["Interrupts and “Mana Source” cards all became Instants.", "Interrupts e “Mana Source” viraram todos Instantâneas."]],
+    ["📜", ["Sorcery", "Feitiço"], ["Like an instant, but only on your own turn, in a main phase, with the stack empty.", "Como a instantânea, mas só no seu turno, numa fase principal, com a pilha vazia."], ["Unchanged since 1993.", "Sem mudanças desde 1993."]],
+    ["⚙", ["Artifact", "Artefato"], ["Usually colorless permanents. Subtypes: <strong>Equipment</strong> (attach to creatures, stays when they die), <strong>Vehicles</strong> (become creatures when crewed), Treasure and Food tokens.", "Permanentes geralmente incolores. Subtipos: <strong>Equipamento</strong> (anexa a criaturas e fica quando elas morrem), <strong>Veículos</strong> (viram criaturas ao serem tripulados), fichas de Tesouro e Comida."], ["Artifacts no longer “turn off” when tapped. Equipment arrived in 2003.", "Artefatos não “desligam” mais ao serem virados. Equipamentos chegaram em 2003."]],
+    ["🕯", ["Enchantment", "Encantamento"], ["Lasting magical effects. Subtypes: <strong>Auras</strong> (attached to something) and <strong>Sagas</strong> (tell a story chapter by chapter, then leave).", "Efeitos mágicos duradouros. Subtipos: <strong>Auras</strong> (anexadas a algo) e <strong>Sagas</strong> (contam uma história capítulo a capítulo e saem)."], ["“Enchant Creature” is now “Enchantment — Aura”.", "“Enchant Creature” agora é “Encantamento — Aura”."]],
+    ["✨", ["Planeswalker", "Planeswalker"], ["An ally with loyalty counters. One ability per turn: + to gain loyalty, − to spend it. Can be attacked.", "Um aliado com marcadores de lealdade. Uma habilidade por turno: + para ganhar lealdade, − para gastar. Pode ser atacado."], ["New since 2007. Nothing like it existed in the 90s.", "Novo desde 2007. Não existia nada parecido nos anos 90."]],
+    ["🏰", ["Battle", "Batalha"], ["Enters under an opponent's protection with defense counters. Attack it to remove them; at zero you flip it and cast the back side for free.", "Entra sob a proteção de um oponente com marcadores de defesa. Ataque-a para removê-los; no zero você vira a carta e conjura o verso de graça."], ["New in 2023 and still rare. You can ignore it at first.", "Novo em 2023 e ainda raro. Dá para ignorar no começo."]]
+  ];
+  let typeSel = 0;
+  function renderTypes() {
+    $("#typeChips").innerHTML = TYPES.map((t, i) => `<button class="chip px-3 py-1.5 text-xs sm:text-sm${i === typeSel ? " on" : ""}" data-i="${i}"><span aria-hidden="true">${t[0]}</span> ${tr(t[1])}</button>`).join("");
+    $$("#typeChips button").forEach(b => b.addEventListener("click", () => { typeSel = +b.dataset.i; renderTypes(); }));
+    const t = TYPES[typeSel];
+    $("#typeBody").innerHTML = `<div class="step"><p class="font-semibold text-gold-soft mb-2">${tr(t[1])}</p><p class="text-parch/90 mb-4">${tr(t[2])}</p>
+      <p class="rounded-lg border border-line bg-void/40 p-3 text-xs text-mute"><span class="text-gold uppercase tracking-widest">${tr(["Veteran note", "Nota do veterano"])}</span><br>${tr(t[3])}</p>
+      <p class="text-xs text-mute mt-4">${tr(["A card can have several types (Artifact Creature). <strong>Legendary</strong> is a supertype: you can control only one copy of each legendary permanent. “Permanent” means anything that stays on the battlefield: all types except instants and sorceries.", "Uma carta pode ter vários tipos (Criatura Artefato). <strong>Lendário</strong> é um supertipo: você só pode controlar uma cópia de cada permanente lendária. “Permanente” é tudo que fica no campo: todos os tipos menos instantâneas e feitiços."])}</p></div>`;
+  }
+
+  const PHASES = [
+    [["Beginning", "Início"], ["Untap, upkeep, draw. The player who goes first skips their first draw.", "Desvirar, manutenção, compra. Quem começa a partida pula a primeira compra."]],
+    [["Main 1", "Principal 1"], ["Play a land, cast creatures, sorceries and other permanents. New creatures cannot attack yet.", "Jogue um terreno, conjure criaturas, feitiços e outras permanentes. Criaturas novas ainda não atacam."]],
+    [["Combat", "Combate"], ["Declare attackers, then the defender declares blockers, then damage is dealt all at once. Damage no longer uses the stack.", "Declare atacantes, depois o defensor declara bloqueadores, depois o dano é causado de uma vez. O dano não usa mais a pilha."]],
+    [["Main 2", "Principal 2"], ["A second chance to cast things, now knowing how combat went. Often the best time to play creatures.", "Segunda chance de conjurar, já sabendo como foi o combate. Muitas vezes é a melhor hora de baixar criaturas."]],
+    [["End", "Final"], ["“Until end of turn” effects stop, damage wears off, discard down to 7 cards. Unused mana vanishes harmlessly: no mana burn.", "Efeitos “até o fim do turno” terminam, o dano some, descarte até ficar com 7 cartas. Mana não usada some sem dano: não há queimadura de mana."]]
+  ];
+  let phaseSel = 0;
+  function renderPhases() {
+    $("#phases").innerHTML = PHASES.map((p, i) => `<button class="chip py-2 px-1${i === phaseSel ? " on" : ""}" data-i="${i}">${tr(p[0])}</button>`).join("");
+    $$("#phases button").forEach(b => b.addEventListener("click", () => { phaseSel = +b.dataset.i; renderPhases(); }));
+    $("#phaseInfo").textContent = tr(PHASES[phaseSel][1]);
+  }
+
+  const SPELLS = [["Lightning Bolt", "Raio"], ["Counterspell", "Contramágica"], ["Giant Growth", "Crescimento Gigante"]];
+  const stack = []; let stackNote = ["", ""];
+  function renderStack() {
+    $("#spellBtns").innerHTML = SPELLS.map((s, i) => `<button class="chip px-3 py-2 text-xs" data-s="${i}">+ ${tr(s)}</button>`).join("") +
+      `<button id="resolve" class="px-3 py-2 rounded-lg bg-gold text-void text-xs font-semibold hover:bg-gold-soft transition">${tr(["Resolve top ▸", "Resolver topo ▸"])}</button>`;
+    $$("#spellBtns [data-s]").forEach(b => b.addEventListener("click", () => {
+      if (stack.length >= 5) stackNote = ["Demo stack is full. Resolve something.", "Pilha cheia no demo. Resolva alguma."];
+      else { stack.push(+b.dataset.s); stackNote = ["In response! The last spell cast resolves first.", "Em resposta! A última mágica conjurada resolve primeiro."]; }
+      renderStack();
+    }));
+    $("#resolve").addEventListener("click", () => {
+      if (!stack.length) stackNote = ["Nothing to resolve.", "Nada para resolver."];
+      else { const s = SPELLS[stack.pop()]; stackNote = [`${s[0]} resolved. ${stack.length ? "Next one down resolves now." : "Stack empty: the game moves on."}`, `${s[1]} resolveu. ${stack.length ? "Agora resolve a de baixo." : "Pilha vazia: o jogo segue."}`]; }
+      renderStack();
+    });
+    $("#stack").innerHTML = stack.length
+      ? [...stack].reverse().map((s, i) => `<li class="flex items-center gap-2 px-3 py-2 rounded-md ${i === 0 ? "bg-gold/20 border border-gold stack-item" : "bg-slate3 border border-line"}"><span class="text-gold text-xs">${i === 0 ? tr(["TOP", "TOPO"]) : "·"}</span>${tr(SPELLS[s])}</li>`).join("")
+      : `<li class="text-mute text-xs text-center py-8">${tr(["The stack is empty. Add a spell.", "A pilha está vazia. Adicione uma mágica."])}</li>`;
+    $("#stackMsg").textContent = tr(stackNote);
+  }
+
+  const ZONES = [
+    [["Library", "Grimório"], ["Your deck, face down. If you must draw from an empty library, you lose.", "Seu baralho, virado para baixo. Se precisar comprar de um grimório vazio, você perde."]],
+    [["Hand", "Mão"], ["Hidden from opponents. Maximum of 7 cards at the end of your turn.", "Oculta dos oponentes. Máximo de 7 cartas no fim do seu turno."]],
+    [["Battlefield", "Campo de batalha"], ["Where permanents live. Old cards call this “in play”.", "Onde ficam as permanentes. Cartas antigas chamam de “em jogo”."]],
+    [["Graveyard", "Cemitério"], ["Used spells and dead permanents, face up. Modern Magic treats it as a resource: reanimate, flashback, escape.", "Mágicas usadas e permanentes mortas, viradas para cima. O Magic moderno o trata como recurso: reanimar, recapitular, escapar."]],
+    [["Exile", "Exílio"], ["The old “removed from the game”. Harder to return from than the graveyard, though some effects exile cards temporarily (“blink”).", "O antigo “removido do jogo”. Mais difícil de voltar do que do cemitério, embora alguns efeitos exilem temporariamente (“piscar”)."]],
+    [["Command Zone", "Zona de Comando"], ["Commander only. Your commander waits here in plain sight. If it would die or be exiled, you may put it back here and recast it for 2 more mana each time.", "Só no Commander. Seu comandante espera aqui, à vista de todos. Se ele fosse morrer ou ser exilado, você pode devolvê-lo para cá e conjurá-lo de novo por 2 manas a mais a cada vez."]],
+    [["Stack", "Pilha"], ["Where spells and abilities wait to resolve. See the demo on the left.", "Onde mágicas e habilidades esperam para resolver. Veja o demo ao lado."]]
+  ];
+  let zoneSel = 3;
+  function renderZones() {
+    $("#zoneTabs").innerHTML = ZONES.map((z, i) => `<button role="tab" aria-selected="${i === zoneSel}" class="chip px-3 py-1.5 text-xs sm:text-sm" data-i="${i}">${tr(z[0])}</button>`).join("");
+    $$("#zoneTabs button").forEach(b => b.addEventListener("click", () => { zoneSel = +b.dataset.i; renderZones(); }));
+    const z = ZONES[zoneSel];
+    $("#zoneBody").innerHTML = `<div class="step"><p class="font-semibold text-gold-soft mb-2">${tr(z[0])}</p><p class="text-parch/90">${tr(z[1])}</p></div>`;
+  }
+
+  let counters = 0;
+  function drawCounters() {
+    $("#cStat").textContent = `${2 + counters}/${2 + counters}`;
+    $("#cDots").innerHTML = Array.from({ length: counters }, () => "<span class='w-2 h-2 rounded-full bg-gold inline-block'></span>").join("");
+  }
+  $("#cPlus").addEventListener("click", () => { if (counters < 10) { counters++; drawCounters(); } });
+  $("#cMinus").addEventListener("click", () => { if (counters > 0) { counters--; drawCounters(); } });
+  $("#tokenBtn").addEventListener("click", () => {
+    const box = $("#tokens");
+    if (box.children.length >= 8) { box.innerHTML = ""; return; }
+    const t = document.createElement("button");
+    t.className = "stack-item w-10 h-14 rounded-md border border-dashed border-gold/70 bg-slate3 flex flex-col items-center justify-center text-[10px] hover:border-red-400 transition";
+    t.innerHTML = "<span>⚔</span><span class='text-gold-soft'>1/1</span>";
+    t.addEventListener("click", () => { t.classList.add("stack-out"); setTimeout(() => t.remove(), 330); });
+    box.appendChild(t);
+  });
+
+  const THEN = [
+    ["Summon Elf", ["Creature — Elf", "Criatura — Elfo"]],
+    ["Interrupt / Mana Source", ["Instant", "Mágica instantânea"]],
+    ["Enchant Creature", ["Enchantment — Aura", "Encantamento — Aura"]],
+    [["Removed from the game", "Removido do jogo"], ["Exiled", "Exilado"]],
+    [["In play / comes into play", "Em jogo / entra em jogo"], ["On the battlefield / enters", "No campo de batalha / entra"]],
+    [["Converted mana cost", "Custo de mana convertido"], ["Mana value", "Valor de mana"]],
+    [["Mana burn", "Queimadura de mana"], ["Gone since 2009", "Extinta desde 2009"]],
+    [["Damage on the stack", "Dano na pilha"], ["Gone since 2009", "Extinto desde 2009"]],
+    [["Bury", "Enterrar"], ["Destroy (or sacrifice)", "Destruir (ou sacrificar)"]],
+    [["Play a spell", "Jogar uma mágica"], ["Cast a spell", "Conjurar uma mágica"]],
+    [["Walls cannot attack", "Muralhas não atacam"], ["Defender keyword", "Palavra-chave Defensor"]],
+    [["Ante", "Aposta (ante)"], ["Banned everywhere", "Banido em tudo"]]
+  ];
+  function renderThen() {
+    $("#thenNow").innerHTML = THEN.map(([a, b]) => `<div class="flex items-center gap-3 rounded-lg border border-line bg-void/40 px-4 py-3">
+      <span class="text-mute line-through decoration-mute/50 flex-1">${tr(a)}</span><span class="text-gold" aria-hidden="true">→</span><span class="text-parch flex-1 font-medium">${tr(b)}</span></div>`).join("");
+  }
+
+  /* =========================================================
+     FORMATS + GETTING STARTED
+  ========================================================= */
+  const FMT = [
+    { n: "Commander", s: ["100", "3–5", "120 min"], d: ["Pick a legendary creature, build a 100-card deck around it with no repeats, and face several opponents at once. Any card from Magic's history is legal, a short ban list aside.", "Escolha uma criatura lendária, monte um baralho de 100 cartas sem repetições em torno dela e enfrente vários oponentes de uma vez. Qualquer carta da história de Magic vale, fora uma lista curta de banidas."], tag: ["Social · eternal", "Social · eterno"] },
+    { n: ["Standard", "Padrão"], s: ["60+", "2", "20 min"], d: ["One-on-one with cards from the most recent sets only, roughly the last three years. The oldest sets rotate out once a year, so the format keeps changing.", "Um contra um, só com cartas das coleções mais recentes, cerca dos últimos três anos. As mais antigas saem uma vez por ano, então o formato sempre muda."], tag: ["Competitive · rotating", "Competitivo · rotativo"] },
+    { n: "Booster Draft", s: ["40+", "2–8", "120 min"], d: ["Nobody brings a deck. Everyone opens boosters, takes one card and passes the rest, then builds a 40-card deck from what they picked. Great for returning players: no collection needed.", "Ninguém leva baralho. Todos abrem boosters, pegam uma carta e passam o resto, depois montam um baralho de 40 cartas com o que escolheram. Ótimo para quem volta: não exige coleção."], tag: ["Limited · skill-testing", "Limitado · testa habilidade"] }
+  ];
+  const CMD = [
+    [["One commander", "Um comandante"], ["A legendary creature sits in the <strong class='text-parch'>Command Zone</strong>, sets your deck's colors and can be recast (2 more mana each time).", "Uma criatura lendária fica na <strong class='text-parch'>Zona de Comando</strong>, define as cores do baralho e pode ser conjurada de novo (2 manas a mais a cada vez)."]],
+    [["100 cards, no repeats", "100 cartas, sem repetir"], ["Singleton deck (only basic lands repeat). 40 life, usually four players.", "Baralho singleton (só terrenos básicos se repetem). 40 de vida, geralmente quatro jogadores."]],
+    [["The table talks", "A mesa conversa"], ["21 combat damage from one commander knocks a player out. Politics matter. Agree on power level before you shuffle.", "21 de dano de combate do mesmo comandante elimina um jogador. Política importa. Combine o nível de poder antes de embaralhar."]]
+  ];
+  const FOTHER = [
+    [["Kitchen table", "Mesa da cozinha"], ["No rules about legality: 60 cards, whatever you own, one friend. Still the best place to restart.", "Sem regra de legalidade: 60 cartas, o que você tiver, um amigo. Ainda é o melhor lugar para recomeçar."]],
+    ["Pioneer", ["Non-rotating, 60 cards, sets from October 2012 onward.", "Não rotativo, 60 cartas, coleções de outubro de 2012 em diante."]],
+    ["Modern", ["Non-rotating, 60 cards, sets from July 2003 onward. Much stronger than Standard.", "Não rotativo, 60 cartas, coleções de julho de 2003 em diante. Muito mais forte que o Padrão."]],
+    ["Legacy / Vintage", ["Almost every card ever printed. Your 90s collection lives here. Vintage restricts the Power Nine to one copy instead of banning it.", "Quase todas as cartas já impressas. Sua coleção dos anos 90 mora aqui. O Vintage restringe o Power Nine a uma cópia em vez de banir."]],
+    ["Pauper", ["Only cards printed at common rarity. Cheap and surprisingly deep.", "Só cartas impressas como comuns. Barato e surpreendentemente profundo."]],
+    [["Sealed", "Selado"], ["Open six boosters, build 40 cards. This is how prerelease events work.", "Abra seis boosters, monte 40 cartas. É assim que funcionam os pré-lançamentos."]]
+  ];
+  function renderFormats() {
+    const lab = [["cards", "cartas"], ["players", "jogadores"], ["game", "partida"]];
+    $("#fmtMain").innerHTML = FMT.map(f => `<article class="panel lift p-6 reveal in flex flex-col">
+      <p class="text-[10px] uppercase tracking-widest text-gold mb-2">${tr(f.tag)}</p>
+      <h3 class="font-display text-2xl text-parch mb-3">${tr(f.n)}</h3>
+      <p class="text-sm text-mute leading-relaxed mb-5 flex-1">${tr(f.d)}</p>
+      <div class="grid grid-cols-3 gap-2 text-center">${f.s.map((v, i) => `<div class="rounded-lg bg-void/50 border border-line py-2"><div class="font-display text-lg gold-text">${v}</div><div class="text-[10px] text-mute uppercase tracking-wider">${tr(lab[i])}</div></div>`).join("")}</div>
+    </article>`).join("");
+    $("#cmdList").innerHTML = CMD.map(([t, d], i) => `<li class="rounded-xl bg-void/50 border border-line p-5"><span class="font-display text-3xl gold-text">${i + 1}</span><p class="font-semibold mt-2 mb-1">${tr(t)}</p><p class="text-sm text-mute leading-relaxed">${tr(d)}</p></li>`).join("");
+    $("#fmtOther").innerHTML = FOTHER.map(([n, d]) => `<div class="rounded-xl border border-line bg-void/40 p-4"><p class="font-semibold text-sm mb-1">${tr(n)}</p><p class="text-xs text-mute leading-relaxed">${tr(d)}</p></div>`).join("");
+  }
+  const lk = (u, t) => `<a class="underline decoration-gold/50 hover:text-gold-soft" href="${u}" target="_blank" rel="noopener">${t}</a>`;
+  const START = [
+    [["Learn the rules", "Aprenda as regras"], [
+      [`${lk("https://magic.wizards.com/en/mtgarena", "MTG Arena")}: free, with a full tutorial, and it will not let you make an illegal play.`, `${lk("https://magic.wizards.com/pt-BR/mtgarena", "MTG Arena")}: gratuito, com tutorial completo, e não deixa você fazer jogada ilegal.`],
+      ["Watch one short tutorial video, then gameplay videos of the format you want.", "Assista a um tutorial curto em vídeo e depois a partidas do formato que você quer."],
+      [`Official guide: ${lk("https://magic.wizards.com/en/how-to-play", "How to Play")}.`, `Guia oficial: ${lk("https://magic.wizards.com/pt-BR/how-to-play", "Como Jogar")}.`],
+      ["Learn one-on-one first. Four-player Commander multiplies every complication.", "Aprenda no um contra um primeiro. Commander a quatro multiplica cada complicação."]]],
+    [["Buy smart", "Compre bem"], [
+      ["<strong class='text-parch'>Buy singles.</strong> Picking the exact cards you want is almost always cheaper than opening boosters.", "<strong class='text-parch'>Compre avulsas.</strong> Escolher as cartas exatas quase sempre sai mais barato do que abrir boosters."],
+      ["Boosters are for drafting and for fun, not for building a deck.", "Boosters servem para draft e diversão, não para montar baralho."],
+      ["A preconstructed Commander deck is a fair, ready-to-play start for that format.", "Um baralho pré-montado de Commander é um começo justo e pronto para jogar nesse formato."],
+      ["Budget decks built from commons and uncommons can cost very little and still play well.", "Baralhos econômicos feitos de comuns e incomuns custam muito pouco e ainda jogam bem."],
+      ["Buy basic lands in bulk, never one by one.", "Compre terrenos básicos em lote, nunca um a um."]]],
+    [["Useful tools", "Ferramentas úteis"], [
+      [`${lk("https://scryfall.com", "Scryfall")}: the best card search.`, `${lk("https://scryfall.com", "Scryfall")}: a melhor busca de cartas.`],
+      [`${lk("https://edhrec.com", "EDHREC")}: what people play with each commander.`, `${lk("https://edhrec.com", "EDHREC")}: o que as pessoas jogam com cada comandante.`],
+      [`${lk("https://archidekt.com", "Archidekt")}: build and save decklists.`, `${lk("https://archidekt.com", "Archidekt")}: monte e salve listas.`],
+      [`${lk("https://www.mtggoldfish.com", "MTGGoldfish")}: which decks are winning in each format.`, `${lk("https://www.mtggoldfish.com", "MTGGoldfish")}: quais baralhos estão vencendo em cada formato.`],
+      [`${lk("https://whatsinstandard.com", "What's in Standard?")}: which sets are legal right now.`, `${lk("https://whatsinstandard.com", "What's in Standard?")}: quais coleções valem agora.`],
+      [`Singles: TCGplayer (US), Cardmarket (Europe), ${lk("https://www.ligamagic.com.br", "LigaMagic")} (Brazil).`, `Avulsas: ${lk("https://www.ligamagic.com.br", "LigaMagic")} (Brasil), TCGplayer (EUA), Cardmarket (Europa).`]]]
+  ];
+  function renderStart() {
+    $("#startGrid").innerHTML = START.map(([t, items]) => `<article class="panel p-6 reveal in"><h3 class="font-display text-xl text-gold-soft mb-4">${tr(t)}</h3>
+      <ul class="space-y-3">${items.map(i => `<li class="flex gap-3 text-sm text-parch/90 leading-relaxed"><span class="text-gold mt-0.5">◆</span><span>${tr(i)}</span></li>`).join("")}</ul></article>`).join("");
+  }
+
+  /* =========================================================
+     SIMULATOR
+  ========================================================= */
+  const CARDS = {
+    land: { k: "land", n: ["Land", "Terreno"], c: 0 },
+    scout: { k: "cre", n: ["Elf Scout", "Batedor Élfico"], c: 1, p: 1, t: 1 },
+    bear: { k: "cre", n: ["Grizzly Bears", "Ursos Pardos"], c: 2, p: 2, t: 2 },
+    drake: { k: "cre", n: ["Wind Drake", "Dragonete do Vento"], c: 3, p: 2, t: 2, fly: true },
+    giant: { k: "cre", n: ["Hill Giant", "Gigante da Colina"], c: 4, p: 3, t: 3 },
+    wurm: { k: "cre", n: ["Ancient Wurm", "Vorme Ancestral"], c: 5, p: 5, t: 5 },
+    shock: { k: "burn", n: ["Shock", "Choque"], c: 1 }
+  };
+  const LIST = { land: 13, scout: 3, bear: 4, drake: 2, giant: 3, wurm: 2, shock: 3 };
+  let uid = 0, gid = 0, G;
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  function newDeck() {
+    const d = [];
+    Object.entries(LIST).forEach(([k, n]) => { for (let i = 0; i < n; i++) d.push({ ...CARDS[k] }); });
+    for (let i = d.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [d[i], d[j]] = [d[j], d[i]]; }
+    return d;
+  }
+  // opening hand: guarantee 3 lands so the tutorial game always gets going
+  function newPlayer() {
+    const lib = newDeck(), hand = [];
+    for (let n = 0; n < 3; n++) hand.push(lib.splice(lib.findIndex(c => c.k === "land"), 1)[0]);
+    while (hand.length < 7) hand.push(lib.splice(lib.findIndex(c => c.k !== "land"), 1)[0]);
+    return { life: 20, lib, hand, lands: 0, tapped: 0, board: [], landPlayed: false };
+  }
+  function newGame() {
+    gid++;
+    G = { you: newPlayer(), bot: newPlayer(), turn: "you", phase: "main1", sel: new Set(), atk: [], blocks: {}, pick: null, target: null, log: [], n: 1, busy: false, over: null, msg: null };
+    log(["New game. You go first, so you skip your first draw.", "Nova partida. Você começa, então pula a primeira compra."]);
+    drawSim();
+  }
+  const log = p => { G.log.unshift(p); if (G.log.length > 30) G.log.pop(); };
+  const mana = P => P.lands - P.tapped;
+  const alive = c => c.t - c.dmg;
+  const canBlock = (b, a) => !b.tapped && (!a.fly || b.fly);
+  function drawCard(who) {
+    const P = G[who];
+    if (!P.lib.length) { G.over = who === "you" ? "lose" : "win"; log(who === "you" ? ["Your library is empty. You lose.", "Seu grimório acabou. Você perde."] : ["The bot's library is empty. You win!", "O grimório do bot acabou. Você vence!"]); return; }
+    P.hand.push(P.lib.pop());
+  }
+  function startTurn(who, skipDraw) {
+    const P = G[who];
+    G.turn = who; P.tapped = 0; P.landPlayed = false;
+    P.board.forEach(c => { c.tapped = false; c.sick = false; });
+    [G.you, G.bot].forEach(x => x.board.forEach(c => c.dmg = 0));
+    if (!skipDraw) drawCard(who);
+  }
+  function cleanup() {
+    [["you", ["Your", "Seu"]], ["bot", ["The bot's", "Do bot:"]]].forEach(([w]) => {
+      G[w].board = G[w].board.filter(c => {
+        if (c.dmg < c.t) return true;
+        log(w === "you" ? [`Your ${c.n[0]} dies.`, `Seu ${c.n[1]} morre.`] : [`The bot's ${c.n[0]} dies.`, `${c.n[1]} do bot morre.`]);
+        return false;
+      });
+    });
+    if (G.you.life <= 0) { G.over = "lose"; log(["You are at 0 life. Defeat.", "Você chegou a 0 de vida. Derrota."]); }
+    else if (G.bot.life <= 0) { G.over = "win"; log(["The bot is at 0 life. Victory!", "O bot chegou a 0 de vida. Vitória!"]); }
+  }
+  function putCreature(P, card) { P.board.push({ ...card, id: ++uid, sick: true, tapped: false, dmg: 0 }); }
+  function resolveCombat(attackers, blocks, defWho) {
+    const D = G[defWho]; let face = 0;
+    attackers.forEach(a => {
+      const b = blocks[a.id];
+      if (b) { a.dmg += b.p; b.dmg += a.p; log([`${a.n[0]} (${a.p}/${a.t}) is blocked by ${b.n[0]} (${b.p}/${b.t}).`, `${a.n[1]} (${a.p}/${a.t}) é bloqueado por ${b.n[1]} (${b.p}/${b.t}).`]); }
+      else { D.life -= a.p; face += a.p; }
+    });
+    if (face) log(defWho === "bot" ? [`The bot takes ${face} damage.`, `O bot sofre ${face} de dano.`] : [`You take ${face} damage.`, `Você sofre ${face} de dano.`]);
+    cleanup();
+  }
+  /* ----- player actions ----- */
+  function playHand(i) {
+    const P = G.you, c = P.hand[i];
+    G.msg = null;
+    if (c.k === "land") {
+      if (P.landPlayed) { G.msg = ["Only one land per turn.", "Só um terreno por turno."]; return; }
+      P.hand.splice(i, 1); P.lands++; P.landPlayed = true;
+      log(["You play a land.", "Você joga um terreno."]); return;
+    }
+    if (mana(P) < c.c) { G.msg = [`Not enough mana: ${c.n[0]} costs ${c.c}, you have ${mana(P)} untapped land(s).`, `Mana insuficiente: ${c.n[1]} custa ${c.c}, você tem ${mana(P)} terreno(s) desvirado(s).`]; return; }
+    if (c.k === "burn") { G.target = i; return; }
+    P.hand.splice(i, 1); P.tapped += c.c; putCreature(P, c);
+    log([`You tap ${c.c} land(s) and cast ${c.n[0]}.`, `Você vira ${c.c} terreno(s) e conjura ${c.n[1]}.`]);
+  }
+  function shockAt(target) {
+    const P = G.you, c = P.hand[G.target];
+    P.hand.splice(G.target, 1); P.tapped += c.c; G.target = null;
+    if (target === "face") { G.bot.life -= 2; log(["Shock deals 2 damage to the bot.", "Choque causa 2 de dano ao bot."]); }
+    else { target.dmg += 2; log([`Shock deals 2 damage to ${target.n[0]}.`, `Choque causa 2 de dano a ${target.n[1]}.`]); }
+    cleanup();
+  }
+  function botBlocks(attackers) {
+    const B = G.bot, blocks = {}; let avail = B.board.filter(c => !c.tapped);
+    const take = (a, b) => { blocks[a.id] = b; avail = avail.filter(x => x !== b); };
+    [...attackers].sort((x, y) => y.p - x.p).forEach(a => {
+      const c = avail.filter(b => canBlock(b, a));
+      const good = c.filter(b => b.p >= a.t && a.p < alive(b)).sort((x, y) => x.c - y.c)[0]
+        || c.filter(b => b.p >= a.t && b.c <= a.c).sort((x, y) => x.c - y.c)[0]
+        || c.filter(b => a.p < alive(b)).sort((x, y) => x.c - y.c)[0];
+      if (good) take(a, good);
+    });
+    const unblocked = () => attackers.filter(a => !blocks[a.id]);
+    let guard = 0;
+    while (unblocked().reduce((s, a) => s + a.p, 0) >= B.life && guard++ < 10) {
+      const a = unblocked().sort((x, y) => y.p - x.p).find(a => avail.some(b => canBlock(b, a)));
+      if (!a) break;
+      take(a, avail.filter(b => canBlock(b, a)).sort((x, y) => x.c - y.c)[0]);
+    }
+    return blocks;
+  }
+  function doAttack() {
+    const attackers = G.you.board.filter(c => G.sel.has(c.id));
+    G.sel.clear();
+    if (!attackers.length) { log(["You skip combat.", "Você pula o combate."]); G.phase = "main2"; return; }
+    attackers.forEach(a => a.tapped = true);
+    log([`You attack with ${attackers.length} creature(s).`, `Você ataca com ${attackers.length} criatura(s).`]);
+    resolveCombat(attackers, botBlocks(attackers), "bot");
+    G.phase = "main2";
+  }
+  /* ----- bot turn ----- */
+  async function botTurn() {
+    const my = gid, B = G.bot, Y = G.you;
+    const ok = () => my === gid && !G.over;
+    G.busy = true; G.phase = "bot"; G.msg = null; G.target = null;
+    startTurn("bot"); G.n++; drawSim(); await sleep(700); if (!ok()) return fin();
+    const li2 = B.hand.findIndex(c => c.k === "land");
+    if (li2 >= 0) { B.hand.splice(li2, 1); B.lands++; log(["The bot plays a land.", "O bot joga um terreno."]); drawSim(); await sleep(600); if (!ok()) return fin(); }
+    let acted = true;
+    while (acted && ok()) {
+      acted = false;
+      const cre = B.hand.filter(c => c.k === "cre" && c.c <= mana(B)).sort((a, b) => b.c - a.c)[0];
+      if (cre) {
+        B.hand.splice(B.hand.indexOf(cre), 1); B.tapped += cre.c; putCreature(B, cre);
+        log([`The bot casts ${cre.n[0]}.`, `O bot conjura ${cre.n[1]}.`]); acted = true;
+      } else {
+        const sh = B.hand.find(c => c.k === "burn");
+        if (sh && mana(B) >= 1) {
+          const tgt = Y.board.filter(c => alive(c) <= 2).sort((a, b) => b.c - a.c)[0];
+          if (tgt || Y.life <= 6) {
+            B.hand.splice(B.hand.indexOf(sh), 1); B.tapped += 1;
+            if (tgt) { tgt.dmg += 2; log([`The bot casts Shock on your ${tgt.n[0]}.`, `O bot conjura Choque no seu ${tgt.n[1]}.`]); }
+            else { Y.life -= 2; log(["The bot casts Shock on you: 2 damage.", "O bot conjura Choque em você: 2 de dano."]); }
+            cleanup(); acted = true;
+          }
+        }
+      }
+      if (acted) { drawSim(); await sleep(700); }
+    }
+    if (!ok()) return fin();
+    const ready = B.board.filter(c => !c.sick && !c.tapped);
+    const allIn = ready.reduce((s, c) => s + c.p, 0) >= Y.life;
+    const attackers = ready.filter(a => allIn || !Y.board.some(b => canBlock(b, a) && b.p >= alive(a)));
+    if (attackers.length) {
+      attackers.forEach(a => a.tapped = true);
+      G.atk = attackers; G.blocks = {}; G.pick = null;
+      log([`The bot attacks with ${attackers.length} creature(s).`, `O bot ataca com ${attackers.length} criatura(s).`]);
+      if (Y.board.some(b => attackers.some(a => canBlock(b, a)))) { G.phase = "block"; G.busy = false; drawSim(); return; }
+      drawSim(); await sleep(800); if (!ok()) return fin();
+      resolveCombat(attackers, {}, "you"); G.atk = [];
+    }
+    await endBot();
+  }
+  function fin() { if (G) G.busy = false; drawSim(); }
+  async function endBot() {
+    drawSim();
+    if (G.over) return fin();
+    await sleep(500);
+    if (G.over) return fin();
+    startTurn("you"); G.n++; G.phase = "main1"; G.busy = false;
+    if (!G.over) log(["Your turn: untap, draw a card.", "Seu turno: desvire, compre uma carta."]);
+    drawSim();
+  }
+  /* ----- render ----- */
+  function hint() {
+    if (G.over) return G.over === "win" ? ["You won! That is the whole loop: lands, spells, combat. Real Magic adds thousands of cards on top.", "Você venceu! Esse é o ciclo todo: terrenos, mágicas, combate. O Magic real põe milhares de cartas em cima disso."] : ["Defeat. Try again: play a land every turn and keep blockers back when you are behind.", "Derrota. Tente de novo: jogue um terreno todo turno e guarde bloqueadores quando estiver atrás."];
+    if (G.msg) return G.msg;
+    if (G.target !== null) return ["Shock deals 2 damage. Click an enemy creature or the bot's life total.", "Choque causa 2 de dano. Clique em uma criatura inimiga ou na vida do bot."];
+    const Y = G.you;
+    if (G.phase === "bot") return ["Opponent's turn…", "Turno do oponente…"];
+    if (G.phase === "block") return G.pick ? ["Now click the attacker it should block. Flyers can only be blocked by flyers.", "Agora clique no atacante que ela deve bloquear. Voadores só são bloqueados por voadores."] : ["The bot attacks (red glow). Click one of your untapped creatures to block with, or confirm with no blocks and take the damage.", "O bot ataca (brilho vermelho). Clique em uma criatura sua desvirada para bloquear, ou confirme sem bloqueios e leve o dano."];
+    if (G.phase === "attack") return ["Declare attackers: click your ready creatures, then confirm. Creatures marked zz arrived this turn and cannot attack. Attackers tap, so they cannot block next turn.", "Declare atacantes: clique nas criaturas prontas e confirme. Criaturas com zz chegaram neste turno e não atacam. Atacantes viram, então não bloqueiam no próximo turno."];
+    if (!Y.landPlayed && Y.hand.some(c => c.k === "land")) return ["Main phase. Start by playing a land from your hand (one per turn).", "Fase principal. Comece jogando um terreno da mão (um por turno)."];
+    if (Y.hand.some(c => c.k !== "land" && c.c <= mana(Y))) return [`You have ${mana(Y)} mana. Click a spell you can afford: its cost is the number in the corner.`, `Você tem ${mana(Y)} de mana. Clique em uma mágica que possa pagar: o custo é o número no canto.`];
+    return G.phase === "main1" ? ["Nothing else to cast. Go to combat.", "Nada mais para conjurar. Vá para o combate."] : ["Second main phase done? End your turn.", "Segunda fase principal pronta? Encerre o turno."];
+  }
+  function cardHtml(c, o = {}) {
+    const cls = ["gc", c.k === "land" ? "land" : c.k === "burn" ? "burn" : c.fly ? "fly" : "", o.cls || "", c.tapped ? "tapped" : ""].join(" ");
+    const body = `<span class="flex justify-between gap-1"><span class="font-semibold leading-tight">${tr(c.n)}</span>${c.k !== "land" ? `<span class="pip pip-c" style="width:1rem;height:1rem;font-size:.6rem">${c.c}</span>` : ""}</span>
+      <span class="text-mute">${c.k === "land" ? tr(["Tap: 1 mana", "Vire: 1 mana"]) : c.k === "burn" ? tr(["2 damage to any target", "2 de dano em qualquer alvo"]) : c.fly ? tr(["Flying", "Voar"]) : ""}</span>
+      ${c.k === "cre" ? `<span class="pt">${c.p}/${c.t}${c.dmg ? `<span class="text-red-300 text-[9px]"> −${c.dmg}</span>` : ""}</span>` : "<span></span>"}
+      ${o.tag ? `<span class="tag">${o.tag}</span>` : ""}`;
+    return o.act ? `<button class="${cls}" data-act="${o.act}" data-v="${o.v}">${body}</button>` : `<div class="${cls}">${body}</div>`;
+  }
+  function drawSim() {
+    const Y = G.you, B = G.bot, myTurn = G.turn === "you" && !G.busy && !G.over;
+    const main = myTurn && (G.phase === "main1" || G.phase === "main2");
+    const phases = [["main1", ["Main 1", "Principal 1"]], ["attack", ["Combat", "Combate"]], ["main2", ["Main 2", "Principal 2"]], ["bot", ["Opponent", "Oponente"]]];
+    const cur = G.phase === "block" ? "bot" : G.phase;
+    const blockerOf = id => Object.entries(G.blocks).find(([, b]) => b.id === id);
+    const lands = P => Array.from({ length: P.lands }, (_, i) => `<span class="inline-block w-4 h-6 rounded-sm border ${i < P.tapped ? "border-line bg-slate3 rotate-12 opacity-50" : "border-gold/70 bg-[#3a3320]"}"></span>`).join("") || `<span class="text-mute text-xs">${tr(["no lands yet", "sem terrenos"])}</span>`;
+    let btns = "";
+    if (G.over) btns = `<button class="sbtn sbtn-p" data-act="restart">${tr(["Play again", "Jogar de novo"])}</button>`;
+    else if (G.target !== null) btns = `<button class="sbtn sbtn-s" data-act="cancel">${tr(["Cancel", "Cancelar"])}</button>`;
+    else if (myTurn && G.phase === "main1") btns = `<button class="sbtn sbtn-p" data-act="combat">${tr(["Go to combat ▸", "Ir ao combate ▸"])}</button><button class="sbtn sbtn-s" data-act="end">${tr(["End turn", "Encerrar turno"])}</button>`;
+    else if (myTurn && G.phase === "attack") btns = `<button class="sbtn sbtn-p" data-act="attack">${G.sel.size ? tr([`Attack with ${G.sel.size} ▸`, `Atacar com ${G.sel.size} ▸`]) : tr(["Skip combat ▸", "Pular combate ▸"])}</button>`;
+    else if (myTurn && G.phase === "main2") btns = `<button class="sbtn sbtn-p" data-act="end">${tr(["End turn ▸", "Encerrar turno ▸"])}</button>`;
+    else if (!G.busy && G.phase === "block") btns = `<button class="sbtn sbtn-p" data-act="confirm">${tr(["Confirm blocks ▸", "Confirmar bloqueios ▸"])}</button>`;
+    btns += G.over ? "" : `<button class="sbtn sbtn-s ml-auto" data-act="restart">${tr(["Restart", "Reiniciar"])}</button>`;
+
+    $("#sim").innerHTML = `
+      <div class="flex flex-wrap items-center gap-2 mb-4 text-[11px]">
+        <span class="text-mute mr-1">${tr(["Turn", "Turno"])} ${G.n}</span>
+        ${phases.map(([k, n]) => `<span class="px-2.5 py-1 rounded-full border ${cur === k ? "border-gold bg-gold/20 text-gold-soft" : "border-line text-mute"}">${tr(n)}</span>`).join("")}
+      </div>
+      <div class="rounded-xl bg-gold/10 border border-gold/40 px-4 py-3 mb-4 text-sm leading-relaxed" aria-live="polite"><span class="text-gold font-semibold">${tr(["Coach", "Treinador"])}:</span> ${tr(hint())}</div>
+
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-2 text-xs">
+        <button class="flex items-center gap-2 rounded-lg px-3 py-1.5 border ${G.target !== null ? "border-gold bg-gold/15 animate-pulse" : "border-line"}" data-act="face" ${G.target === null ? "disabled" : ""}>
+          <span class="font-semibold">Bot</span><span class="font-display text-xl gold-text">${Math.max(0, B.life)}</span><span class="text-mute">${tr(["life", "vida"])}</span></button>
+        <span class="text-mute">${tr(["Hand", "Mão"])}: ${B.hand.length} · ${tr(["Library", "Grimório"])}: ${B.lib.length}</span>
+        <span class="flex gap-1 items-center">${lands(B)}</span>
+      </div>
+      <div class="zone mb-3">${B.board.map(c => {
+        const atk = G.atk.includes(c), blk = G.blocks[c.id];
+        const act = G.target !== null ? "foe" : (G.phase === "block" && atk ? "foe" : null);
+        return cardHtml(c, { cls: (atk ? "atk " : "") + (c.sick ? "dim" : ""), act, v: c.id, tag: blk ? "⛨ " + tr(blk.n) : c.sick ? "zz" : "" });
+      }).join("") || `<span class="text-mute text-xs mx-auto">${tr(["Opponent's battlefield", "Campo do oponente"])}</span>`}</div>
+
+      <div class="zone mb-2">${Y.board.map(c => {
+        const ready = !c.sick && !c.tapped;
+        let act = null, cls = c.sick ? "dim " : "", tag = c.sick ? "zz" : "";
+        if (myTurn && G.phase === "attack" && ready) { act = "mine"; if (G.sel.has(c.id)) { cls += "sel"; tag = "⚔"; } }
+        if (!G.busy && G.phase === "block" && !c.tapped) { act = "mine"; if (G.pick === c.id) cls += "sel"; const b = blockerOf(c.id); if (b) tag = "⛨"; }
+        return cardHtml(c, { cls, act, v: c.id, tag });
+      }).join("") || `<span class="text-mute text-xs mx-auto">${tr(["Your battlefield", "Seu campo de batalha"])}</span>`}</div>
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-4 text-xs">
+        <span class="flex items-center gap-2 rounded-lg px-3 py-1.5 border border-line"><span class="font-semibold">${tr(["You", "Você"])}</span><span class="font-display text-xl gold-text">${Math.max(0, Y.life)}</span><span class="text-mute">${tr(["life", "vida"])}</span></span>
+        <span class="text-mute">${tr(["Mana available", "Mana disponível"])}: <strong class="text-gold-soft">${mana(Y)}</strong> · ${tr(["Library", "Grimório"])}: ${Y.lib.length}</span>
+        <span class="flex gap-1 items-center">${lands(Y)}</span>
+      </div>
+
+      <p class="text-[11px] uppercase tracking-widest text-mute mb-2">${tr(["Your hand", "Sua mão"])}</p>
+      <div class="flex flex-wrap gap-2 mb-5 min-h-[100px]">${Y.hand.map((c, i) => {
+        const playable = main && G.target === null && (c.k === "land" ? !Y.landPlayed : c.c <= mana(Y));
+        return cardHtml(c, { act: main && G.target === null ? "hand" : null, v: i, cls: (G.target === i ? "sel " : "") + (main && !playable && G.target !== i ? "dim" : "") });
+      }).join("")}</div>
+
+      <div class="flex flex-wrap gap-2 mb-4">${btns}</div>
+      <ol class="text-xs text-mute space-y-1 max-h-28 overflow-y-auto rounded-lg bg-void/50 border border-line/60 p-3">${G.log.slice(0, 12).map((l, i) => `<li class="${i === 0 ? "text-parch" : ""}">${tr(l)}</li>`).join("")}</ol>
+      <p class="text-[11px] text-mute mt-3">${tr(["Simplified on purpose: one color of mana, one blocker per attacker, and Shock only on your own turn. In real Magic an instant like Shock can be cast at almost any time.", "Simplificado de propósito: uma cor de mana, um bloqueador por atacante e Choque só no seu turno. No Magic real, uma instantânea como Choque pode ser conjurada quase a qualquer momento."])}</p>`;
+  }
+  $("#sim").addEventListener("click", e => {
+    const b = e.target.closest("[data-act]"); if (!b || b.disabled) return;
+    const act = b.dataset.act, v = b.dataset.v;
+    if (act === "restart") return newGame();
+    if (G.over || G.busy) return;
+    const find = (P, id) => P.board.find(c => c.id === +id);
+    if (act === "hand") playHand(+v);
+    else if (act === "cancel") G.target = null;
+    else if (act === "face" && G.target !== null) shockAt("face");
+    else if (act === "foe") {
+      const c = find(G.bot, v);
+      if (G.target !== null) shockAt(c);
+      else if (G.phase === "block" && G.pick) {
+        const blocker = find(G.you, G.pick);
+        if (!canBlock(blocker, c)) G.msg = ["That creature has flying: only a flyer can block it.", "Essa criatura voa: só um voador pode bloqueá-la."];
+        else { Object.keys(G.blocks).forEach(k => { if (G.blocks[k] === blocker) delete G.blocks[k]; }); G.blocks[c.id] = blocker; G.msg = null; }
+        G.pick = null;
+      }
+    }
+    else if (act === "mine") {
+      if (G.phase === "attack") { G.sel.has(+v) ? G.sel.delete(+v) : G.sel.add(+v); }
+      else if (G.phase === "block") {
+        const c = find(G.you, v), cur = Object.keys(G.blocks).find(k => G.blocks[k] === c);
+        if (cur) { delete G.blocks[cur]; G.pick = null; } else G.pick = G.pick === +v ? null : +v;
+      }
+    }
+    else if (act === "combat") { G.phase = "attack"; G.msg = null; }
+    else if (act === "attack") doAttack();
+    else if (act === "end") { G.sel.clear(); drawSim(); return botTurn(); }
+    else if (act === "confirm") {
+      G.busy = true;
+      resolveCombat(G.atk, G.blocks, "you"); G.atk = []; G.blocks = {}; G.pick = null; G.msg = null;
+      return endBot();
+    }
+    drawSim();
+  });
+
+  /* =========================================================
+     LANGUAGE + BOOT
+  ========================================================= */
+  function renderAll() {
+    document.documentElement.lang = li ? "pt-BR" : "en";
+    document.title = tr(["Multiverse, No Nonsense — Magic for returning veterans", "Multiverso Sem Enrolação — Magic para veteranos"]);
+    $$("[data-t]").forEach(el => { el.innerHTML = tr(S[el.dataset.t]); });
+    $$(".langBtn").forEach(b => {
+      const on = (b.dataset.lang === "pt") === !!li;
+      b.setAttribute("aria-pressed", String(on));
+      b.className = "langBtn px-3 py-1.5 transition " + (on ? "bg-gold text-void" : "text-mute hover:text-gold-soft");
+    });
+    renderTimeline(); renderQuiz(); renderLore(); renderPlanes(); renderColors();
+    renderAnat(); renderTypes(); renderPhases(); renderStack(); renderZones(); drawCounters(); renderThen();
+    renderFormats(); renderStart(); drawSim();
+    $$(".reveal").forEach(observe);
+  }
+  $$(".langBtn").forEach(b => b.addEventListener("click", () => {
+    li = b.dataset.lang === "pt" ? 1 : 0;
+    try { localStorage.setItem("mtgLang", li ? "pt" : "en"); } catch (e) {}
+    renderAll();
+  }));
+  document.addEventListener("click", e => {
+    const a = e.target.closest("a.go"); if (!a) return;
+    e.preventDefault();
+    $(a.getAttribute("href")).scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  newGame();
+  renderAll();
+})();
+</script>
+</body>
+</html>

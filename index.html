@@ -82,6 +82,30 @@
   .stack-out { animation: out .35s ease both; }
   @keyframes out { to { opacity:0; transform: translateX(40px);} }
 
+  /* classic 1993-2003 card frame (anatomy) */
+  .oc { background:#e9e4d6; border-radius:13px; padding:11px; box-shadow: 0 22px 44px -20px #000, 0 0 0 1px rgba(0,0,0,.4); }
+  .oc-frame { background: repeating-linear-gradient(115deg, rgba(255,255,255,.04) 0 2px, transparent 2px 5px), linear-gradient(160deg,#3b3735,#1b1918 55%,#2d2a28); border-radius:4px; padding:6px 8px 5px; color:#f3efe6; font-family:"Cormorant Garamond", Georgia, serif; }
+  .oc-name { font-weight:700; font-size:17px; line-height:1.3; text-shadow:1px 1px 0 #000; }
+  .oc .oc-art.hot { height:148px; border:2px solid; border-color:#0c0b0b #6f6866 #6f6866 #0c0b0b; border-radius:0; overflow:hidden;
+    background: radial-gradient(60% 50% at 50% 70%, #55633a 0, transparent 70%), radial-gradient(34% 30% at 50% 46%, rgba(201,185,138,.3) 0, transparent 70%), linear-gradient(#2a1f33,#131912); }
+  .oc-type { font-weight:600; font-size:13px; line-height:1.2; padding:4px 3px; text-shadow:1px 1px 0 #000; }
+  .oc .oc-text.hot { background: linear-gradient(#d2cbbd,#b8b0a1); color:#141210; border:2px solid; border-color:#0c0b0b #6f6866 #6f6866 #0c0b0b; border-radius:0; padding:8px 9px; min-height:96px; font-size:13.5px; line-height:1.18; font-weight:500; }
+  .oc-artist { font-size:10.5px; font-weight:600; }
+  .oc-pt { font-size:21px; font-weight:700; line-height:1; text-shadow:1px 1px 0 #000; }
+  .oc .hot:hover, .oc .hot.on { box-shadow: 0 0 0 2px #e3c77d, 0 0 16px rgba(201,162,75,.8); }
+
+  /* color wheel */
+  .wheel-btn { position:absolute; margin:-26px 0 0 -26px; }
+  .mx td, .mx th { padding:.45rem .5rem; text-align:center; border-bottom:1px solid #352d47; }
+  .mx td:first-child, .mx th:first-child { text-align:left; }
+  .lv2 { color:#e3c77d; } .lv1 { color:#8d7233; } .lv0 { color:#4a4062; }
+
+  /* sets */
+  .set-tile { display:flex; align-items:center; gap:.7rem; padding:.55rem .7rem; border:1px solid #352d47; border-radius:10px; background:rgba(18,14,28,.6); transition: border-color .2s, background .2s, transform .2s; }
+  .set-tile:hover { border-color:#c9a24b; background:rgba(201,162,75,.08); transform: translateY(-2px); }
+  .set-code { flex:none; min-width:3.1rem; text-align:center; font: 600 .68rem ui-monospace, SFMono-Regular, Menlo, monospace; padding:.25rem .3rem; border-radius:6px; background:#262033; color:#e3c77d; border:1px solid #352d47; }
+  .set-tile.ub .set-code { color:#cfb2ff; border-color:#6b4aa0; }
+
   /* simulator */
   .gc { width: 74px; height: 100px; border-radius: 9px; border:1px solid #4a4062; background: linear-gradient(165deg,#2e2640,#191422); padding:5px 6px; display:flex; flex-direction:column; justify-content:space-between; text-align:left; font-size:10px; line-height:1.15; color:#e9e2d0; transition: transform .25s, box-shadow .25s, opacity .25s, border-color .25s; position:relative; flex:none; }
   button.gc { cursor:pointer; }
@@ -113,9 +137,10 @@
     <a href="#top" class="font-display tracking-widest text-gold-soft text-xs sm:text-sm flex items-center gap-2 whitespace-nowrap">
       <span class="pip pip-c" aria-hidden="true">✦</span> <span data-t="brand"></span>
     </a>
-    <div class="hidden lg:flex items-center gap-5 text-sm text-mute">
+    <div class="hidden lg:flex items-center gap-4 text-sm text-mute whitespace-nowrap">
       <a class="hover:text-gold-soft transition" href="#quiz" data-t="nQuiz"></a>
       <a class="hover:text-gold-soft transition" href="#timeline" data-t="nTime"></a>
+      <a class="hover:text-gold-soft transition" href="#sets" data-t="nSets"></a>
       <a class="hover:text-gold-soft transition" href="#lore" data-t="nLore"></a>
       <a class="hover:text-gold-soft transition" href="#planes" data-t="nPlanes"></a>
       <a class="hover:text-gold-soft transition" href="#colors" data-t="nColors"></a>
@@ -189,8 +214,27 @@
   </div>
 </section>
 
+<!-- SETS -->
+<section id="sets" class="max-w-6xl mx-auto px-5 pt-20 sm:pt-28 scroll-mt-14">
+  <div class="text-center mb-10 reveal">
+    <p class="text-gold text-xs tracking-[.3em] uppercase mb-3" data-t="zK"></p>
+    <h2 class="font-display text-2xl sm:text-4xl text-parch" data-t="zH"></h2>
+    <p class="text-mute mt-4 max-w-2xl mx-auto" data-t="zSub"></p>
+  </div>
+  <div id="setFacts" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 mb-10"></div>
+  <div class="panel p-5 sm:p-7 reveal">
+    <div class="flex flex-wrap items-center gap-2 mb-3" id="setDecades" role="group"></div>
+    <div class="flex flex-wrap items-center gap-2 mb-4" id="setKinds" role="group"></div>
+    <input id="setSearch" type="search" autocomplete="off" class="w-full sm:max-w-sm mb-4 px-3 py-2 rounded-lg bg-void/60 border border-line text-sm text-parch placeholder:text-mute focus:border-gold outline-none">
+    <p id="setCount" class="text-xs text-mute mb-3" aria-live="polite"></p>
+    <div id="setGrid" class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 max-h-[560px] overflow-y-auto pr-1"></div>
+    <p class="text-xs text-mute mt-4" data-t="zSrc"></p>
+  </div>
+  <div class="rule mt-20 sm:mt-28"></div>
+</section>
+
 <!-- LORE -->
-<section id="lore" class="max-w-6xl mx-auto px-5 py-20 sm:py-28 scroll-mt-14">
+<section id="lore"class="max-w-6xl mx-auto px-5 py-20 sm:py-28 scroll-mt-14">
   <div class="text-center mb-10 reveal">
     <p class="text-gold text-xs tracking-[.3em] uppercase mb-3" data-t="lK"></p>
     <h2 class="font-display text-2xl sm:text-4xl text-parch" data-t="lH"></h2>
@@ -232,8 +276,19 @@
     <p class="text-mute mt-4 max-w-2xl mx-auto" data-t="cSub"></p>
   </div>
   <div class="panel p-6 sm:p-9 reveal">
-    <div id="colorPips" class="flex justify-center gap-4 sm:gap-6 mb-8"></div>
-    <div id="colorBody" class="min-h-[190px]" aria-live="polite"></div>
+    <div class="grid lg:grid-cols-[300px_1fr] gap-8 items-start">
+      <div>
+        <div id="colorWheel" class="relative w-[300px] h-[290px] mx-auto"></div>
+        <p class="text-xs text-mute text-center mt-2" data-t="cLegend"></p>
+      </div>
+      <div id="colorBody" class="min-h-[340px]" aria-live="polite"></div>
+    </div>
+  </div>
+  <div class="panel p-6 sm:p-8 mt-6 reveal">
+    <h3 class="font-display text-xl text-gold-soft mb-1" data-t="cMx"></h3>
+    <p class="text-mute text-sm mb-5" data-t="cMxS"></p>
+    <div class="overflow-x-auto"><table id="colorMatrix" class="mx w-full text-sm"></table></div>
+    <p class="text-xs text-mute mt-4" data-t="cSrc"></p>
   </div>
 </section>
 
@@ -250,18 +305,36 @@
       <article class="panel p-6 sm:p-8 reveal">
         <h3 class="font-display text-xl text-gold-soft mb-1" data-t="g1"></h3>
         <p class="text-mute text-sm mb-6" data-t="g1s"></p>
-        <div class="grid sm:grid-cols-[210px_1fr] gap-6 items-start">
-          <div class="mtg-card p-3 w-[210px] mx-auto text-[11px] select-none" id="anatomyCard">
-            <div class="flex justify-between items-center gap-1 bg-slate3/70 rounded-lg">
-              <button class="hot px-2 py-1.5 font-display text-[12px] flex-1 text-left" data-a="name" data-t="aName"></button>
-              <button class="hot flex gap-0.5 px-1.5 py-1.5" data-a="cost" aria-label="Mana cost"><span class="pip pip-c" style="width:1.1rem;height:1.1rem">2</span><span class="pip pip-u" style="width:1.1rem;height:1.1rem">U</span></button>
+        <div class="grid sm:grid-cols-[250px_1fr] gap-6 items-start">
+          <div class="w-[250px] mx-auto select-none" id="anatomyCard">
+            <div class="oc">
+              <div class="oc-frame">
+                <div class="flex justify-between items-center gap-1">
+                  <button class="hot oc-name px-1 flex-1 text-left" data-a="name">Abomination</button>
+                  <button class="hot flex gap-0.5 p-0.5" data-a="cost" aria-label="Mana cost"><span class="pip pip-c" style="width:1.15rem;height:1.15rem">3</span><span class="pip pip-b" style="width:1.15rem;height:1.15rem">B</span></button>
+                </div>
+                <button class="hot oc-art block w-full mt-1" data-a="art" aria-label="Art">
+                  <svg viewBox="0 0 220 140" class="w-full h-full" aria-hidden="true"><path d="M40 140c0-50 20-86 70-86s70 36 70 86z" fill="#1d241a" opacity=".9"/><path d="M62 96c-22-8-34-30-30-52M158 96c22-8 34-30 30-52M92 62c-8-18-6-34 4-46M128 62c8-18 6-34-4-46" stroke="#1d241a" stroke-width="7" fill="none" stroke-linecap="round"/><ellipse cx="110" cy="92" rx="15" ry="9" fill="#d8c98f"/><circle cx="110" cy="92" r="5" fill="#16110d"/></svg>
+                </button>
+                <button class="hot oc-type block w-full text-left" data-a="type" id="ocType"></button>
+                <button class="hot oc-text block w-full text-left" data-a="text">Whenever this creature blocks or becomes blocked by a green or white creature, destroy that creature at end of combat.</button>
+                <div class="flex justify-between items-end mt-1">
+                  <button class="hot oc-artist px-1 py-0.5" data-a="artist">Illus. Mark Tedin</button>
+                  <button class="hot oc-pt px-1 py-0.5" data-a="pt">2/6</button>
+                </div>
+              </div>
             </div>
-            <div class="my-2 h-20 rounded bg-gradient-to-br from-[#3a2a5c] to-[#1a2a44] flex items-center justify-center text-3xl" aria-hidden="true">🔮</div>
-            <button class="hot block w-full text-left px-2 py-1 bg-slate3/70" data-a="type" data-t="aType"></button>
-            <button class="hot block w-full text-left mt-2 px-2 py-2 bg-parch/10 min-h-[58px] leading-snug" data-a="text" data-t="aText"></button>
-            <div class="flex justify-end mt-2"><button class="hot px-2 py-0.5 bg-slate3/90 font-semibold" data-a="pt">2/2</button></div>
+            <div class="flex flex-wrap gap-2 mt-3 justify-center">
+              <button class="hot chip px-2.5 py-1 text-xs" data-a="border" data-t="aBorder"></button>
+              <button class="hot chip px-2.5 py-1 text-xs" data-a="symbol" data-t="aSymbol"></button>
+            </div>
+            <button id="ocMode" class="block mx-auto mt-3 text-xs text-mute underline decoration-gold/50 hover:text-gold-soft"></button>
           </div>
-          <div id="anatomyInfo" class="text-sm leading-relaxed min-h-[180px]"></div>
+          <div>
+            <div id="anatomyInfo" class="text-sm leading-relaxed min-h-[150px]"></div>
+            <dl id="anatomyFacts" class="mt-5 grid grid-cols-[auto_1fr] gap-x-4 gap-y-1 text-xs border-t border-line pt-4"></dl>
+            <p class="text-xs mt-3"><a class="underline decoration-gold/50 text-mute hover:text-gold-soft" href="https://gatherer.wizards.com/4E/en-us/0/abomination" target="_blank" rel="noopener" data-t="aGath"></a></p>
+          </div>
         </div>
       </article>
 
@@ -417,12 +490,20 @@
     pSub: ["In the 90s almost everything happened on Dominaria. Today each set visits a different world.", "Nos anos 90 quase tudo se passava em Dominaria. Hoje cada coleção visita um mundo diferente."],
     pPlanes: ["Planes worth knowing", "Planos que vale conhecer"], pWalkers: ["Planeswalkers worth knowing", "Planeswalkers que vale conhecer"],
     cK: ["The color pie", "A roda de cores"], cH: ["Five colors, five philosophies", "Cinco cores, cinco filosofias"],
-    cSub: ["Pick one color to see what it does. Pick two to see the pair and its Ravnica guild name, which players use as shorthand.", "Escolha uma cor para ver o que ela faz. Escolha duas para ver o par e o nome da guilda de Ravnica, que os jogadores usam como apelido."],
+    cSub: ["Pick one color for its strengths, weaknesses and best partners. Pick two for the pair and its Ravnica guild name. Pick three for the shard or wedge.", "Escolha uma cor para ver pontos fortes, fracos e melhores parceiras. Escolha duas para ver o par e o nome da guilda de Ravnica. Escolha três para ver o fragmento ou a cunha."],
+    cLegend: ["<span class='text-gold-soft'>━</span> allied (neighbors) · <span style='color:#a678e0'>┅</span> enemy (opposite)", "<span class='text-gold-soft'>━</span> aliadas (vizinhas) · <span style='color:#a678e0'>┅</span> inimigas (opostas)"],
+    cMx: ["Who does what", "Quem faz o quê"],
+    cMxS: ["The color pie in one table: what each color is allowed to do. Building a two-color deck is mostly about filling the empty cells.", "A roda de cores em uma tabela: o que cada cor pode fazer. Montar um baralho de duas cores é, em grande parte, preencher as células vazias."],
+    cSrc: ["● main strength · ◐ can do it, with limits · – rarely or never. Based on Mark Rosewater's “Mechanical Color Pie 2017”; details have shifted a little since.", "● ponto forte · ◐ faz, com limites · – raramente ou nunca. Baseado no “Mechanical Color Pie 2017” de Mark Rosewater; detalhes mudaram um pouco desde então."],
+    nSets: ["Sets", "Coleções"],
+    zK: ["Sets", "Coleções"], zH: ["Every set since 1993", "Todas as coleções desde 1993"],
+    zSub: ["You left around a dozen sets in. There are hundreds now, but only a few kinds. Learn the kinds, then browse.", "Você saiu quando havia uma dúzia de coleções. Hoje são centenas, mas de poucos tipos. Entenda os tipos e depois navegue."],
+    zSrc: ["List and dates from Gatherer, Wizards' official card database (release dates for Coldsnap and Ixalan corrected). Each tile opens the set there.", "Lista e datas do Gatherer, o banco de cartas oficial da Wizards (datas de Coldsnap e Ixalan corrigidas). Cada item abre a coleção lá."],
+    aBorder: ["White border", "Borda branca"], aSymbol: ["No set symbol", "Sem símbolo de coleção"],
+    aGath: ["See the real card on Gatherer ↗", "Veja a carta real no Gatherer ↗"],
     gK: ["The modern veteran's guide", "Guia do veterano moderno"], gH: ["Rules and mechanics, today", "Regras e mecânicas, hoje"],
     gSub: ["Tap things. Everything here is interactive.", "Toque nos elementos. Tudo aqui é interativo."],
-    g1: ["1 · Card anatomy", "1 · Anatomia da carta"], g1s: ["Click a part of the card.", "Clique em uma parte da carta."],
-    aName: ["Veteran Mage", "Mago Veterano"], aType: ["Creature — Human Wizard", "Criatura — Humano Mago"],
-    aText: ["Flying<br><em class='text-mute'>When this enters, draw a card.</em>", "Voar<br><em class='text-mute'>Quando esta criatura entra, compre um card.</em>"],
+    g1: ["1 · Card anatomy", "1 · Anatomia da carta"], g1s: ["Abomination, Fourth Edition (1995), in the frame you remember. Click a part of the card.", "Abomination, Quarta Edição (1995), na moldura que você lembra. Clique em uma parte da carta."],
     g2: ["2 · Card types", "2 · Tipos de carta"], g2s: ["Eight types today. Two of them did not exist in the 90s.", "Oito tipos hoje. Dois deles não existiam nos anos 90."],
     g3: ["3 · Turn structure & the Stack", "3 · Turno e a Pilha"], g3s: ["Five phases. Tap one.", "Cinco fases. Toque em uma."],
     stH: ["The Stack (it replaced Interrupts and batches)", "A Pilha (substituiu Interrupts e lotes)"],
@@ -686,73 +767,180 @@
   ========================================================= */
   const ORDER = "wubrg";
   const COLORS = {
-    w: { n: ["White", "Branco"], v: ["Order, community, justice", "Ordem, comunidade, justiça"], g: ["Small efficient creatures, lifegain, removal for anything, board wipes.", "Criaturas pequenas e eficientes, ganho de vida, remoção para tudo, limpezas de mesa."], b: ["Struggles to draw cards.", "Tem dificuldade para comprar cartas."] },
-    u: { n: ["Blue", "Azul"], v: ["Knowledge, reason, perfection", "Conhecimento, razão, perfeição"], g: ["Card draw, counterspells, bounce, flyers, milling the opponent's library.", "Compra de cartas, contramágicas, devolver à mão, voadores, triturar o grimório do oponente."], b: ["Weakest creatures; awkward against threats already on the battlefield.", "Criaturas mais fracas; lida mal com ameaças que já estão no campo."] },
-    b: { n: ["Black", "Preto"], v: ["Power at any price", "Poder a qualquer preço"], g: ["Best creature removal, discard, graveyard recursion, trading life for cards.", "Melhor remoção de criaturas, descarte, reciclagem do cemitério, troca de vida por cartas."], b: ["Pays in life and sacrifices; weak against artifacts and enchantments.", "Paga com vida e sacrifícios; fraco contra artefatos e encantamentos."] },
-    r: { n: ["Red", "Vermelho"], v: ["Impulse, freedom, emotion", "Impulso, liberdade, emoção"], g: ["Fast aggressive creatures, haste, direct damage (burn), chaos.", "Criaturas rápidas e agressivas, ímpeto, dano direto (burn), caos."], b: ["Runs out of gas in long games; big creatures survive its burn.", "Fica sem recursos em jogos longos; criaturas grandes sobrevivem ao seu dano."] },
-    g: { n: ["Green", "Verde"], v: ["Nature, growth, instinct", "Natureza, crescimento, instinto"], g: ["The biggest creatures for the cost, mana acceleration (ramp), fight effects.", "As maiores criaturas pelo custo, aceleração de mana (ramp), efeitos de luta."], b: ["Nearly everything depends on having creatures in play.", "Quase tudo depende de ter criaturas em jogo."] }
+    w: { n: ["White", "Branco"], v: ["Order, community, justice", "Ordem, comunidade, justiça"],
+      p: ["White wants peace through structure: laws, armies and the good of the group over the individual.", "O branco quer paz por meio da estrutura: leis, exércitos e o bem do grupo acima do indivíduo."],
+      g: [["Small, efficient creatures and tokens that strengthen each other", "Criaturas pequenas e eficientes e fichas que se fortalecem"], ["Flexible removal: exile, Pacifism-style Auras, punishing attackers", "Remoção flexível: exílio, Auras estilo Pacifismo, punir atacantes"], ["Board wipes that destroy every creature", "Limpezas de mesa que destroem todas as criaturas"], ["Destroys enchantments, and often artifacts", "Destrói encantamentos e, muitas vezes, artefatos"], ["Life gain, protection and damage prevention", "Ganho de vida, proteção e prevenção de dano"]],
+      b: [["The worst color at drawing cards", "A pior cor para comprar cartas"], ["No mana acceleration and no damage to players", "Sem aceleração de mana e sem dano direto ao jogador"], ["Its removal is often conditional or gives something back", "A remoção costuma ser condicional ou devolver algo ao oponente"]],
+      k: ["Flying, First strike, Vigilance, Lifelink", "Voar, Iniciativa, Vigilância, Vínculo com a vida"], t: ["Soldiers, Knights, Angels, Clerics", "Soldados, Cavaleiros, Anjos, Clérigos"],
+      m: "Swords to Plowshares · Wrath of God · Serra Angel",
+      fix: [["u", ["Blue draws the cards white cannot and protects the board with counterspells.", "O azul compra as cartas que o branco não consegue e protege a mesa com contramágicas."]], ["b", ["Black adds unconditional creature kills and card advantage.", "O preto traz remoção incondicional de criaturas e vantagem de cartas."]]] },
+    u: { n: ["Blue", "Azul"], v: ["Knowledge, reason, perfection", "Conhecimento, razão, perfeição"],
+      p: ["Blue wants to know everything and control what happens. It wins by having more options than you.", "O azul quer saber tudo e controlar o que acontece. Vence por ter mais opções que você."],
+      g: [["The best card draw and card selection", "A melhor compra e seleção de cartas"], ["Counterspells: stops things before they exist", "Contramágicas: impede as coisas antes de existirem"], ["Bounce, tapping and freezing permanents", "Devolver à mão, virar e congelar permanentes"], ["Flyers and unblockable creatures", "Voadores e criaturas imbloqueáveis"], ["Steals and copies; mill and extra turns", "Rouba e copia; mill e turnos extras"]],
+      b: [["Cannot destroy a permanent that already landed: only bounce or steal it", "Não destrói uma permanente que já entrou: só devolve ou rouba"], ["Smallest creatures for the cost", "As menores criaturas pelo custo"], ["No life gain and no direct damage", "Sem ganho de vida e sem dano direto"]],
+      k: ["Flying, Flash, Prowess, Scry", "Voar, Lampejo, Destreza, Vidência"], t: ["Wizards, Merfolk, Sphinxes, Djinn", "Magos, Tritões, Esfinges, Djinns"],
+      m: "Counterspell · Ancestral Recall · Control Magic",
+      fix: [["w", ["White permanently removes what slipped past the counterspells.", "O branco remove de vez o que escapou das contramágicas."]], ["r", ["Red's burn kills the creatures blue can only bounce.", "O dano do vermelho mata as criaturas que o azul só devolve."]]] },
+    b: { n: ["Black", "Preto"], v: ["Power at any price", "Poder a qualquer preço"],
+      p: ["Black wants power and will pay anything for it: life, creatures, cards. Not evil, just amoral.", "O preto quer poder e paga qualquer preço por ele: vida, criaturas, cartas. Não é mau, é amoral."],
+      g: [["The best creature and planeswalker removal", "A melhor remoção de criaturas e planeswalkers"], ["Discard: attacks the opponent's hand", "Descarte: ataca a mão do oponente"], ["Brings creatures back from the graveyard", "Traz criaturas de volta do cemitério"], ["Tutors: searches the library for any card", "Tutores: busca qualquer carta no grimório"], ["Trades life for cards; drains the opponent", "Troca vida por cartas; drena o oponente"]],
+      b: [["Almost helpless against artifacts and enchantments", "Quase indefeso contra artefatos e encantamentos"], ["Pays with its own life and creatures", "Paga com a própria vida e as próprias criaturas"], ["No counterspells, no bounce", "Sem contramágicas, sem devolver à mão"]],
+      k: ["Deathtouch, Menace, Lifelink, Flying", "Toque mortífero, Ameaçar, Vínculo com a vida, Voar"], t: ["Zombies, Vampires, Demons, Rats", "Zumbis, Vampiros, Demônios, Ratos"],
+      m: "Dark Ritual · Terror · Hypnotic Specter",
+      fix: [["g", ["Green destroys the artifacts and enchantments black cannot touch.", "O verde destrói os artefatos e encantamentos que o preto não alcança."]], ["w", ["White handles enchantments and gains back the life black spends.", "O branco cuida de encantamentos e recupera a vida que o preto gasta."]]] },
+    r: { n: ["Red", "Vermelho"], v: ["Impulse, freedom, emotion", "Impulso, liberdade, emoção"],
+      p: ["Red acts on feeling, now. It wants freedom and wins before you have set up.", "O vermelho age pela emoção, agora. Quer liberdade e vence antes de você se armar."],
+      g: [["Direct damage (burn) to creatures and players", "Dano direto (burn) em criaturas e jogadores"], ["Fast creatures: haste, first strike, double strike", "Criaturas rápidas: ímpeto, iniciativa, golpe duplo"], ["Destroys artifacts and lands", "Destrói artefatos e terrenos"], ["Bursts of temporary mana; steals a creature for a turn", "Explosões de mana temporária; rouba uma criatura por um turno"], ["“Impulsive” draw: exile cards, play them this turn", "Compra “impulsiva”: exila cartas para jogar neste turno"]],
+      b: [["Cannot remove enchantments", "Não remove encantamentos"], ["Runs out of cards in long games", "Fica sem cartas em jogos longos"], ["High-toughness creatures survive its burn; no life gain", "Criaturas de resistência alta sobrevivem ao dano; sem ganho de vida"]],
+      k: ["Haste, First strike, Trample, Menace", "Ímpeto, Iniciativa, Atropelar, Ameaçar"], t: ["Goblins, Dragons, Elementals, Phoenixes", "Goblins, Dragões, Elementais, Fênix"],
+      m: "Lightning Bolt · Fireball · Shivan Dragon",
+      fix: [["u", ["Blue's card draw keeps red from running out of gas.", "A compra do azul impede o vermelho de ficar sem gás."]], ["b", ["Black kills the big creatures that burn cannot.", "O preto mata as criaturas grandes que o dano não resolve."]]] },
+    g: { n: ["Green", "Verde"], v: ["Nature, growth, instinct", "Natureza, crescimento, instinto"],
+      p: ["Green trusts nature and growth. It plays more lands, then bigger creatures than anyone.", "O verde confia na natureza e no crescimento. Joga mais terrenos e depois criaturas maiores que as de todos."],
+      g: [["The biggest creatures for the cost", "As maiores criaturas pelo custo"], ["Mana acceleration (ramp): extra lands, mana creatures", "Aceleração de mana (ramp): terrenos extras, criaturas de mana"], ["Destroys artifacts and enchantments", "Destrói artefatos e encantamentos"], ["Pump spells, trample, reach and hate for flyers", "Mágicas de aumento, atropelar, alcance e ódio a voadores"], ["Returns any card from the graveyard; gains life", "Recupera qualquer carta do cemitério; ganha vida"]],
+      b: [["Its creature removal needs its own creatures (fight)", "A remoção de criaturas depende das próprias criaturas (luta)"], ["No flyers, no counterspells, no discard", "Sem voadores, sem contramágicas, sem descarte"], ["A board wipe undoes most of its game", "Uma limpeza de mesa desfaz quase todo o seu jogo"]],
+      k: ["Trample, Reach, Hexproof, Fight", "Atropelar, Alcance, Resistência a magia, Lutar"], t: ["Elves, Beasts, Wurms, Hydras", "Elfos, Bestas, Vormes, Hidras"],
+      m: "Llanowar Elves · Giant Growth · Craw Wurm",
+      fix: [["b", ["Black adds clean creature removal that needs no fight.", "O preto traz remoção limpa de criaturas, sem precisar lutar."]], ["u", ["Blue adds card draw and flyers.", "O azul traz compra de cartas e voadores."]]] }
   };
+  // [guild, play style, what it does, why it works, watch out]
   const PAIRS = {
-    wu: ["Azorius", ["Control: counterspells and card draw backed by white removal. Also flyers.", "Controle: contramágicas e compra de cartas com remoção branca. Também voadores."]],
-    ub: ["Dimir", ["The sneaky pair: removal, discard, mill, rogues and ninjas.", "O par traiçoeiro: remoção, descarte, mill, ladinos e ninjas."]],
-    br: ["Rakdos", ["Aggressive and ruthless: burn, sacrifice, discard.", "Agressivo e impiedoso: dano direto, sacrifício, descarte."]],
-    rg: ["Gruul", ["Big creatures, fast. Dinosaurs and dragons with haste.", "Criaturas grandes, rápido. Dinossauros e dragões com ímpeto."]],
-    wg: ["Selesnya", ["Creatures everywhere: armies of tokens that pump each other.", "Criaturas por toda parte: exércitos de fichas que se fortalecem."]],
-    wb: ["Orzhov", ["Drain and grind: lifegain, sacrifice and creatures that come back.", "Drenar e desgastar: ganho de vida, sacrifício e criaturas que voltam."]],
-    ur: ["Izzet", ["Spellslinger: lots of instants and sorceries, with creatures that reward casting them.", "Spellslinger: muitas mágicas instantâneas e feitiços, com criaturas que premiam conjurá-las."]],
-    bg: ["Golgari", ["The graveyard as a second hand: grow, die, return.", "O cemitério como segunda mão: crescer, morrer, voltar."]],
-    wr: ["Boros", ["The army: go wide, attack every turn, equipment and combat tricks.", "O exército: muitas criaturas, atacar todo turno, equipamentos e truques de combate."]],
-    ug: ["Simic", ["Ramp and card draw: more lands, more cards, bigger things.", "Ramp e compra: mais terrenos, mais cartas, coisas maiores."]]
+    wu: ["Azorius", ["Control · flyers", "Controle · voadores"], ["Counterspells and card draw backed by white removal and board wipes.", "Contramágicas e compra de cartas apoiadas pela remoção e pelas limpezas de mesa do branco."], ["Blue draws what white cannot; white permanently answers what blue can only delay.", "O azul compra o que o branco não consegue; o branco resolve de vez o que o azul só atrasa."], ["Slow to win; fast aggressive decks can run it over.", "Demora para vencer; baralhos agressivos rápidos podem atropelá-lo."]],
+    ub: ["Dimir", ["Control · tempo", "Controle · tempo"], ["Removal, discard, counterspells and mill. Rogues and ninjas.", "Remoção, descarte, contramágicas e mill. Ladinos e ninjas."], ["Blue stops it on the stack, black kills it on the battlefield, and both draw cards.", "O azul para na pilha, o preto mata no campo, e os dois compram cartas."], ["No good answer to artifacts and enchantments.", "Sem boa resposta para artefatos e encantamentos."]],
+    br: ["Rakdos", ["Aggro · sacrifice", "Agressivo · sacrifício"], ["Burn, sacrifice and discard. Ruthless and fast.", "Dano direto, sacrifício e descarte. Impiedoso e rápido."], ["Black removes blockers of any size; red's burn finishes the game.", "O preto remove bloqueadores de qualquer tamanho; o dano do vermelho fecha o jogo."], ["Neither color can remove an enchantment.", "Nenhuma das duas cores remove um encantamento."]],
+    rg: ["Gruul", ["Aggro · big creatures", "Agressivo · criaturas grandes"], ["Big creatures, fast. Ramp into dinosaurs and dragons with haste.", "Criaturas grandes, rápido. Acelere para dinossauros e dragões com ímpeto."], ["Green brings size and mana; red brings haste and burn to clear the way.", "O verde traz tamanho e mana; o vermelho traz ímpeto e dano para abrir caminho."], ["Little card draw; a board wipe hurts badly.", "Pouca compra de cartas; uma limpeza de mesa dói muito."]],
+    wg: ["Selesnya", ["Go wide · tokens", "Muitas criaturas · fichas"], ["Creatures everywhere: armies of tokens that pump each other.", "Criaturas por toda parte: exércitos de fichas que se fortalecem."], ["The two best creature colors, and both destroy artifacts and enchantments.", "As duas melhores cores de criaturas, e ambas destroem artefatos e encantamentos."], ["Almost no card draw; weak to board wipes.", "Quase nenhuma compra de cartas; fraco contra limpezas de mesa."]],
+    wb: ["Orzhov", ["Midrange · drain", "Midrange · dreno"], ["Lifegain, sacrifice and creatures that come back. Grinds you down.", "Ganho de vida, sacrifício e criaturas que voltam. Vence pelo desgaste."], ["The widest removal in the game: together they answer every kind of permanent.", "A remoção mais ampla do jogo: juntas respondem a todo tipo de permanente."], ["Slow, with no way to speed up its mana.", "Lento, sem como acelerar a mana."]],
+    ur: ["Izzet", ["Spells · tempo", "Mágicas · tempo"], ["Lots of instants and sorceries, with creatures that reward casting them.", "Muitas instantâneas e feitiços, com criaturas que premiam conjurá-las."], ["Blue refills the hand red empties; red kills the creatures blue cannot.", "O azul repõe a mão que o vermelho esvazia; o vermelho mata as criaturas que o azul não mata."], ["Few creatures; enchantments are a problem.", "Poucas criaturas; encantamentos são um problema."]],
+    bg: ["Golgari", ["Midrange · graveyard", "Midrange · cemitério"], ["The graveyard as a second hand: grow, die, return.", "O cemitério como segunda mão: crescer, morrer, voltar."], ["Black kills creatures, green kills artifacts and enchantments: an answer for everything.", "O preto mata criaturas, o verde mata artefatos e encantamentos: resposta para tudo."], ["No flyers and no counterspells.", "Sem voadores e sem contramágicas."]],
+    wr: ["Boros", ["Aggro · army", "Agressivo · exército"], ["Go wide, attack every turn, equipment and combat tricks.", "Muitas criaturas, atacar todo turno, equipamentos e truques de combate."], ["White's cheap creatures plus red's burn make the fastest starts in the game.", "As criaturas baratas do branco e o dano do vermelho fazem os inícios mais rápidos do jogo."], ["The two worst colors at drawing cards: it must win early.", "As duas piores cores para comprar cartas: precisa vencer cedo."]],
+    ug: ["Simic", ["Ramp · value", "Ramp · valor"], ["More lands, more cards, bigger things.", "Mais terrenos, mais cartas, coisas maiores."], ["Green makes the mana and blue fills the hand, so it never runs out of plays.", "O verde faz a mana e o azul enche a mão, então nunca faltam jogadas."], ["Very little removal.", "Pouquíssima remoção."]]
   };
+  // [name, shard or wedge, description]
+  const TRIOS = {
+    wub: ["Esper", 0, ["Control with artifacts: counterspells, removal and board wipes.", "Controle com artefatos: contramágicas, remoção e limpezas de mesa."]],
+    ubr: ["Grixis", 0, ["Control that kills everything, then wins with one big threat. Reanimation.", "Controle que mata tudo e vence com uma grande ameaça. Reanimação."]],
+    brg: ["Jund", 0, ["Midrange: the best removal plus efficient creatures. Trades one for one, then out-values you.", "Midrange: a melhor remoção com criaturas eficientes. Troca um por um e vence no valor."]],
+    wrg: ["Naya", 0, ["Creatures, big and many. Ramp into the largest board.", "Criaturas, grandes e muitas. Acelere para a maior mesa."]],
+    wug: ["Bant", 0, ["Efficient creatures protected by counterspells; ramp and value.", "Criaturas eficientes protegidas por contramágicas; ramp e valor."]],
+    wbg: ["Abzan", 1, ["Tough midrange: +1/+1 counters, removal for anything, graveyard value.", "Midrange resistente: marcadores +1/+1, remoção para tudo, valor do cemitério."]],
+    wur: ["Jeskai", 1, ["Spells and tempo: burn, counterspells and creatures that grow when you cast them.", "Mágicas e tempo: dano, contramágicas e criaturas que crescem quando você conjura."]],
+    ubg: ["Sultai", 1, ["Graveyard, ramp and control. Slow, greedy and powerful.", "Cemitério, ramp e controle. Lento, ganancioso e poderoso."]],
+    wbr: ["Mardu", 1, ["Aggressive: tokens, sacrifice, removal and burn.", "Agressivo: fichas, sacrifício, remoção e dano."]],
+    urg: ["Temur", 1, ["Ramp into big spells and big creatures, with burn and card draw.", "Acelere para mágicas e criaturas grandes, com dano e compra."]]
+  };
+  const MATRIX = [
+    [["Card draw", "Compra de cartas"], "02111"], [["Creature removal", "Remoção de criaturas"], "20221"], [["Artifact removal", "Remoção de artefatos"], "10022"],
+    [["Enchantment removal", "Remoção de encantamentos"], "20002"], [["Counterspells", "Contramágicas"], "02000"], [["Damage to players", "Dano ao jogador"], "00120"],
+    [["Mana acceleration", "Aceleração de mana"], "00112"], [["Flying creatures", "Criaturas voadoras"], "22110"], [["Life gain", "Ganho de vida"], "20102"],
+    [["Discard", "Descarte"], "00200"], [["Graveyard recursion", "Reciclar o cemitério"], "10212"]
+  ];
+  const WPOS = { w: [150, 42], u: [254, 118], b: [214, 240], r: [86, 240], g: [46, 118] };
+  const sortKey = a => [...a].sort((x, y) => ORDER.indexOf(x) - ORDER.indexOf(y)).join("");
+  const isAllied = (a, b) => { const d = Math.abs(ORDER.indexOf(a) - ORDER.indexOf(b)); return d === 1 || d === 4; };
+  const cname = c => `<span class="inline-flex items-center gap-1.5 align-middle"><span class="pip pip-${c}" style="width:1rem;height:1rem;font-size:.55rem">${c.toUpperCase()}</span>${tr(COLORS[c].n)}</span>`;
   let csel = ["w"];
   function renderColors() {
-    $("#colorPips").innerHTML = [...ORDER].map(c => `<button class="pip pip-${c} pip-lg" data-c="${c}" aria-pressed="${csel.includes(c)}" aria-label="${tr(COLORS[c].n)}">${c.toUpperCase()}</button>`).join("");
-    $$("#colorPips button").forEach(b => b.addEventListener("click", () => {
+    let lines = "";
+    for (let i = 0; i < 5; i++) for (let j = i + 1; j < 5; j++) {
+      const a = ORDER[i], b = ORDER[j], al = isAllied(a, b), on = csel.includes(a) && csel.includes(b);
+      lines += `<line x1="${WPOS[a][0]}" y1="${WPOS[a][1]}" x2="${WPOS[b][0]}" y2="${WPOS[b][1]}" stroke="${al ? "#c9a24b" : "#a678e0"}" stroke-width="${on ? 4 : 1.5}" stroke-opacity="${on ? 1 : .4}"${al ? "" : ' stroke-dasharray="6 5"'}/>`;
+    }
+    $("#colorWheel").innerHTML = `<svg viewBox="0 0 300 290" class="absolute inset-0 w-full h-full" aria-hidden="true">${lines}</svg>` +
+      [...ORDER].map(c => `<button class="pip pip-${c} pip-lg wheel-btn" style="left:${WPOS[c][0]}px;top:${WPOS[c][1]}px" data-c="${c}" aria-pressed="${csel.includes(c)}" aria-label="${tr(COLORS[c].n)}">${c.toUpperCase()}</button>`).join("");
+    $$("#colorWheel button").forEach(b => b.addEventListener("click", () => {
       const c = b.dataset.c;
       if (csel.includes(c)) { if (csel.length > 1) csel = csel.filter(x => x !== c); }
-      else { csel.push(c); if (csel.length > 2) csel.shift(); }
+      else { csel.push(c); if (csel.length > 3) csel.shift(); }
       renderColors();
     }));
     const body = $("#colorBody");
+    const box = (title, inner) => `<div class="rounded-xl border border-line bg-void/40 p-4"><p class="text-gold text-xs uppercase tracking-widest mb-2">${title}</p>${inner}</div>`;
+    const ul = (items, mark) => `<ul class="space-y-1.5 text-sm text-parch/90">${items.map(x => `<li class="flex gap-2"><span class="text-gold flex-none">${mark}</span><span>${tr(x)}</span></li>`).join("")}</ul>`;
     if (csel.length === 1) {
-      const c = COLORS[csel[0]];
-      body.innerHTML = `<div class="step max-w-2xl mx-auto text-center">
+      const k = csel[0], c = COLORS[k];
+      const allies = [...ORDER].filter(x => x !== k && isAllied(k, x)), foes = [...ORDER].filter(x => x !== k && !isAllied(k, x));
+      body.innerHTML = `<div class="step">
         <h3 class="font-display text-3xl gold-text">${tr(c.n)}</h3>
-        <p class="font-serif italic text-xl text-parch mt-1 mb-6">${tr(c.v)}</p>
-        <div class="grid sm:grid-cols-2 gap-4 text-left text-sm">
-          <div class="rounded-xl border border-line bg-void/40 p-4"><p class="text-gold text-xs uppercase tracking-widest mb-2">${tr(["Good at", "Bom em"])}</p><p class="text-parch/90 leading-relaxed">${tr(c.g)}</p></div>
-          <div class="rounded-xl border border-line bg-void/40 p-4"><p class="text-gold text-xs uppercase tracking-widest mb-2">${tr(["Weak spot", "Ponto fraco"])}</p><p class="text-parch/90 leading-relaxed">${tr(c.b)}</p></div>
-        </div></div>`;
-    } else {
-      const key = [...csel].sort((a, b) => ORDER.indexOf(a) - ORDER.indexOf(b)).join("");
-      const p = PAIRS[key];
-      const i0 = ORDER.indexOf(key[0]), i1 = ORDER.indexOf(key[1]);
-      const allied = (i1 - i0 === 1) || (i1 - i0 === 4);
-      body.innerHTML = `<div class="step max-w-2xl mx-auto text-center">
+        <p class="font-serif italic text-xl text-parch mt-1">${tr(c.v)}</p>
+        <p class="text-sm text-mute mt-2 mb-5">${tr(c.p)}</p>
+        <div class="grid sm:grid-cols-2 gap-4">
+          ${box(tr(["Strengths", "Pontos fortes"]), ul(c.g, "+"))}
+          ${box(tr(["Weaknesses", "Pontos fracos"]), ul(c.b, "−"))}
+        </div>
+        <dl class="grid grid-cols-[auto_1fr] gap-x-4 gap-y-1.5 text-sm mt-5">
+          <dt class="text-mute">${tr(["Keywords", "Palavras-chave"])}</dt><dd>${tr(c.k)}</dd>
+          <dt class="text-mute">${tr(["Creatures", "Criaturas"])}</dt><dd>${tr(c.t)}</dd>
+          <dt class="text-mute">${tr(["You remember", "Você lembra de"])}</dt><dd class="font-serif italic text-base">${c.m}</dd>
+          <dt class="text-mute">${tr(["Allies", "Aliadas"])}</dt><dd class="flex flex-wrap gap-x-4">${allies.map(cname).join("")}</dd>
+          <dt class="text-mute">${tr(["Enemies", "Inimigas"])}</dt><dd class="flex flex-wrap gap-x-4">${foes.map(cname).join("")}</dd>
+        </dl>
+        <p class="text-gold text-xs uppercase tracking-widest mt-6 mb-2">${tr(["Best partners: they cover its gaps", "Melhores parceiras: cobrem suas falhas"])}</p>
+        <div class="grid sm:grid-cols-2 gap-3">${c.fix.map(([o, why]) => `<button class="opt !p-3 text-sm" data-pair="${o}"><span class="font-semibold text-gold-soft">${PAIRS[sortKey([k, o])][0]}</span> · ${cname(o)}<br><span class="text-parch/80">${tr(why)}</span></button>`).join("")}</div>
+      </div>`;
+      $$("#colorBody [data-pair]").forEach(b => b.addEventListener("click", () => { csel = [k, b.dataset.pair]; renderColors(); }));
+    } else if (csel.length === 2) {
+      const key = sortKey(csel), p = PAIRS[key], allied = isAllied(key[0], key[1]);
+      body.innerHTML = `<div class="step">
         <p class="text-gold text-xs uppercase tracking-widest mb-2">${tr(COLORS[key[0]].n)} + ${tr(COLORS[key[1]].n)} · ${tr(allied ? ["allied colors", "cores aliadas"] : ["enemy colors", "cores inimigas"])}</p>
-        <h3 class="font-display text-3xl gold-text mb-4">${p[0]}</h3>
-        <p class="text-parch/90 leading-relaxed mb-5">${tr(p[1])}</p>
-        <p class="text-xs text-mute">${tr(["Allied or enemy is a matter of philosophy. In play, every pair is equally well supported.", "Aliadas ou inimigas é questão de filosofia. No jogo, todos os pares têm o mesmo suporte."])}</p></div>`;
+        <h3 class="font-display text-3xl gold-text">${p[0]}</h3>
+        <p class="font-serif italic text-xl text-parch mt-1 mb-4">${tr(p[1])}</p>
+        <p class="text-parch/90 leading-relaxed mb-5">${tr(p[2])}</p>
+        <div class="grid sm:grid-cols-2 gap-4">
+          ${box(tr(["Why it works", "Por que funciona"]), `<p class="text-sm text-parch/90">${tr(p[3])}</p>`)}
+          ${box(tr(["Watch out", "Cuidado"]), `<p class="text-sm text-parch/90">${tr(p[4])}</p>`)}
+        </div>
+        <div class="grid sm:grid-cols-2 gap-4 mt-4">
+          ${[...key].map(c => box(`${tr(COLORS[c].n)} ${tr(["brings", "traz"])}`, ul(COLORS[c].g.slice(0, 3), "+"))).join("")}
+        </div>
+        <p class="text-xs text-mute mt-5">${tr(["Allied or enemy is about philosophy. In play, all ten pairs are equally well supported. Pick a third color to see the trio.", "Aliadas ou inimigas é questão de filosofia. No jogo, os dez pares têm o mesmo suporte. Escolha uma terceira cor para ver o trio."])}</p></div>`;
+    } else {
+      const key = sortKey(csel), t = TRIOS[key];
+      body.innerHTML = `<div class="step">
+        <p class="text-gold text-xs uppercase tracking-widest mb-2">${[...key].map(c => tr(COLORS[c].n)).join(" + ")} · ${tr(t[1] ? ["wedge", "cunha"] : ["shard", "fragmento"])}</p>
+        <h3 class="font-display text-3xl gold-text mb-4">${t[0]}</h3>
+        <p class="text-parch/90 leading-relaxed mb-5">${tr(t[2])}</p>
+        <div class="grid sm:grid-cols-3 gap-3">${[[0, 1], [0, 2], [1, 2]].map(([i, j]) => { const pk = key[i] + key[j]; return `<button class="opt !p-3 text-sm" data-two="${pk}"><span class="font-semibold text-gold-soft">${PAIRS[pk][0]}</span><br><span class="text-parch/80">${tr(PAIRS[pk][1])}</span></button>`; }).join("")}</div>
+        <p class="text-xs text-mute mt-5">${tr(t[1]
+          ? ["A wedge is one color plus its two enemies. The names come from the clans of Tarkir (2014).", "Uma cunha é uma cor mais as suas duas inimigas. Os nomes vêm dos clãs de Tarkir (2014)."]
+          : ["A shard is one color plus its two allies. The names come from the shards of Alara (2008).", "Um fragmento é uma cor mais as suas duas aliadas. Os nomes vêm dos fragmentos de Alara (2008)."])} ${tr(["Three colors give more power and a shakier mana base. Start with two.", "Três cores dão mais poder e uma base de mana mais instável. Comece com duas."])}</p></div>`;
+      $$("#colorBody [data-two]").forEach(b => b.addEventListener("click", () => { csel = [...b.dataset.two]; renderColors(); }));
     }
+    const sym = ["–", "◐", "●"];
+    $("#colorMatrix").innerHTML = `<thead><tr><th></th>${[...ORDER].map(c => `<th><span class="pip pip-${c}" title="${tr(COLORS[c].n)}">${c.toUpperCase()}</span></th>`).join("")}</tr></thead><tbody>` +
+      MATRIX.map(([label, lv]) => `<tr><td class="text-parch/90">${tr(label)}</td>${[...lv].map((v, i) => `<td class="lv${v}${csel.includes(ORDER[i]) ? " bg-gold/10" : ""}">${sym[v]}</td>`).join("")}</tr>`).join("") + "</tbody>";
   }
 
   /* =========================================================
      GUIDE
   ========================================================= */
   const ANAT = {
-    name: [["Name", "Nome"], ["Identifies the card. In Commander you may run only one card with each name (basic lands aside).", "Identifica a carta. No Commander você só pode ter uma carta de cada nome (fora os terrenos básicos)."]],
-    cost: [["Mana cost and mana value", "Custo de mana e valor de mana"], ["The symbols are the cost. Their total is the <strong>mana value</strong>, the current name for “converted mana cost”. Here: 2 generic + 1 blue = <strong>3</strong>.", "Os símbolos são o custo. A soma é o <strong>valor de mana</strong>, nome atual do “custo de mana convertido”. Aqui: 2 genéricos + 1 azul = <strong>3</strong>."]],
-    type: [["Type line", "Linha de tipo"], ["Card type first, subtypes after the dash. Old cards said “Summon Wizard”; today it is “Creature — Human Wizard”. Subtypes matter for “typal” decks (elves, goblins, zombies).", "Primeiro o tipo, depois do traço os subtipos. Cartas antigas diziam “Summon Wizard”; hoje é “Criatura — Humano Mago”. Subtipos importam em baralhos tribais (elfos, goblins, zumbis)."]],
-    text: [["Text box", "Caixa de texto"], ["Abilities. Keywords like Flying compress long rules. Italic text in parentheses is a reminder; italic text alone is flavor.", "Habilidades. Palavras-chave como Voar resumem regras longas. Itálico entre parênteses é lembrete; itálico solto é ambientação."]],
-    pt: [["Power / Toughness", "Poder / Resistência"], ["Damage the creature deals and damage needed to destroy it. Damage wears off at end of turn. Planeswalkers show loyalty here instead.", "Dano que a criatura causa e dano necessário para destruí-la. O dano some no fim do turno. Planeswalkers mostram lealdade aqui."]]
+    name: [["Name", "Nome"], ["Top left. Identifies the card. In Commander you may run only one card with each name (basic lands aside).", "No canto superior esquerdo. Identifica a carta. No Commander você só pode ter uma carta de cada nome (fora os terrenos básicos)."]],
+    cost: [["Mana cost and mana value", "Custo de mana e valor de mana"], ["Top right. Three mana of any color plus one black. The total is the <strong>mana value</strong>, the current name for “converted mana cost”: here, <strong>4</strong>. The colored symbols also make this a black card.", "No canto superior direito. Três manas de qualquer cor mais uma preta. A soma é o <strong>valor de mana</strong>, nome atual do “custo de mana convertido”: aqui, <strong>4</strong>. Os símbolos coloridos também fazem desta uma carta preta."]],
+    art: [["Art and frame", "Arte e moldura"], ["This is the 1993–2003 frame you remember. The frame was redesigned in 2003 (Eighth Edition) and adjusted in 2015. Old-frame “retro” printings are popular again, so you will still see this look in new packs.", "Esta é a moldura de 1993–2003 que você lembra. Ela foi redesenhada em 2003 (Oitava Edição) e ajustada em 2015. Impressões “retrô” na moldura antiga voltaram à moda, então você ainda vê este visual em boosters novos."]],
+    type: [["Type line", "Linha de tipo"], ["Printed as “Summon Abomination”. Since Sixth Edition (1999) the line reads “Creature — subtype”, and this card is now officially <strong>Creature — Horror</strong>. Subtypes matter for “typal” decks (elves, goblins, zombies).", "Impressa como “Summon Abomination”. Desde a Sexta Edição (1999) a linha diz “Criatura — subtipo”, e esta carta hoje é oficialmente <strong>Creature — Horror</strong>. Subtipos importam em baralhos tribais (elfos, goblins, zumbis)."]],
+    text: [["Text box", "Caixa de texto"], ["What the card does. The wording shown is the current <strong>Oracle text</strong> from Gatherer, which overrides whatever is printed on an old card; the 1995 printing was worded differently. Italic text in parentheses is a reminder, italic text alone is flavor.", "O que a carta faz. O texto mostrado é o <strong>texto Oracle</strong> atual do Gatherer, que vale mais do que o impresso numa carta antiga; a impressão de 1995 tinha outra redação. Itálico entre parênteses é lembrete; itálico solto é ambientação."]],
+    artist: [["Artist credit", "Crédito do artista"], ["Old cards say “Illus.” and the artist's name. Modern cards add a line with collector number, rarity letter, set code and language, and rares carry a small holographic oval stamp since 2015.", "Cartas antigas dizem “Illus.” e o nome do artista. As modernas têm uma linha com número de colecionador, letra de raridade, código da coleção e idioma, e as raras trazem um pequeno selo oval holográfico desde 2015."]],
+    pt: [["Power / Toughness", "Poder / Resistência"], ["Bottom right. Deals 2 damage in combat; takes 6 damage in one turn to destroy. Damage wears off at end of turn. Planeswalkers show loyalty here instead.", "No canto inferior direito. Causa 2 de dano em combate; precisa de 6 de dano num turno para ser destruída. O dano some no fim do turno. Planeswalkers mostram lealdade aqui."]],
+    border: [["Border color", "Cor da borda"], ["Fourth Edition is white-bordered. Until 2007, core-set reprints had white borders and a card's first printing was black-bordered (this one in Legends, 1994). Since Tenth Edition every regular set is black-bordered.", "A Quarta Edição tem borda branca. Até 2007, reimpressões das coleções básicas tinham borda branca e a primeira impressão de uma carta tinha borda preta (esta, em Legends, 1994). Desde a Décima Edição, toda coleção regular tem borda preta."]],
+    symbol: [["Set symbol and rarity", "Símbolo da coleção e raridade"], ["This card has no symbol: core sets had none until Sixth Edition (1999). Expansions print theirs on the right, below the art. Since Exodus (1998) its color shows rarity: black common, silver uncommon, gold rare, and orange-red mythic rare (added in 2008).", "Esta carta não tem símbolo: as coleções básicas só ganharam um na Sexta Edição (1999). As expansões imprimem o seu à direita, abaixo da arte. Desde Exodus (1998) a cor indica a raridade: preto comum, prata incomum, dourado rara e laranja-avermelhado rara mítica (criada em 2008)."]]
   };
-  let anatSel = "cost";
+  const AFACTS = [
+    [["Card name", "Nome"], "Abomination"], [["Mana cost", "Custo de mana"], ["{3}{B} · mana value 4", "{3}{B} · valor de mana 4"]],
+    [["Type", "Tipo"], "Creature — Horror"], [["Rarity", "Raridade"], ["Uncommon", "Incomum"]], [["P/T", "P/R"], "2/6"],
+    [["Artist", "Artista"], "Mark Tedin"], [["Set", "Coleção"], ["Fourth Edition (4E), 1995", "Quarta Edição (4E), 1995"]], [["Printings", "Impressões"], "Legends · Fourth Edition"]
+  ];
+  let anatSel = "cost", ocPrint = true;
   function renderAnat() {
     $$("#anatomyCard .hot").forEach(h => h.classList.toggle("on", h.dataset.a === anatSel));
     const [t, d] = ANAT[anatSel];
     $("#anatomyInfo").innerHTML = `<div class="step"><p class="font-semibold text-gold-soft mb-2">${tr(t)}</p><p class="text-parch/90">${tr(d)}</p></div>`;
+    $("#ocType").textContent = ocPrint ? "Summon Abomination" : "Creature — Horror";
+    $("#ocMode").textContent = ocPrint ? tr(["Show today's type line", "Mostrar a linha de tipo de hoje"]) : tr(["Show the 1995 type line", "Mostrar a linha de tipo de 1995"]);
+    $("#anatomyFacts").innerHTML = AFACTS.map(([k, v]) => `<dt class="text-mute">${tr(k)}</dt><dd class="text-parch/90">${tr(v)}</dd>`).join("");
   }
   $$("#anatomyCard .hot").forEach(h => h.addEventListener("click", () => { anatSel = h.dataset.a; renderAnat(); }));
+  $("#ocMode").addEventListener("click", () => { ocPrint = !ocPrint; anatSel = "type"; renderAnat(); });
 
   const TYPES = [
     ["⛰", ["Land", "Terreno"], ["Produces mana. You may play one per turn, and playing it is not a spell, so it cannot be countered.", "Produz mana. Você pode jogar um por turno, e jogá-lo não é uma mágica, então não pode ser anulado."], ["Same as ever. Dual lands now come in dozens of cheaper variants.", "Igual a sempre. Terrenos duplos hoje existem em dezenas de variantes mais baratas."]],
@@ -1211,6 +1399,410 @@
   });
 
   /* =========================================================
+     SETS  (list and dates: gatherer.wizards.com/sets)
+  ========================================================= */
+  const SETFACTS = [
+    ["📘", ["Core sets", "Coleções básicas"], ["The “Edition” sets you knew (Revised, Fourth, Fifth) became yearly core sets, Magic 2010 to Core Set 2021. That line ended in 2020. Foundations (2024) is now the long-lived starting set.", "As “Edições” que você conheceu (Revised, Quarta, Quinta) viraram coleções básicas anuais, de Magic 2010 a Core Set 2021. A linha acabou em 2020. Foundations (2024) é hoje a coleção inicial de longa duração."]],
+    ["🧭", ["Expansions", "Expansões"], ["Each one visits a plane and adds mechanics. Until 2018 they came in blocks of two or three (Ice Age, Mirage, Tempest). Now every set stands alone, several a year.", "Cada uma visita um plano e traz mecânicas novas. Até 2018 vinham em blocos de duas ou três (Ice Age, Mirage, Tempest). Hoje cada coleção é independente, várias por ano."]],
+    ["🧰", ["Supplemental products", "Produtos suplementares"], ["Commander decks, Masters reprint sets, Modern Horizons, Secret Lair. Not legal in Standard; made for Commander, older formats or collectors. Safe to ignore at first.", "Decks de Commander, coleções de reimpressão Masters, Modern Horizons, Secret Lair. Não valem no Padrão; feitos para Commander, formatos antigos ou colecionadores. Dá para ignorar no começo."]],
+    ["🌌", ["Universes Beyond", "Universes Beyond"], ["Other franchises as Magic cards: The Lord of the Rings, Final Fantasy, Marvel. Since 2025 these are full sets, legal in the same formats as any other new set.", "Outras franquias como cartas de Magic: O Senhor dos Anéis, Final Fantasy, Marvel. Desde 2025 são coleções completas, válidas nos mesmos formatos que qualquer coleção nova."]]
+  ];
+  const SETRAW = `Limited Edition Alpha|1E|1993-08-05
+Limited Edition Beta|2E|1993-10-01
+Unlimited Edition|2U|1993-12-01
+Arabian Nights|AN|1993-12-01
+Antiquities|AQ|1994-03-01
+Revised Edition|3E|1994-04-01
+Legends|LE|1994-06-01
+The Dark|DK|1994-08-01
+Fallen Empires|FE|1994-11-01
+Fourth Edition|4E|1995-04-01
+Ice Age|IA|1995-06-01
+Chronicles|CH|1995-07-01
+Homelands|HM|1995-10-01
+Alliances|AL|1996-06-10
+Coldsnap|CSP|2006-07-21
+Mirage|MI|1996-10-08
+Visions|VI|1997-02-03
+Fifth Edition|5E|1997-03-24
+Portal|PO|1997-06-01
+Weatherlight|WL|1997-06-09
+Tempest|TE|1997-10-14
+Stronghold|ST|1998-03-02
+Portal Second Age|P2|1998-06-01
+Exodus|EX|1998-06-15
+Unglued|UG|1998-08-17
+Urza's Saga|UZ|1998-10-12
+Urza's Legacy|GU|1999-02-15
+Classic Sixth Edition|6E|1999-04-28
+Portal Three Kingdoms|PK|1999-05-01
+Urza's Destiny|CG|1999-06-07
+Starter 1999|P3|1999-07-01
+Mercadian Masques|MM|1999-10-04
+Battle Royale Box Set|BR|1999-11-12
+Nemesis|NE|2000-02-14
+Prophecy|PR|2000-06-05
+Starter 2000|P4|2000-07-01
+Invasion|IN|2000-10-02
+Beatdown Box Set|BD|2000-12-01
+Planeshift|PS|2001-02-05
+Seventh Edition|7E|2001-04-11
+Apocalypse|AP|2001-06-04
+Odyssey|OD|2001-10-01
+Torment|TOR|2002-02-04
+Judgment|JUD|2002-05-27
+Onslaught|ONS|2002-10-07
+Legions|LGN|2003-02-03
+Scourge|SCG|2003-05-26
+Eighth Edition|8ED|2003-07-28
+Mirrodin|MRD|2003-10-02
+Darksteel|DST|2004-02-06
+Fifth Dawn|5DN|2004-06-04
+Champions of Kamigawa|CHK|2004-10-01
+Unhinged|UNH|2004-11-19
+Betrayers of Kamigawa|BOK|2005-02-04
+Saviors of Kamigawa|SOK|2005-06-03
+Ninth Edition|9ED|2005-07-29
+Ravnica: City of Guilds|RAV|2005-10-07
+Guildpact|GPT|2006-02-03
+Dissension|DIS|2006-05-05
+Time Spiral|TSP|2006-10-06
+Time Spiral "Timeshifted"|TSB|2006-10-06
+Planar Chaos|PLC|2007-02-02
+Future Sight|FUT|2007-05-04
+Tenth Edition|10E|2007-07-30
+Masters Edition|MED|2007-09-10
+Lorwyn|LRW|2007-10-12
+Duel Decks: Elves vs. Goblins|EVG|2007-11-16
+Morningtide|MOR|2008-02-01
+Shadowmoor|SHM|2008-05-02
+Eventide|EVE|2008-07-02
+From the Vault: Dragons|DRB|2008-08-29
+Masters Edition II|ME2|2008-09-22
+Shards of Alara|ALA|2008-10-02
+Duel Decks: Jace vs. Chandra|DD2|2008-10-31
+Conflux|CON|2009-02-06
+Duel Decks: Divine vs. Demonic|DDC|2009-04-10
+Alara Reborn|ARB|2009-04-30
+Magic 2010|M10|2009-07-17
+From the Vault: Exiled|V09|2009-08-12
+Planechase|HOP|2009-09-04
+Masters Edition III|ME3|2009-09-07
+Zendikar|ZEN|2009-10-02
+Vanguard|VAN|2009-10-02
+Duel Decks: Garruk vs. Liliana|DDD|2009-10-30
+Premium Deck Series: Slivers|H09|2009-11-20
+Worldwake|WWK|2010-01-30
+Mirrodin Besieged|MBS|2010-02-04
+Duel Decks: Phyrexia vs. the Coalition|DDE|2010-03-17
+Rise of the Eldrazi|ROE|2010-04-15
+Duel Decks: Elspeth vs. Tezzeret|DDF|2010-06-06
+Archenemy|ARC|2010-06-17
+Magic 2011|M11|2010-06-28
+From the Vault: Relics|V10|2010-08-12
+Scars of Mirrodin|SOM|2010-09-23
+Masters Edition IV|ME4|2010-11-18
+Premium Deck Series: Fire and Lightning|PD2|2010-11-18
+Duel Decks: Knights vs. Dragons|DDG|2011-03-30
+New Phyrexia|NPH|2011-05-13
+Magic: The Gathering-Commander|CMD|2011-06-01
+Magic 2012|M12|2011-07-15
+From the Vault: Legends|V11|2011-08-25
+Duel Decks: Ajani vs. Nicol Bolas|DDH|2011-09-01
+Innistrad|ISD|2011-09-23
+Premium Deck Series: Graveborn|PD3|2011-11-01
+Dark Ascension|DKA|2012-02-03
+Duel Decks: Venser vs. Koth|DDI|2012-03-29
+Avacyn Restored|AVR|2012-05-04
+Planechase 2012 Edition|PC2|2012-05-31
+Magic 2013|M13|2012-07-05
+From the Vault: Realms|V12|2012-08-27
+Duel Decks: Izzet vs. Golgari|DDJ|2012-09-03
+Return to Ravnica|RTR|2012-10-05
+Commander's Arsenal|CM1|2012-11-01
+Gatecrash|GTC|2013-02-01
+Duel Decks: Sorin vs. Tibalt|DDK|2013-03-14
+Dragon's Maze|DGM|2013-05-01
+Modern Masters|MMA|2013-06-07
+Magic 2014 Core Set|M14|2013-07-19
+Theros|THS|2013-09-27
+Duel Decks: Heroes vs. Monsters|DDL|2013-09-27
+From the Vault: Twenty|V13|2013-09-27
+Commander 2013 Edition|C13|2013-10-29
+Born of the Gods|BNG|2014-02-02
+Duel Decks: Jace vs. Vraska|DDM|2014-02-25
+Journey into Nyx|JOU|2014-04-22
+Modern Event Deck 2014|MD1|2014-05-13
+Vintage Masters|VMA|2014-05-21
+Magic: The Gathering—Conspiracy|CNS|2014-05-21
+Magic 2015 Core Set|M15|2014-07-01
+From the Vault: Annihilation (2014)|V14|2014-08-01
+Duel Decks: Speed vs. Cunning|DDN|2014-08-26
+Khans of Tarkir|KTK|2014-09-16
+Commander 2014|C14|2014-11-07
+Fate Reforged|FRF|2015-01-07
+Duel Decks Anthology, Garruk vs. Liliana|DD3_GVL|2015-01-27
+Duel Decks Anthology, Divine vs. Demonic|DD3_DVD|2015-01-27
+Duel Decks Anthology, Jace vs. Chandra|DD3_JVC|2015-01-27
+Duel Decks Anthology, Elves vs. Goblins|DD3_EVG|2015-01-27
+Ugin's Fate promos|FRF_UGIN|2015-02-09
+Duel Decks: Elspeth vs. Kiora|DDO|2015-02-18
+Dragons of Tarkir|DTK|2015-03-03
+Tempest Remastered|TPR|2015-03-31
+Modern Masters 2015 Edition|MM2|2015-04-17
+Magic Origins|ORI|2015-06-29
+From the Vault: Angels|V15|2015-08-20
+Duel Decks: Zendikar vs. Eldrazi|DDP|2015-08-26
+Battle for Zendikar|BFZ|2015-09-14
+Zendikar Expeditions|EXP|2015-09-14
+Commander 2015|C15|2015-10-26
+Oath of the Gatewatch|OGW|2015-12-22
+Duel Decks: Blessed vs. Cursed|DDQ|2016-02-17
+Shadows over Innistrad|SOI|2016-03-16
+Welcome Deck 2016|W16|2016-03-16
+Eldritch Moon|EMN|2016-04-19
+Eternal Masters|EMA|2016-05-16
+From the Vault: Lore|V16|2016-07-21
+Conspiracy: Take the Crown|CN2|2016-07-22
+Duel Decks: Nissa vs. Ob Nixilis|DDR|2016-08-24
+Masterpiece Series: Kaladesh Inventions|MPS_KLD|2016-09-06
+Kaladesh|KLD|2016-09-19
+Commander 2016|C16|2016-11-01
+Planechase Anthology|PCA|2016-11-15
+Aether Revolt|AER|2017-01-03
+Modern Masters 2017 Edition|MM3|2017-02-06
+Duel Decks: Mind vs. Might|DDS|2017-03-08
+Welcome Deck 2017|W17|2017-03-23
+Amonkhet|AKH|2017-04-11
+Commander Anthology|CMA|2017-05-09
+Archenemy: Nicol Bolas|E01|2017-05-10
+Ixalan|XLN|2017-09-29
+Hour of Devastation|HOU|2017-06-12
+Masterpiece Series: Amonkhet Invocations|MPS_AKH|2017-06-12
+Commander 2017|C17|2017-07-25
+Duel Decks: Merfolk vs. Goblins|DDT|2017-10-06
+Iconic Masters|IMA|2017-10-10
+From the Vault: Transform|V17|2017-10-10
+Explorers of Ixalan|E02|2017-10-12
+Unstable|UST|2017-10-24
+Rivals of Ixalan|RIX|2017-12-22
+Masters 25|A25|2018-02-05
+Duel Decks: Elves vs. Inventors|DDU|2018-03-20
+Dominaria|DOM|2018-04-02
+Battlebond|BBD|2018-05-10
+Commander Anthology 2018|CM2|2018-05-31
+Signature Spellbook: Jace|SS1|2018-06-01
+Global Series: Jiang Yanggu and Mu Yanling|GS1|2018-06-07
+Core Set 2019|M19|2018-06-21
+Commander 2018|C18|2018-07-25
+Guilds of Ravnica|GRN|2018-09-19
+Guild Kit: Golgari|GK1_GOLGAR|2018-09-26
+Guild Kit: Selesnya|GK1_SELESN|2018-09-26
+Guild Kit: Dimir|GK1_DIMIR|2018-09-26
+Guild Kit: Boros|GK1_BOROS|2018-09-26
+Guild Kit: Izzet|GK1_IZZET|2018-09-26
+Game Night|GNT|2018-10-24
+Gift Pack|G18|2018-10-29
+Guilds of Ravnica Mythic Edition|MPS_GRN|2018-11-07
+Ultimate Masters|UMA|2018-11-14
+Ultimate Box Toppers|UMA_BOX|2018-11-14
+Ravnica Allegiance|RNA|2019-01-03
+Ravnica Allegiance Mythic Edition|MPS_RNA|2019-01-03
+Guild Kit: Rakdos|GK2_RAKDOS|2019-02-04
+Guild Kit: Azorius|GK2_AZORIU|2019-02-04
+Guild Kit: Gruul|GK2_GRUUL|2019-02-04
+Guild Kit: Simic|GK2_SIMIC|2019-02-04
+Guild Kit: Orzhov|GK2_ORZHOV|2019-02-04
+War of the Spark|WAR|2019-04-11
+War of the Spark Mythic Edition|MPS_WAR|2019-04-15
+Modern Horizons|MH1|2019-05-15
+Core Set 2020|M20|2019-06-27
+Signature Spellbook: Gideon|SS2|2019-07-16
+Commander 2019|C19|2019-08-14
+Throne of Eldraine|ELD|2019-09-11
+Game Night 2019|GN2|2019-11-04
+Mystery Booster|MB1|2019-11-06
+Theros Beyond Death|THB|2020-01-09
+Secret Lair Drop|SLD|2020-01-29
+Unsanctioned|UND|2020-02-13
+Ikoria: Lair of Behemoths|IKO|2020-04-10
+Ikoria Commander|C20|2020-04-12
+Jumpstart|JMP|2020-06-16
+Core Set 2021|M21|2020-06-17
+Double Masters|2XM|2020-07-22
+Zendikar Rising|ZNR|2020-08-07
+Zendikar Rising Commander|ZNC|2020-08-07
+Zendikar Rising Expeditions|ZNE|2020-08-07
+Commander Legends|CMR|2020-11-09
+Kaldheim|KHM|2021-01-06
+Kaldheim Commander|KHC|2021-01-06
+Commander Collection: Green|CC1|2021-01-31
+Time Spiral Remastered|TSR|2021-02-25
+Strixhaven: School of Mages|STX|2021-03-25
+Commander 2021|C21|2021-03-25
+Strixhaven Mystical Archive|STA|2021-03-31
+Modern Horizons 2|MH2|2021-06-04
+Adventures in the Forgotten Realms Commander|AFC|2021-06-22
+Adventures in the Forgotten Realms|AFR|2021-07-12
+Jumpstart: Historic Horizons|J21|2021-07-30
+Innistrad: Midnight Hunt|MID|2021-08-24
+Innistrad: Midnight Hunt Commander|MIC|2021-08-24
+Innistrad: Crimson Vow|VOW|2021-10-12
+Innistrad: Crimson Vow Commander|VOC|2021-10-12
+Historic Anthology 3|HA3|2021-10-28
+Historic Anthology 5|HA5|2021-10-28
+Historic Anthology 4|HA4|2021-10-28
+Historic Anthology 2|HA2|2021-10-28
+Historic Anthology 1|HA1|2021-10-28
+Amonkhet Remastered|AKR|2021-11-09
+Kaladesh Remastered|KLR|2021-11-09
+Arena Base Set|ANB|2021-11-10
+Innistrad: Midnight Hunt Alchemy|Y22|2022-01-10
+Kamigawa: Neon Dynasty Commander|NEC|2022-01-22
+Innistrad: Double Feature|DBL|2022-01-28
+Kamigawa: Neon Dynasty|NEO|2022-02-04
+Kamigawa: Neon Dynasty Alchemy|Y22NEO|2022-02-23
+Unfinity|UNF|2022-04-01
+Streets of New Capenna|SNC|2022-04-14
+Streets of New Capenna Commander|NCC|2022-04-14
+SNC Store Championship|SCH|2022-05-16
+SNC Game Day|GDY|2022-05-16
+Commander Legends: Battle for Baldur's Gate|CLB|2022-05-27
+Streets of New Capenna Alchemy|Y22SNC|2022-06-06
+Double Masters 2022|2X2|2022-06-21
+Alchemy Horizons: Baldur's Gate|HBG|2022-07-06
+Dominaria United|DMU|2022-08-01
+Dominaria United Commander|DMC|2022-08-01
+Warhammer 40,000 Commander|40K|2022-09-21
+Unfinity (Acorn)|UNA|2022-09-22
+Game Night: Free-For-All|GN3|2022-10-04
+The Brothers' War Retro Artifacts|BRR|2022-10-18
+The Brothers' War Commander|BRC|2022-10-18
+The Brothers' War Transformers Cards|BOT|2022-10-18
+The Brothers' War|BRO|2022-10-21
+Jumpstart 2022|J22|2022-11-04
+Dominaria Remastered|DMR|2023-01-03
+Phyrexia: All Will Be One|ONE|2023-01-31
+Phyrexia: All Will Be One Commander|ONC|2023-01-31
+Shadows Over Innistrad Remastered|SIR|2023-02-27
+Shadows of the Past|SIS|2023-03-03
+March of the Machine|MOM|2023-03-15
+March of the Machine Multiverse Legends|MUL|2023-03-16
+March of the Machine Commander|MOC|2023-03-17
+March of the Machine: The Aftermath|MAT|2023-05-03
+Commander Masters|CMM|2023-07-12
+Wilds of Eldraine|WOE|2023-08-14
+Wilds of Eldraine Commander|WOC|2023-08-14
+Wilds of Eldraine Enchanting Tales|WOT|2023-08-14
+Doctor Who Commander|WHO|2023-09-11
+The Lord of the Rings: Tales of Middle Earth|LTR|2023-10-19
+The Lord of the Rings: Tales of Middle Earth Commander|LTC|2023-10-19
+The Lost Caverns of Ixalan|LCI|2023-11-01
+Jurassic World Collection Cards|REX|2023-11-01
+The Lost Caverns of Ixalan Commander|LCC|2023-11-08
+Ravnica Remastered|RVR|2023-11-28
+Murders at Karlov Manor Commander|MKC|2024-01-16
+Murders at Karlov Manor|MKM|2024-01-29
+Ravnica Clue Edition|CLU|2024-01-29
+Magic The Gathering—Fallout|PIP|2024-02-20
+Outlaws of Thunder Junction Breaking News|OTP|2024-03-18
+Outlaws of Thunder Junction Commander|OTC|2024-03-18
+Outlaws of Thunder Junction: The Big Score|BIG|2024-03-18
+Outlaws of Thunder Junction|OTJ|2024-03-22
+Modern Horizons 3|MH3|2024-05-02
+Modern Horizons 3 Commander|M3C|2024-05-31
+Assassin's Creed|ACR|2024-06-12
+Bloomburrow|BLB|2024-07-17
+Bloomburrow Commander|BLC|2024-07-17
+Duskmourn: House of Horror|DSK|2024-08-15
+Duskmourn: House of Horror Commander|DSC|2024-08-15
+Mystery Booster 2: Convention Edition|MB2|2024-10-07
+Mystery Booster 2: Convention Edition Eternal|EB2|2024-10-07
+Magic: The Gathering Foundations|FDN|2024-10-14
+Magic: The Gathering Foundations Commander|FDC|2024-10-14
+Jumpstart 2025|J25|2024-12-04
+Innistrad Remastered|INR|2025-01-24
+Aetherdrift|DFT|2025-02-14
+Aetherdrift Commander|DRC|2025-02-14
+Tarkir: Dragonstorm|TDM|2025-04-11
+Tarkir: Dragonstorm Commander|TDC|2025-04-11
+Magic: The Gathering—FINAL FANTASY|FIN|2025-06-13
+Magic: The Gathering—FINAL FANTASY Commander|FIC|2025-06-13
+FINAL FANTASY Through the Ages|FCA|2025-06-13
+Edge of Eternities|EOE|2025-08-01
+Edge of Eternities Commander|EOC|2025-08-01
+Edge of Eternities Bonus Sheet|EOS|2025-08-01
+Through the Omenpaths|OM1|2025-09-23
+Omenpaths Bonus Sheet|OMB|2025-09-23
+Magic: The Gathering | Marvel's Spider-Man|SPM|2025-09-26
+Magic: The Gathering | Marvel's Spider-Man|SPE|2025-09-26
+Magic: The Gathering | Avatar: The Last Airbender|TLA|2025-11-21
+Magic: The Gathering | Avatar: The Last Airbender Extra|TLE|2025-11-21
+Lorwyn Eclipsed|ECL|2026-01-23
+Lorwyn Eclipsed Commander|ECC|2026-01-23
+Magic: The Gathering | Teenage Mutant Ninja Turtles|TMT|2026-02-24
+Magic: The Gathering | Teenage Mutant Ninja Turtles Commander|TMC|2026-02-24
+Borderless Source Material Cards|PZA|2026-02-24
+Secrets of Strixhaven|SOS|2026-04-24
+Secrets of Strixhaven Commander|SOC|2026-04-24
+Secrets of Strixhaven Mystical Archive|SOA|2026-04-24
+Magic: The Gathering | Marvel Super Heroes|MSH|2026-06-15
+Magic: The Gathering | Marvel Super Heroes Commander|MSC|2026-06-15
+Source Material Cards|MAR|2026-06-15
+Magic: The Gathering | The Hobbit|HOB|2026-07-31
+Magic: The Gathering | The Hobbit Commander|HOC|2026-07-31
+Promo Cards|PRM|2026-07-31
+Secret Lair Drop|SLZ|2026-09-02
+Reality Fracture|FRA|2026-10-02
+Reality Fracture Commander|FRC|2026-10-02
+Special Guests|SPG|2026-10-02
+Mystery Booster Commander Edition|MBC|2026-10-19
+Mystery Booster Commander Edition (Acorn)|MBA|2026-10-19
+Magic: The Gathering® | Star Trek™|TRK|2026-11-13
+Magic: The Gathering® | Star Trek™ Commander|TRC|2026-11-13
+Magic: The Gathering® | Star Trek™ Stardates Cards|SDS|2026-11-13`;
+  const S_CORE = new Set("1E 2E 2U 3E 4E 5E 6E 7E 8ED 9ED 10E M10 M11 M12 M13 M14 M15 ORI M19 M20 M21 FDN".split(" "));
+  const S_UB = new Set("40K WHO LTR LTC PIP ACR FIN FIC FCA SPM SPE TLA TLE TMT TMC PZA MSH MSC MAR HOB HOC TRK TRC SDS BOT REX AFR AFC CLB HBG".split(" "));
+  const S_OTHER = /Duel Decks|From the Vault|Masters|Remastered|Jumpstart|Alchemy|Historic|Guild Kit|Mythic Edition|Premium Deck|Anthology|Portal|Starter|Box Set|Welcome Deck|Game Night|Signature|Global Series|Secret Lair|Mystery Booster|Planechase|Archenemy|Vanguard|Conspiracy|Battlebond|Chronicles|Unglued|Unhinged|Unstable|Unsanctioned|Unfinity|Expeditions|Masterpiece|[Pp]romo|Bonus Sheet|Special Guests|Arena Base|Double Feature|Clue|Breaking News|Big Score|Aftermath|Multiverse Legends|Enchanting Tales|Mystical Archive|Retro Artifacts|Timeshifted|Gift Pack|Event Deck|Explorers of|Store Championship|Game Day|Shadows of the Past|Through the|Omenpaths|Modern Horizons/;
+  const SETS = SETRAW.trim().split("\n").map(l => {
+    const p = l.split("|"), date = p.pop(), code = p.pop();
+    const name = p.join("|").replace(/^Magic:? The Gathering®?\s*(\||—|-)?\s*/, "");
+    const kind = S_UB.has(code) ? "ub" : S_CORE.has(code) ? "core" : /Commander/.test(name) ? "cmd" : S_OTHER.test(name) ? "other" : "exp";
+    return { name, code, date, y: +date.slice(0, 4), m: +date.slice(5, 7), kind };
+  }).sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+  const DECADES = [["90", "1993–1999", 1993, 1999], ["00", "2000–2009", 2000, 2009], ["10", "2010–2019", 2010, 2019], ["20", "2020–", 2020, 9999], ["all", ["All years", "Todos os anos"], 0, 9999]];
+  const KINDS = [["main", ["Main sets", "Coleções principais"]], ["cmd", ["Commander", "Commander"]], ["ub", ["Universes Beyond", "Universes Beyond"]], ["other", ["Other products", "Outros produtos"]], ["all", ["Everything", "Tudo"]]];
+  const KLABEL = { core: ["Core set", "Básica"], exp: ["Expansion", "Expansão"], cmd: ["Commander", "Commander"], ub: ["Universes Beyond", "Universes Beyond"], other: ["Other", "Outro"] };
+  const MONTHS = [["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"]];
+  const esc = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  let setDec = "90", setKind = "main", setQ = "";
+  function drawSets() {
+    const d = DECADES.find(x => x[0] === setDec), q = setQ.trim().toLowerCase();
+    const list = SETS.filter(s => q
+      ? (s.name.toLowerCase().includes(q) || s.code.toLowerCase() === q || String(s.y) === q)
+      : (s.y >= d[2] && s.y <= d[3] && (setKind === "all" || (setKind === "main" ? (s.kind === "core" || s.kind === "exp") : s.kind === setKind))));
+    $("#setCount").textContent = tr([`${list.length} of ${SETS.length} products`, `${list.length} de ${SETS.length} produtos`]) + (q ? tr([" · searching all years and kinds", " · buscando em todos os anos e tipos"]) : "");
+    $("#setGrid").innerHTML = list.length ? list.map(s => `<a class="set-tile ${s.kind}" href="https://gatherer.wizards.com/sets/${encodeURIComponent(s.code)}" target="_blank" rel="noopener">
+        <span class="set-code">${esc(s.code.slice(0, 6))}</span>
+        <span class="min-w-0"><span class="block text-sm text-parch truncate" title="${esc(s.name)}">${esc(s.name)}</span>
+        <span class="block text-xs text-mute">${MONTHS[li][s.m - 1]} ${s.y} · ${tr(KLABEL[s.kind])}</span></span></a>`).join("")
+      : `<p class="text-sm text-mute p-3">${tr(["Nothing matches. Try another decade or kind.", "Nada encontrado. Tente outra década ou tipo."])}</p>`;
+  }
+  function renderSets() {
+    $("#setFacts").innerHTML = SETFACTS.map(f => `<article class="panel lift p-5 reveal"><div class="text-2xl mb-2" aria-hidden="true">${f[0]}</div><h3 class="font-display text-gold-soft mb-2">${tr(f[1])}</h3><p class="text-sm text-parch/85 leading-relaxed">${tr(f[2])}</p></article>`).join("");
+    const chips = (arr, cur, attr) => arr.map(x => `<button class="chip px-3 py-1.5 text-xs sm:text-sm${x[0] === cur ? " on" : ""}" data-${attr}="${x[0]}" aria-pressed="${x[0] === cur}">${tr(x[1])}</button>`).join("");
+    $("#setDecades").innerHTML = chips(DECADES, setDec, "d");
+    $("#setKinds").innerHTML = chips(KINDS, setKind, "k");
+    $$("#setDecades button").forEach(b => b.addEventListener("click", () => { setDec = b.dataset.d; renderSets(); }));
+    $$("#setKinds button").forEach(b => b.addEventListener("click", () => { setKind = b.dataset.k; renderSets(); }));
+    const inp = $("#setSearch");
+    inp.placeholder = tr(["Search by name, code or year…", "Busque por nome, código ou ano…"]);
+    inp.setAttribute("aria-label", inp.placeholder);
+    drawSets();
+  }
+  $("#setSearch").addEventListener("input", e => { setQ = e.target.value; drawSets(); });
+
+  /* =========================================================
      LANGUAGE + BOOT
   ========================================================= */
   function renderAll() {
@@ -1222,7 +1814,7 @@
       b.setAttribute("aria-pressed", String(on));
       b.className = "langBtn px-3 py-1.5 transition " + (on ? "bg-gold text-void" : "text-mute hover:text-gold-soft");
     });
-    renderTimeline(); renderQuiz(); renderLore(); renderPlanes(); renderColors();
+    renderTimeline(); renderQuiz(); renderSets(); renderLore(); renderPlanes(); renderColors();
     renderAnat(); renderTypes(); renderPhases(); renderStack(); renderZones(); drawCounters(); renderThen();
     renderFormats(); renderStart(); drawSim();
     $$(".reveal").forEach(observe);

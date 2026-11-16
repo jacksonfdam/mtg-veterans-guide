@@ -113,22 +113,74 @@
   .set-tile.ub .set-code { color:#cfb2ff; border-color:#6b4aa0; }
 
   /* simulator */
-  .gc { width: 74px; height: 100px; border-radius: 9px; border:1px solid #4a4062; background: linear-gradient(165deg,#2e2640,#191422); padding:5px 6px; display:flex; flex-direction:column; justify-content:space-between; text-align:left; font-size:10px; line-height:1.15; color:#e9e2d0; transition: transform .25s, box-shadow .25s, opacity .25s, border-color .25s; position:relative; flex:none; }
-  button.gc { cursor:pointer; }
-  button.gc:hover { border-color:#c9a24b; transform: translateY(-4px); }
-  .gc.land { background: linear-gradient(165deg,#3a3320,#1c1810); }
-  .gc.burn { background: linear-gradient(165deg,#4a2420,#1f1210); }
-  .gc.fly { background: linear-gradient(165deg,#22384d,#131c26); }
-  .gc.dim { opacity:.45; }
-  .gc.tapped { transform: rotate(9deg); opacity:.6; }
-  .gc.sel { border-color:#e3c77d; box-shadow: 0 0 0 2px #c9a24b, 0 0 18px #c9a24b88; transform: translateY(-8px); }
-  .gc.atk { border-color:#ff8f7a; box-shadow: 0 0 0 2px #e8836a, 0 0 18px #e8836a88; }
-  .gc .pt { align-self:flex-end; font-weight:600; font-size:12px; color:#e3c77d; }
-  .gc .tag { position:absolute; top:-8px; right:-6px; background:#0b0812; border:1px solid #c9a24b; border-radius:99px; padding:1px 6px; font-size:9px; color:#e3c77d; }
-  .zone { min-height:112px; border:1px dashed #352d47; border-radius:12px; padding:8px; display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
-  .sbtn { padding:.55rem .9rem; border-radius:10px; font-size:.8rem; font-weight:600; transition: all .2s; }
+  /* simulator: game-client table */
+  .mt { display:grid; gap:8px; grid-template-columns:minmax(0,1fr); background:#07080c; border:1px solid #2a2f3a; border-radius:10px; padding:8px; }
+  .mt-side { display:grid; grid-template-columns:1fr 1fr; gap:8px; grid-template-areas:"opp you" "log log"; }
+  .mt-side > .mt-player:first-child { grid-area:opp; } .mt-side > .mt-player { grid-area:you; }
+  .mt-log { grid-area:log; } .mt-gy { display:none; }
+  .mt-main { display:flex; flex-direction:column; gap:8px; min-width:0; }
+  .mt-player { background:#0d1018; border:2px solid #2a3140; border-radius:8px; padding:5px; text-align:center; }
+  .mt-player.active { border-color:#3b82f6; box-shadow:0 0 12px #3b82f655; }
+  .mt-player.target { border-color:#e3c77d; animation: mtPulse 1.2s infinite; }
+  @keyframes mtPulse { 50% { box-shadow:0 0 16px #e3c77dcc; } }
+  .mt-player button:disabled { cursor:default; }
+  .mt-avatar { position:relative; display:flex; align-items:center; justify-content:center; height:84px; border-radius:5px; font-size:46px; overflow:hidden; }
+  .mt-avatar.bot { background:radial-gradient(circle at 50% 35%,#7a6a2c,#2a2410 75%); }
+  .mt-avatar.me { background:radial-gradient(circle at 50% 35%,#3d3a78,#12122c 75%); }
+  .mt-avatar > span:first-child { opacity:.55; }
+  .mt-life { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:Cinzel,serif; font-weight:700; font-size:44px; color:#fff; text-shadow:0 2px 0 #000,0 0 8px #000,0 0 2px #000; }
+  .mt-name { display:block; font-size:12px; font-weight:600; padding:4px 0 2px; color:#fff; }
+  .mt-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:3px; font-size:10px; }
+  .mt-stats span { background:#16233f; border:1px solid #2f4f8f; border-radius:4px; padding:2px 0; color:#cfe0ff; white-space:nowrap; }
+  .mt-log { list-style:none; margin:0; background:#0d1018; border:1px solid #2a2f3a; border-radius:8px; padding:8px; font-size:11px; line-height:1.4; color:#8f98a8; max-height:92px; overflow-y:auto; display:flex; flex-direction:column; gap:4px; }
+  .mt-cap { font-size:10px; text-transform:uppercase; letter-spacing:.08em; color:#8f98a8; margin-bottom:6px; }
+  .mt-bf { border:1px solid #7b8594; border-radius:8px; padding:8px; display:flex; flex-direction:column; gap:8px; min-height:150px; }
+  .mt-bf.opp { background:linear-gradient(180deg,#6b7482,#5b6472); }
+  .mt-bf.you { background:linear-gradient(180deg,#262d42,#1c2233); border-color:#4a5368; }
+  .mt-rows { flex:1; min-width:0; display:flex; flex-direction:column; gap:8px; justify-content:space-between; }
+  .mt-row { display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:center; min-height:64px; }
+  .mt-empty { font-size:11px; color:#ffffff80; }
+  .mt-bf.opp .mt-empty { color:#11151dbb; }
+  .mt-prompt { flex:none; background:#555b66; border:2px solid #e8e8e8; box-shadow:0 0 0 1px #000; align-self:flex-start; width:100%; }
+  .mt-prompt-h { background:#06070a; color:#6ea8ff; font-family:Cinzel,serif; font-size:14px; padding:5px 8px; }
+  .mt-prompt-b { padding:10px 12px 12px; font-size:12.5px; line-height:1.45; color:#fff; }
+  .mt-phases { display:flex; align-items:center; gap:2px; background:#0b0d12; border:1px solid #2a2f3a; border-radius:6px; padding:5px 6px; overflow-x:auto; scrollbar-width:thin; }
+  .mt-turn { flex:none; position:sticky; left:-6px; z-index:1; background:#0b0d12; font-size:12px; font-weight:700; color:#fff; padding:3px 8px 3px 6px; white-space:nowrap; }
+  .mt-ph { flex:1 0 auto; text-align:center; font-family:Cinzel,serif; font-size:10.5px; color:#8b93a1; padding:3px 6px; border:2px solid transparent; border-radius:8px; white-space:nowrap; }
+  .mt-ph.on { color:#fff; border-color:#f0a35a; background:#000; box-shadow:0 0 10px #f0a35a66; }
+  .mt-hand { container-type:inline-size; display:flex; gap:8px; background:#0b0d12; border:1px solid #2a2f3a; border-radius:8px; padding:10px 8px; overflow-x:auto; min-height:120px; align-items:flex-start; scrollbar-width:thin; }
+  /* cards */
+  .mc { --w:70px; position:relative; flex:none; width:var(--w); aspect-ratio:5/7; border-radius:calc(var(--w)*.06); background:#0a0a0a; padding:calc(var(--w)*.045); text-align:left; transition:transform .2s, box-shadow .2s, opacity .2s; }
+  .mc.big { --w:clamp(108px, 13cqw, 142px); } .mc.sm { --w:46px; }
+  .mc-in { display:flex; flex-direction:column; gap:calc(var(--w)*.02); height:100%; border-radius:calc(var(--w)*.035); padding:calc(var(--w)*.035); overflow:hidden; position:relative; }
+  .f-g .mc-in { background:linear-gradient(170deg,#3f7a4e,#1d4a2c); } .f-u .mc-in { background:linear-gradient(170deg,#3f7fb4,#1b456f); }
+  .f-r .mc-in { background:linear-gradient(170deg,#b9553c,#6b2416); } .f-l .mc-in { background:linear-gradient(170deg,#7a6a48,#3d3320); }
+  .mc-name { display:flex; align-items:center; justify-content:space-between; gap:3px; background:#f1ead8; color:#15120c; border-radius:3px; padding:0 calc(var(--w)*.035); font-weight:700; font-size:calc(var(--w)*.092); line-height:1.5; min-height:calc(var(--w)*.14); }
+  .mc-cost { flex:none; width:calc(var(--w)*.115); height:calc(var(--w)*.115); border-radius:50%; background:#c9c2b4; border:1px solid #6d675b; display:flex; align-items:center; justify-content:center; font-size:calc(var(--w)*.08); }
+  .mc-art { flex:1 1 0; min-height:0; display:flex; align-items:center; justify-content:center; border:1px solid #0008; border-radius:2px; font-size:calc(var(--w)*.34); }
+  .mc-type { background:#f1ead8; color:#15120c; border-radius:3px; padding:0 calc(var(--w)*.035); font-weight:600; font-size:calc(var(--w)*.075); line-height:1.5; }
+  .mc-text { flex:0 0 30%; background:#e9e1cc; color:#1b1710; border-radius:2px; padding:calc(var(--w)*.03) calc(var(--w)*.04); font-size:calc(var(--w)*.075); line-height:1.25; overflow:hidden; font-family:"Cormorant Garamond",serif; font-weight:600; }
+  .mc:not(.big) .mc-type, .mc.sm .mc-name { display:none; }
+  .mc-pt { position:absolute; right:calc(var(--w)*.02); bottom:calc(var(--w)*.02); background:#f1ead8; color:#15120c; border:1px solid #6d675b; border-radius:3px; padding:0 calc(var(--w)*.045); font-weight:700; font-size:calc(var(--w)*.11); line-height:1.35; }
+  .mc-tag { position:absolute; top:-7px; right:-5px; z-index:2; background:#0b0812; border:1px solid #c9a24b; border-radius:99px; padding:1px 6px; font-size:9px; color:#e3c77d; white-space:nowrap; max-width:110px; overflow:hidden; text-overflow:ellipsis; }
+  button.mc { cursor:pointer; }
+  button.mc:hover { transform:translateY(-5px); box-shadow:0 0 0 2px #c9a24b; }
+  .mc.dim { opacity:.5; }
+  .mc.tapped { transform:rotate(90deg); margin:0 calc(var(--w)*.2); opacity:.8; }
+  .mc.sel { box-shadow:0 0 0 2px #e3c77d, 0 0 18px #c9a24baa; transform:translateY(-8px); }
+  .mc.atk { box-shadow:0 0 0 2px #ff7a62, 0 0 18px #e8836aaa; }
+  @media (min-width:640px) { .mc { --w:84px; } .mc.sm { --w:52px; } .mt-bf.opp { flex-direction:row; } .mt-prompt { width:250px; } }
+  @media (min-width:1024px) {
+    .mt { grid-template-columns:176px minmax(0,1fr); }
+    .mt-side { display:flex; flex-direction:column; }
+    .mt-log { flex:1 1 0; min-height:90px; max-height:none; }
+    .mt-gy { display:block; background:#0d1018; border:1px solid #2a2f3a; border-radius:8px; padding:8px; min-height:104px; }
+    .mt-avatar { height:104px; } .mt-bf { min-height:210px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .mc, .mt-player.target { transition:none; animation:none; } }
+  .sbtn { padding:.5rem .85rem; border-radius:8px; font-size:.78rem; font-weight:600; transition: all .2s; }
   .sbtn-p { background:#c9a24b; color:#0b0812; } .sbtn-p:hover { background:#e3c77d; }
-  .sbtn-s { border:1px solid #352d47; } .sbtn-s:hover { border-color:#c9a24b; color:#e3c77d; }
+  .sbtn-s { border:1px solid #6b7280; color:#fff; } .sbtn-s:hover { border-color:#c9a24b; color:#e3c77d; }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
@@ -535,7 +587,7 @@
     tkBtn: ["Create a 1/1 Soldier token", "Criar ficha: Soldado 1/1"],
     g6: ["6 · Then vs. now", "6 · Antes e agora"], g6s: ["The words on your old cards, translated to today's rules.", "As palavras das suas cartas antigas, traduzidas para as regras de hoje."],
     sK: ["Game simulator", "Simulador de jogo"], sH: ["Play a guided game", "Jogue uma partida guiada"],
-    sSub: ["A simplified duel against a bot: lands, creatures, one burn spell, combat. The coach line tells you what to do at each step.", "Um duelo simplificado contra um bot: terrenos, criaturas, uma mágica de dano, combate. A linha do treinador diz o que fazer em cada passo."],
+    sSub: ["A simplified duel against a bot: lands, creatures, one burn spell, combat. The table is laid out like a digital client: players on the left, battlefields in the middle, the phase bar and your hand below. The prompt box tells you what to do at each step.", "Um duelo simplificado contra um bot: terrenos, criaturas, uma mágica de dano, combate. A mesa segue o layout de um cliente digital: jogadores à esquerda, campos de batalha no meio, a barra de fases e sua mão embaixo. A caixa de aviso diz o que fazer em cada passo."],
     fK: ["Formats", "Formatos"], fH: ["The most popular ways to play", "As formas mais populares de jogar"],
     fSub: ["A format decides which cards are legal and how decks are built. The core rules stay the same.", "Um formato define quais cartas valem e como montar o baralho. As regras básicas não mudam."],
     cmH: ["What is Commander?", "O que é Commander?"],
@@ -1147,7 +1199,7 @@
   const sleep = ms => new Promise(r => setTimeout(r, ms));
   function newDeck() {
     const d = [];
-    Object.entries(LIST).forEach(([k, n]) => { for (let i = 0; i < n; i++) d.push({ ...CARDS[k] }); });
+    Object.entries(LIST).forEach(([k, n]) => { for (let i = 0; i < n; i++) d.push({ ...CARDS[k], key: k }); });
     for (let i = d.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [d[i], d[j]] = [d[j], d[i]]; }
     return d;
   }
@@ -1156,11 +1208,11 @@
     const lib = newDeck(), hand = [];
     for (let n = 0; n < 3; n++) hand.push(lib.splice(lib.findIndex(c => c.k === "land"), 1)[0]);
     while (hand.length < 7) hand.push(lib.splice(lib.findIndex(c => c.k !== "land"), 1)[0]);
-    return { life: 20, lib, hand, lands: 0, tapped: 0, board: [], landPlayed: false };
+    return { life: 20, lib, hand, gy: [], lands: 0, tapped: 0, board: [], landPlayed: false };
   }
   function newGame() {
     gid++;
-    G = { you: newPlayer(), bot: newPlayer(), turn: "you", phase: "main1", sel: new Set(), atk: [], blocks: {}, pick: null, target: null, log: [], n: 1, busy: false, over: null, msg: null };
+    G = { you: newPlayer(), bot: newPlayer(), turn: "you", phase: "main1", sel: new Set(), atk: [], blocks: {}, pick: null, target: null, log: [], n: 1, step: 3, busy: false, over: null, msg: null };
     log(["New game. You go first, so you skip your first draw.", "Nova partida. Você começa, então pula a primeira compra."]);
     drawSim();
   }
@@ -1185,6 +1237,7 @@
       G[w].board = G[w].board.filter(c => {
         if (c.dmg < c.t) return true;
         log(w === "you" ? [`Your ${c.n[0]} dies.`, `Seu ${c.n[1]} morre.`] : [`The bot's ${c.n[0]} dies.`, `${c.n[1]} do bot morre.`]);
+        G[w].gy.push({ ...c, tapped: false, dmg: 0 });
         return false;
       });
     });
@@ -1218,7 +1271,7 @@
   }
   function shockAt(target) {
     const P = G.you, c = P.hand[G.target];
-    P.hand.splice(G.target, 1); P.tapped += c.c; G.target = null;
+    P.hand.splice(G.target, 1); P.tapped += c.c; G.target = null; P.gy.push(c);
     if (target === "face") { G.bot.life -= 2; log(["Shock deals 2 damage to the bot.", "Choque causa 2 de dano ao bot."]); }
     else { target.dmg += 2; log([`Shock deals 2 damage to ${target.n[0]}.`, `Choque causa 2 de dano a ${target.n[1]}.`]); }
     cleanup();
@@ -1256,7 +1309,8 @@
     const my = gid, B = G.bot, Y = G.you;
     const ok = () => my === gid && !G.over;
     G.busy = true; G.phase = "bot"; G.msg = null; G.target = null;
-    startTurn("bot"); G.n++; drawSim(); await sleep(700); if (!ok()) return fin();
+    G.step = 2; startTurn("bot"); G.n++; drawSim(); await sleep(700); if (!ok()) return fin();
+    G.step = 3;
     const li2 = B.hand.findIndex(c => c.k === "land");
     if (li2 >= 0) { B.hand.splice(li2, 1); B.lands++; log(["The bot plays a land.", "O bot joga um terreno."]); drawSim(); await sleep(600); if (!ok()) return fin(); }
     let acted = true;
@@ -1271,7 +1325,7 @@
         if (sh && mana(B) >= 1) {
           const tgt = Y.board.filter(c => alive(c) <= 2).sort((a, b) => b.c - a.c)[0];
           if (tgt || Y.life <= 6) {
-            B.hand.splice(B.hand.indexOf(sh), 1); B.tapped += 1;
+            B.hand.splice(B.hand.indexOf(sh), 1); B.tapped += 1; B.gy.push(sh);
             if (tgt) { tgt.dmg += 2; log([`The bot casts Shock on your ${tgt.n[0]}.`, `O bot conjura Choque no seu ${tgt.n[1]}.`]); }
             else { Y.life -= 2; log(["The bot casts Shock on you: 2 damage.", "O bot conjura Choque em você: 2 de dano."]); }
             cleanup(); acted = true;
@@ -1286,7 +1340,7 @@
     const attackers = ready.filter(a => allIn || !Y.board.some(b => canBlock(b, a) && b.p >= alive(a)));
     if (attackers.length) {
       attackers.forEach(a => a.tapped = true);
-      G.atk = attackers; G.blocks = {}; G.pick = null;
+      G.atk = attackers; G.blocks = {}; G.pick = null; G.step = 5;
       log([`The bot attacks with ${attackers.length} creature(s).`, `O bot ataca com ${attackers.length} criatura(s).`]);
       if (Y.board.some(b => attackers.some(a => canBlock(b, a)))) { G.phase = "block"; G.busy = false; drawSim(); return; }
       drawSim(); await sleep(800); if (!ok()) return fin();
@@ -1296,7 +1350,7 @@
   }
   function fin() { if (G) G.busy = false; drawSim(); }
   async function endBot() {
-    drawSim();
+    G.step = 10; drawSim();
     if (G.over) return fin();
     await sleep(500);
     if (G.over) return fin();
@@ -1308,30 +1362,58 @@
   function hint() {
     if (G.over) return G.over === "win" ? ["You won! That is the whole loop: lands, spells, combat. Real Magic adds thousands of cards on top.", "Você venceu! Esse é o ciclo todo: terrenos, mágicas, combate. O Magic real põe milhares de cartas em cima disso."] : ["Defeat. Try again: play a land every turn and keep blockers back when you are behind.", "Derrota. Tente de novo: jogue um terreno todo turno e guarde bloqueadores quando estiver atrás."];
     if (G.msg) return G.msg;
-    if (G.target !== null) return ["Shock deals 2 damage. Click an enemy creature or the bot's life total.", "Choque causa 2 de dano. Clique em uma criatura inimiga ou na vida do bot."];
+    if (G.target !== null) return ["Shock deals 2 damage. Click an enemy creature or the opponent's portrait.", "Choque causa 2 de dano. Clique em uma criatura inimiga ou no retrato do oponente."];
     const Y = G.you;
-    if (G.phase === "bot") return ["Opponent's turn…", "Turno do oponente…"];
+    if (G.phase === "bot") return ["Waiting for the opponent…", "Aguardando o oponente…"];
     if (G.phase === "block") return G.pick ? ["Now click the attacker it should block. Flyers can only be blocked by flyers.", "Agora clique no atacante que ela deve bloquear. Voadores só são bloqueados por voadores."] : ["The bot attacks (red glow). Click one of your untapped creatures to block with, or confirm with no blocks and take the damage.", "O bot ataca (brilho vermelho). Clique em uma criatura sua desvirada para bloquear, ou confirme sem bloqueios e leve o dano."];
     if (G.phase === "attack") return ["Declare attackers: click your ready creatures, then confirm. Creatures marked zz arrived this turn and cannot attack. Attackers tap, so they cannot block next turn.", "Declare atacantes: clique nas criaturas prontas e confirme. Criaturas com zz chegaram neste turno e não atacam. Atacantes viram, então não bloqueiam no próximo turno."];
     if (!Y.landPlayed && Y.hand.some(c => c.k === "land")) return ["Main phase. Start by playing a land from your hand (one per turn).", "Fase principal. Comece jogando um terreno da mão (um por turno)."];
     if (Y.hand.some(c => c.k !== "land" && c.c <= mana(Y))) return [`You have ${mana(Y)} mana. Click a spell you can afford: its cost is the number in the corner.`, `Você tem ${mana(Y)} de mana. Clique em uma mágica que possa pagar: o custo é o número no canto.`];
     return G.phase === "main1" ? ["Nothing else to cast. Go to combat.", "Nada mais para conjurar. Vá para o combate."] : ["Second main phase done? End your turn.", "Segunda fase principal pronta? Encerre o turno."];
   }
+  // [glyph, art gradient, frame color, type line, rules text]
+  const SIMLOOK = {
+    land: ["🌲", "#3c6b47,#14291b", "l", ["Land", "Terreno"], ["Tap: add 1 mana.", "Vire: gera 1 mana."]],
+    scout: ["🧝", "#4f7d4a,#1a3020", "g", ["Creature — Elf", "Criatura — Elfo"], ["", ""]],
+    bear: ["🐻", "#6a7a3c,#232c16", "g", ["Creature — Bear", "Criatura — Urso"], ["", ""]],
+    drake: ["🐉", "#4b7fae,#152a44", "u", ["Creature — Drake", "Criatura — Dragonete"], ["Flying (only flyers can block it).", "Voar (só voadores a bloqueiam)."]],
+    giant: ["🗿", "#a85a3c,#3a1a12", "r", ["Creature — Giant", "Criatura — Gigante"], ["", ""]],
+    wurm: ["🐍", "#3f7a52,#11281a", "g", ["Creature — Wurm", "Criatura — Vorme"], ["", ""]],
+    shock: ["⚡", "#c9562f,#40150b", "r", ["Instant", "Mágica instantânea"], ["Shock deals 2 damage to any target.", "Choque causa 2 de dano a qualquer alvo."]]
+  };
   function cardHtml(c, o = {}) {
-    const cls = ["gc", c.k === "land" ? "land" : c.k === "burn" ? "burn" : c.fly ? "fly" : "", o.cls || "", c.tapped ? "tapped" : ""].join(" ");
-    const body = `<span class="flex justify-between gap-1"><span class="font-semibold leading-tight">${tr(c.n)}</span>${c.k !== "land" ? `<span class="pip pip-c" style="width:1rem;height:1rem;font-size:.6rem">${c.c}</span>` : ""}</span>
-      <span class="text-mute">${c.k === "land" ? tr(["Tap: 1 mana", "Vire: 1 mana"]) : c.k === "burn" ? tr(["2 damage to any target", "2 de dano em qualquer alvo"]) : c.fly ? tr(["Flying", "Voar"]) : ""}</span>
-      ${c.k === "cre" ? `<span class="pt">${c.p}/${c.t}${c.dmg ? `<span class="text-red-300 text-[9px]"> −${c.dmg}</span>` : ""}</span>` : "<span></span>"}
-      ${o.tag ? `<span class="tag">${o.tag}</span>` : ""}`;
+    const L = SIMLOOK[c.key], big = !!o.big;
+    const cls = ["mc", "f-" + L[2], big ? "big" : "", o.cls || "", c.tapped ? "tapped" : ""].filter(Boolean).join(" ");
+    const body = `<span class="mc-in">
+        <span class="mc-name"><span class="truncate">${tr(c.n)}</span>${c.k !== "land" ? `<span class="mc-cost">${c.c}</span>` : ""}</span>
+        <span class="mc-art" style="background:linear-gradient(160deg,${L[1]})" aria-hidden="true">${L[0]}</span>
+        <span class="mc-type truncate">${tr(L[3])}</span>
+        ${big ? `<span class="mc-text">${tr(L[4])}</span>` : ""}
+        ${c.k === "cre" ? `<span class="mc-pt">${c.p}/${c.t}${c.dmg ? `<span class="text-red-700"> −${c.dmg}</span>` : ""}</span>` : ""}
+      </span>${o.tag ? `<span class="mc-tag">${o.tag}</span>` : ""}`;
     return o.act ? `<button class="${cls}" data-act="${o.act}" data-v="${o.v}">${body}</button>` : `<div class="${cls}">${body}</div>`;
   }
+  const SIMPH = [["Untap", "Desvirar"], ["Upkeep", "Manutenção"], ["Draw", "Compra"], ["Main", "Principal"], ["Begin Combat", "Início do Combate"], ["Attack", "Ataque"], ["Block", "Bloqueio"], ["Damage", "Dano"], ["End Combat", "Fim do Combate"], ["Main", "Principal"], ["End", "Final"], ["Cleanup", "Limpeza"]];
   function drawSim() {
     const Y = G.you, B = G.bot, myTurn = G.turn === "you" && !G.busy && !G.over;
     const main = myTurn && (G.phase === "main1" || G.phase === "main2");
-    const phases = [["main1", ["Main 1", "Principal 1"]], ["attack", ["Combat", "Combate"]], ["main2", ["Main 2", "Principal 2"]], ["bot", ["Opponent", "Oponente"]]];
-    const cur = G.phase === "block" ? "bot" : G.phase;
+    const step = G.phase === "block" ? 6 : G.turn === "you" ? ({ main1: 3, attack: 5, main2: 9 }[G.phase] ?? 3) : (G.step ?? 3);
     const blockerOf = id => Object.entries(G.blocks).find(([, b]) => b.id === id);
-    const lands = P => Array.from({ length: P.lands }, (_, i) => `<span class="inline-block w-4 h-6 rounded-sm border ${i < P.tapped ? "border-line bg-slate3 rotate-12 opacity-50" : "border-gold/70 bg-[#3a3320]"}"></span>`).join("") || `<span class="text-mute text-xs">${tr(["no lands yet", "sem terrenos"])}</span>`;
+    const who = G.turn === "you" ? tr(["You", "Você"]) : "Bot";
+    const landRow = P => Array.from({ length: P.lands }, (_, i) => cardHtml({ ...CARDS.land, key: "land", tapped: i < P.tapped }, { cls: "sm" })).join("");
+    const empty = t => `<span class="mt-empty">${tr(t)}</span>`;
+    const stats = P => `<div class="mt-stats">
+        <span title="${tr(["Cards in hand", "Cartas na mão"])}">✋ ${P.hand.length}</span>
+        <span title="${tr(["Library", "Grimório"])}">📚 ${P.lib.length}</span>
+        <span title="${tr(["Graveyard", "Cemitério"])}">⚰ ${P.gy.length}</span>
+        <span title="${tr(["Untapped lands", "Terrenos desvirados"])}">◆ ${mana(P)}/${P.lands}</span></div>`;
+    const player = (P, name, glyph, isBot) => {
+      const inner = `<span class="mt-avatar ${isBot ? "bot" : "me"}"><span aria-hidden="true">${glyph}</span><span class="mt-life">${Math.max(0, P.life)}</span></span><span class="mt-name">${name}</span>`;
+      const active = (G.turn === "bot") === isBot && !G.over;
+      return `<div class="mt-player${active ? " active" : ""}${isBot && G.target !== null ? " target" : ""}">
+        ${isBot ? `<button class="block w-full" data-act="face" ${G.target === null ? "disabled" : ""} aria-label="${tr(["Opponent, life", "Oponente, vida"])} ${Math.max(0, P.life)}">${inner}</button>` : `<div aria-label="${tr(["You, life", "Você, vida"])} ${Math.max(0, P.life)}">${inner}</div>`}
+        ${stats(P)}</div>`;
+    };
     let btns = "";
     if (G.over) btns = `<button class="sbtn sbtn-p" data-act="restart">${tr(["Play again", "Jogar de novo"])}</button>`;
     else if (G.target !== null) btns = `<button class="sbtn sbtn-s" data-act="cancel">${tr(["Cancel", "Cancelar"])}</button>`;
@@ -1339,49 +1421,61 @@
     else if (myTurn && G.phase === "attack") btns = `<button class="sbtn sbtn-p" data-act="attack">${G.sel.size ? tr([`Attack with ${G.sel.size} ▸`, `Atacar com ${G.sel.size} ▸`]) : tr(["Skip combat ▸", "Pular combate ▸"])}</button>`;
     else if (myTurn && G.phase === "main2") btns = `<button class="sbtn sbtn-p" data-act="end">${tr(["End turn ▸", "Encerrar turno ▸"])}</button>`;
     else if (!G.busy && G.phase === "block") btns = `<button class="sbtn sbtn-p" data-act="confirm">${tr(["Confirm blocks ▸", "Confirmar bloqueios ▸"])}</button>`;
-    btns += G.over ? "" : `<button class="sbtn sbtn-s ml-auto" data-act="restart">${tr(["Restart", "Reiniciar"])}</button>`;
 
-    $("#sim").innerHTML = `
-      <div class="flex flex-wrap items-center gap-2 mb-4 text-[11px]">
-        <span class="text-mute mr-1">${tr(["Turn", "Turno"])} ${G.n}</span>
-        ${phases.map(([k, n]) => `<span class="px-2.5 py-1 rounded-full border ${cur === k ? "border-gold bg-gold/20 text-gold-soft" : "border-line text-mute"}">${tr(n)}</span>`).join("")}
+    const botCre = B.board.map(c => {
+      const atk = G.atk.includes(c), blk = G.blocks[c.id];
+      const act = G.target !== null ? "foe" : (G.phase === "block" && atk ? "foe" : null);
+      return cardHtml(c, { cls: (atk ? "atk " : "") + (c.sick ? "dim" : ""), act, v: c.id, tag: blk ? "⛨ " + tr(blk.n) : c.sick ? "zz" : "" });
+    }).join("");
+    const myCre = Y.board.map(c => {
+      const ready = !c.sick && !c.tapped;
+      let act = null, cls = c.sick ? "dim " : "", tag = c.sick ? "zz" : "";
+      if (myTurn && G.phase === "attack" && ready) { act = "mine"; if (G.sel.has(c.id)) { cls += "sel"; tag = "⚔"; } }
+      if (!G.busy && G.phase === "block" && !c.tapped) { act = "mine"; if (G.pick === c.id) cls += "sel"; const b = blockerOf(c.id); if (b) tag = "⛨"; }
+      return cardHtml(c, { cls, act, v: c.id, tag });
+    }).join("");
+    const top = Y.gy[Y.gy.length - 1];
+
+    $("#sim").innerHTML = `<div class="mt">
+      <aside class="mt-side">
+        ${player(B, "Bot", "👹", true)}
+        <ol class="mt-log" aria-label="${tr(["Game log", "Registro da partida"])}">${G.log.slice(0, 14).map((l, i) => `<li class="${i === 0 ? "text-parch" : ""}">${tr(l)}</li>`).join("")}</ol>
+        ${player(Y, tr(["You", "Você"]), "🧙", false)}
+        <div class="mt-gy"><p class="mt-cap">${tr(["Your graveyard", "Seu cemitério"])} · ${Y.gy.length}</p>${top ? cardHtml(top, { cls: "sm" }) : `<span class="mt-empty">${tr(["empty", "vazio"])}</span>`}</div>
+      </aside>
+      <div class="mt-main">
+        <div class="mt-bf opp">
+          <div class="mt-prompt" aria-live="polite">
+            <p class="mt-prompt-h">${tr(["Turn", "Turno"])} ${G.n}: ${who}</p>
+            <div class="mt-prompt-b"><p>${tr(hint())}</p><div class="flex flex-wrap gap-2 mt-3">${btns}</div></div>
+          </div>
+          <div class="mt-rows">
+            <div class="mt-row lands">${landRow(B) || empty(["Opponent's lands", "Terrenos do oponente"])}</div>
+            <div class="mt-row">${botCre || empty(["Opponent's creatures", "Criaturas do oponente"])}</div>
+          </div>
+        </div>
+        <div class="mt-bf you">
+          <div class="mt-rows">
+            <div class="mt-row">${myCre || empty(["Your creatures", "Suas criaturas"])}</div>
+            <div class="mt-row lands">${landRow(Y) || empty(["Your lands", "Seus terrenos"])}</div>
+          </div>
+        </div>
+        <div class="mt-phases" role="list" aria-label="${tr(["Turn phases", "Fases do turno"])}">
+          <span class="mt-turn">${tr(["Turn", "Turno"])} ${G.n}: ${who}</span>
+          ${SIMPH.map((p, i) => `<span role="listitem" class="mt-ph${i === step ? " on" : ""}"${i === step ? ' aria-current="step"' : ""}>${tr(p)}</span>`).join("")}
+        </div>
+        <div class="mt-hand" aria-label="${tr(["Your hand", "Sua mão"])}">${Y.hand.map((c, i) => {
+          const playable = main && G.target === null && (c.k === "land" ? !Y.landPlayed : c.c <= mana(Y));
+          return cardHtml(c, { big: true, act: main && G.target === null ? "hand" : null, v: i, cls: (G.target === i ? "sel " : "") + (main && !playable && G.target !== i ? "dim" : "") });
+        }).join("") || empty(["Your hand is empty", "Sua mão está vazia"])}</div>
       </div>
-      <div class="rounded-xl bg-gold/10 border border-gold/40 px-4 py-3 mb-4 text-sm leading-relaxed" aria-live="polite"><span class="text-gold font-semibold">${tr(["Coach", "Treinador"])}:</span> ${tr(hint())}</div>
-
-      <div class="flex flex-wrap items-center justify-between gap-3 mb-2 text-xs">
-        <button class="flex items-center gap-2 rounded-lg px-3 py-1.5 border ${G.target !== null ? "border-gold bg-gold/15 animate-pulse" : "border-line"}" data-act="face" ${G.target === null ? "disabled" : ""}>
-          <span class="font-semibold">Bot</span><span class="font-display text-xl gold-text">${Math.max(0, B.life)}</span><span class="text-mute">${tr(["life", "vida"])}</span></button>
-        <span class="text-mute">${tr(["Hand", "Mão"])}: ${B.hand.length} · ${tr(["Library", "Grimório"])}: ${B.lib.length}</span>
-        <span class="flex gap-1 items-center">${lands(B)}</span>
-      </div>
-      <div class="zone mb-3">${B.board.map(c => {
-        const atk = G.atk.includes(c), blk = G.blocks[c.id];
-        const act = G.target !== null ? "foe" : (G.phase === "block" && atk ? "foe" : null);
-        return cardHtml(c, { cls: (atk ? "atk " : "") + (c.sick ? "dim" : ""), act, v: c.id, tag: blk ? "⛨ " + tr(blk.n) : c.sick ? "zz" : "" });
-      }).join("") || `<span class="text-mute text-xs mx-auto">${tr(["Opponent's battlefield", "Campo do oponente"])}</span>`}</div>
-
-      <div class="zone mb-2">${Y.board.map(c => {
-        const ready = !c.sick && !c.tapped;
-        let act = null, cls = c.sick ? "dim " : "", tag = c.sick ? "zz" : "";
-        if (myTurn && G.phase === "attack" && ready) { act = "mine"; if (G.sel.has(c.id)) { cls += "sel"; tag = "⚔"; } }
-        if (!G.busy && G.phase === "block" && !c.tapped) { act = "mine"; if (G.pick === c.id) cls += "sel"; const b = blockerOf(c.id); if (b) tag = "⛨"; }
-        return cardHtml(c, { cls, act, v: c.id, tag });
-      }).join("") || `<span class="text-mute text-xs mx-auto">${tr(["Your battlefield", "Seu campo de batalha"])}</span>`}</div>
-      <div class="flex flex-wrap items-center justify-between gap-3 mb-4 text-xs">
-        <span class="flex items-center gap-2 rounded-lg px-3 py-1.5 border border-line"><span class="font-semibold">${tr(["You", "Você"])}</span><span class="font-display text-xl gold-text">${Math.max(0, Y.life)}</span><span class="text-mute">${tr(["life", "vida"])}</span></span>
-        <span class="text-mute">${tr(["Mana available", "Mana disponível"])}: <strong class="text-gold-soft">${mana(Y)}</strong> · ${tr(["Library", "Grimório"])}: ${Y.lib.length}</span>
-        <span class="flex gap-1 items-center">${lands(Y)}</span>
-      </div>
-
-      <p class="text-[11px] uppercase tracking-widest text-mute mb-2">${tr(["Your hand", "Sua mão"])}</p>
-      <div class="flex flex-wrap gap-2 mb-5 min-h-[100px]">${Y.hand.map((c, i) => {
-        const playable = main && G.target === null && (c.k === "land" ? !Y.landPlayed : c.c <= mana(Y));
-        return cardHtml(c, { act: main && G.target === null ? "hand" : null, v: i, cls: (G.target === i ? "sel " : "") + (main && !playable && G.target !== i ? "dim" : "") });
-      }).join("")}</div>
-
-      <div class="flex flex-wrap gap-2 mb-4">${btns}</div>
-      <ol class="text-xs text-mute space-y-1 max-h-28 overflow-y-auto rounded-lg bg-void/50 border border-line/60 p-3">${G.log.slice(0, 12).map((l, i) => `<li class="${i === 0 ? "text-parch" : ""}">${tr(l)}</li>`).join("")}</ol>
-      <p class="text-[11px] text-mute mt-3">${tr(["Simplified on purpose: one color of mana, one blocker per attacker, and Shock only on your own turn. In real Magic an instant like Shock can be cast at almost any time.", "Simplificado de propósito: uma cor de mana, um bloqueador por atacante e Choque só no seu turno. No Magic real, uma instantânea como Choque pode ser conjurada quase a qualquer momento."])}</p>`;
+    </div>
+    <div class="flex flex-wrap items-start gap-3 mt-3">
+      <p class="text-[11px] text-mute flex-1 min-w-[240px]">${tr(["Simplified on purpose: one color of mana, one blocker per attacker, and Shock only on your own turn. In real Magic an instant like Shock can be cast at almost any time. Cards here are drawn for the tutorial, not real printings.", "Simplificado de propósito: uma cor de mana, um bloqueador por atacante e Choque só no seu turno. No Magic real, uma instantânea como Choque pode ser conjurada quase a qualquer momento. As cartas aqui foram desenhadas para o tutorial, não são impressões reais."])}</p>
+      ${G.over ? "" : `<button class="sbtn sbtn-s" data-act="restart">${tr(["Restart", "Reiniciar"])}</button>`}
+    </div>`;
+    const ph = $("#sim .mt-ph.on"), bar = $("#sim .mt-phases");
+    if (ph && bar && bar.scrollWidth > bar.clientWidth) bar.scrollLeft = ph.offsetLeft - bar.clientWidth / 2 + ph.offsetWidth / 2;
   }
   $("#sim").addEventListener("click", e => {
     const b = e.target.closest("[data-act]"); if (!b || b.disabled) return;

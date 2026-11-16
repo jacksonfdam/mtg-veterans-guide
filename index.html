@@ -94,6 +94,12 @@
   .oc-pt { font-size:21px; font-weight:700; line-height:1; text-shadow:1px 1px 0 #000; }
   .oc .hot:hover, .oc .hot.on { box-shadow: 0 0 0 2px #e3c77d, 0 0 16px rgba(201,162,75,.8); }
 
+  .oc-real { border-radius:13px; padding:10px; box-shadow: 0 22px 44px -20px #000, 0 0 0 1px rgba(0,0,0,.4); background:#e9e4d6; }
+  .oc-img { position:relative; aspect-ratio:200/285; border-radius:4px; overflow:hidden; }
+  .oc-real img { display:block; width:100%; height:100%; }
+  .hs { position:absolute; border-radius:4px; }
+  .hs:hover, .hs.on { background: rgba(227,199,125,.2); box-shadow: 0 0 0 2px #e3c77d, 0 0 14px rgba(201,162,75,.85); }
+
   /* color wheel */
   .wheel-btn { position:absolute; margin:-26px 0 0 -26px; }
   .mx td, .mx th { padding:.45rem .5rem; text-align:center; border-bottom:1px solid #352d47; }
@@ -307,28 +313,41 @@
         <p class="text-mute text-sm mb-6" data-t="g1s"></p>
         <div class="grid sm:grid-cols-[250px_1fr] gap-6 items-start">
           <div class="w-[250px] mx-auto select-none" id="anatomyCard">
+            <div id="ocReal" class="oc-real"><div class="oc-img">
+              <img src="https://gatherer-static.wizards.com/Cards/medium/720E096AF01CCEA6FD1A33BD97B39B62C6F6A20CD50354CEC557140F0BB987DD.webp" width="200" height="285" alt="Abomination, Fourth Edition, illustrated by Mark Tedin" referrerpolicy="no-referrer"
+                onerror="this.parentNode.classList.add('hidden');document.getElementById('ocFallback').classList.remove('hidden')">
+              <button class="hot hs" data-a="name" aria-label="Name" style="left:3%;top:0.8%;width:60%;height:5%"></button>
+              <button class="hot hs" data-a="cost" aria-label="Mana cost" style="left:76%;top:0.8%;width:21%;height:5%"></button>
+              <button class="hot hs" data-a="art" aria-label="Art" style="left:7.5%;top:5.8%;width:85%;height:48.2%"></button>
+              <button class="hot hs" data-a="type" aria-label="Type line" style="left:4%;top:55%;width:92%;height:5.5%"></button>
+              <button class="hot hs" data-a="text" aria-label="Text box" style="left:8%;top:61%;width:83%;height:30.5%"></button>
+              <button class="hot hs" data-a="artist" aria-label="Artist" style="left:3.5%;top:92%;width:40%;height:4%"></button>
+              <button class="hot hs" data-a="pt" aria-label="Power and toughness" style="left:85%;top:92%;width:13%;height:5%"></button>
+            </div></div>
+            <div id="ocFallback" class="hidden">
             <div class="oc">
               <div class="oc-frame">
                 <div class="flex justify-between items-center gap-1">
                   <button class="hot oc-name px-1 flex-1 text-left" data-a="name">Abomination</button>
-                  <button class="hot flex gap-0.5 p-0.5" data-a="cost" aria-label="Mana cost"><span class="pip pip-c" style="width:1.15rem;height:1.15rem">3</span><span class="pip pip-b" style="width:1.15rem;height:1.15rem">B</span></button>
+                  <button class="hot flex gap-0.5 p-0.5" data-a="cost" aria-label="Mana cost"><span class="pip pip-c" style="width:1.15rem;height:1.15rem">3</span><span class="pip pip-b" style="width:1.15rem;height:1.15rem">B</span><span class="pip pip-b" style="width:1.15rem;height:1.15rem">B</span></button>
                 </div>
                 <button class="hot oc-art block w-full mt-1" data-a="art" aria-label="Art">
                   <svg viewBox="0 0 220 140" class="w-full h-full" aria-hidden="true"><path d="M40 140c0-50 20-86 70-86s70 36 70 86z" fill="#1d241a" opacity=".9"/><path d="M62 96c-22-8-34-30-30-52M158 96c22-8 34-30 30-52M92 62c-8-18-6-34 4-46M128 62c8-18 6-34-4-46" stroke="#1d241a" stroke-width="7" fill="none" stroke-linecap="round"/><ellipse cx="110" cy="92" rx="15" ry="9" fill="#d8c98f"/><circle cx="110" cy="92" r="5" fill="#16110d"/></svg>
                 </button>
                 <button class="hot oc-type block w-full text-left" data-a="type" id="ocType"></button>
-                <button class="hot oc-text block w-full text-left" data-a="text">Whenever this creature blocks or becomes blocked by a green or white creature, destroy that creature at end of combat.</button>
+                <button class="hot oc-text block w-full text-left" data-a="text">At the end of combat, destroy all green and white creatures blocking or blocked by Abomination.</button>
                 <div class="flex justify-between items-end mt-1">
                   <button class="hot oc-artist px-1 py-0.5" data-a="artist">Illus. Mark Tedin</button>
                   <button class="hot oc-pt px-1 py-0.5" data-a="pt">2/6</button>
                 </div>
               </div>
             </div>
+            <button id="ocMode" class="block mx-auto mt-3 text-xs text-mute underline decoration-gold/50 hover:text-gold-soft"></button>
+            </div>
             <div class="flex flex-wrap gap-2 mt-3 justify-center">
               <button class="hot chip px-2.5 py-1 text-xs" data-a="border" data-t="aBorder"></button>
               <button class="hot chip px-2.5 py-1 text-xs" data-a="symbol" data-t="aSymbol"></button>
             </div>
-            <button id="ocMode" class="block mx-auto mt-3 text-xs text-mute underline decoration-gold/50 hover:text-gold-soft"></button>
           </div>
           <div>
             <div id="anatomyInfo" class="text-sm leading-relaxed min-h-[150px]"></div>
@@ -524,8 +543,8 @@
     fOther: ["Other formats you will hear about", "Outros formatos que você vai ouvir"],
     bK: ["Getting back in", "Voltando ao jogo"], bH: ["Learn, buy smart, find tools", "Aprenda, compre bem, ache ferramentas"],
     ftQ: ["“Welcome back, Planeswalker.”", "“Bem-vindo de volta, Planeswalker.”"],
-    ftD: ["Fan project, not affiliated with Wizards of the Coast. Magic: The Gathering is a trademark of Wizards of the Coast LLC. Dates and summaries are simplified; always check the official rules.",
-      "Projeto de fã, sem afiliação com a Wizards of the Coast. Magic: The Gathering é marca registrada da Wizards of the Coast LLC. Datas e resumos são simplificados; confira sempre as regras oficiais."]
+    ftD: ["Unofficial Fan Content permitted under the Wizards of the Coast Fan Content Policy. Not approved or endorsed by Wizards. The card image and other portions of the materials used are property of Wizards of the Coast. ©Wizards of the Coast LLC. Dates and summaries are simplified; always check the official rules.",
+      "Conteúdo de fã não oficial, permitido pela Política de Conteúdo de Fãs da Wizards of the Coast. Não aprovado nem endossado pela Wizards. A imagem da carta e outras partes do material usado são propriedade da Wizards of the Coast. ©Wizards of the Coast LLC. Datas e resumos são simplificados; confira sempre as regras oficiais."]
   };
 
   /* =========================================================
@@ -916,19 +935,20 @@
   ========================================================= */
   const ANAT = {
     name: [["Name", "Nome"], ["Top left. Identifies the card. In Commander you may run only one card with each name (basic lands aside).", "No canto superior esquerdo. Identifica a carta. No Commander você só pode ter uma carta de cada nome (fora os terrenos básicos)."]],
-    cost: [["Mana cost and mana value", "Custo de mana e valor de mana"], ["Top right. Three mana of any color plus one black. The total is the <strong>mana value</strong>, the current name for “converted mana cost”: here, <strong>4</strong>. The colored symbols also make this a black card.", "No canto superior direito. Três manas de qualquer cor mais uma preta. A soma é o <strong>valor de mana</strong>, nome atual do “custo de mana convertido”: aqui, <strong>4</strong>. Os símbolos coloridos também fazem desta uma carta preta."]],
+    cost: [["Mana cost and mana value", "Custo de mana e valor de mana"], ["Top right. Three mana of any color plus two black. The total is the <strong>mana value</strong>, the current name for “converted mana cost”: here, <strong>5</strong>. The colored symbols also make this a black card.", "No canto superior direito. Três manas de qualquer cor mais duas pretas. A soma é o <strong>valor de mana</strong>, nome atual do “custo de mana convertido”: aqui, <strong>5</strong>. Os símbolos coloridos também fazem desta uma carta preta."]],
     art: [["Art and frame", "Arte e moldura"], ["This is the 1993–2003 frame you remember. The frame was redesigned in 2003 (Eighth Edition) and adjusted in 2015. Old-frame “retro” printings are popular again, so you will still see this look in new packs.", "Esta é a moldura de 1993–2003 que você lembra. Ela foi redesenhada em 2003 (Oitava Edição) e ajustada em 2015. Impressões “retrô” na moldura antiga voltaram à moda, então você ainda vê este visual em boosters novos."]],
     type: [["Type line", "Linha de tipo"], ["Printed as “Summon Abomination”. Since Sixth Edition (1999) the line reads “Creature — subtype”, and this card is now officially <strong>Creature — Horror</strong>. Subtypes matter for “typal” decks (elves, goblins, zombies).", "Impressa como “Summon Abomination”. Desde a Sexta Edição (1999) a linha diz “Criatura — subtipo”, e esta carta hoje é oficialmente <strong>Creature — Horror</strong>. Subtipos importam em baralhos tribais (elfos, goblins, zumbis)."]],
-    text: [["Text box", "Caixa de texto"], ["What the card does. The wording shown is the current <strong>Oracle text</strong> from Gatherer, which overrides whatever is printed on an old card; the 1995 printing was worded differently. Italic text in parentheses is a reminder, italic text alone is flavor.", "O que a carta faz. O texto mostrado é o <strong>texto Oracle</strong> atual do Gatherer, que vale mais do que o impresso numa carta antiga; a impressão de 1995 tinha outra redação. Itálico entre parênteses é lembrete; itálico solto é ambientação."]],
-    artist: [["Artist credit", "Crédito do artista"], ["Old cards say “Illus.” and the artist's name. Modern cards add a line with collector number, rarity letter, set code and language, and rares carry a small holographic oval stamp since 2015.", "Cartas antigas dizem “Illus.” e o nome do artista. As modernas têm uma linha com número de colecionador, letra de raridade, código da coleção e idioma, e as raras trazem um pequeno selo oval holográfico desde 2015."]],
+    text: [["Text box", "Caixa de texto"], ["What the card does. This is the 1995 wording. The official version of every card is its current <strong>Oracle text</strong> on Gatherer, which overrides whatever is printed; this card’s is listed below. Italic text in parentheses is a reminder, italic text alone is flavor.", "O que a carta faz. Esta é a redação de 1995. A versão oficial de toda carta é o <strong>texto Oracle</strong> atual no Gatherer, que vale mais do que o impresso; o desta carta está listado abaixo. Itálico entre parênteses é lembrete; itálico solto é ambientação."]],
+    artist: [["Artist credit", "Crédito do artista"], ["Old cards say “Illus.” and the artist's name, with a copyright line below. Modern cards add a line with collector number, rarity letter, set code and language, and rares carry a small holographic oval stamp since 2015.", "Cartas antigas dizem “Illus.” e o nome do artista, com uma linha de copyright abaixo. As modernas têm uma linha com número de colecionador, letra de raridade, código da coleção e idioma, e as raras trazem um pequeno selo oval holográfico desde 2015."]],
     pt: [["Power / Toughness", "Poder / Resistência"], ["Bottom right. Deals 2 damage in combat; takes 6 damage in one turn to destroy. Damage wears off at end of turn. Planeswalkers show loyalty here instead.", "No canto inferior direito. Causa 2 de dano em combate; precisa de 6 de dano num turno para ser destruída. O dano some no fim do turno. Planeswalkers mostram lealdade aqui."]],
-    border: [["Border color", "Cor da borda"], ["Fourth Edition is white-bordered. Until 2007, core-set reprints had white borders and a card's first printing was black-bordered (this one in Legends, 1994). Since Tenth Edition every regular set is black-bordered.", "A Quarta Edição tem borda branca. Até 2007, reimpressões das coleções básicas tinham borda branca e a primeira impressão de uma carta tinha borda preta (esta, em Legends, 1994). Desde a Décima Edição, toda coleção regular tem borda preta."]],
+    border: [["Border color", "Cor da borda"], ["Fourth Edition is white-bordered (Gatherer’s scan crops the border, so it is redrawn here). Until 2007, core-set reprints had white borders and a card's first printing was black-bordered (this one in Legends, 1994). Since Tenth Edition every regular set is black-bordered.", "A Quarta Edição tem borda branca (a imagem do Gatherer corta a borda, então ela foi redesenhada aqui). Até 2007, reimpressões das coleções básicas tinham borda branca e a primeira impressão de uma carta tinha borda preta (esta, em Legends, 1994). Desde a Décima Edição, toda coleção regular tem borda preta."]],
     symbol: [["Set symbol and rarity", "Símbolo da coleção e raridade"], ["This card has no symbol: core sets had none until Sixth Edition (1999). Expansions print theirs on the right, below the art. Since Exodus (1998) its color shows rarity: black common, silver uncommon, gold rare, and orange-red mythic rare (added in 2008).", "Esta carta não tem símbolo: as coleções básicas só ganharam um na Sexta Edição (1999). As expansões imprimem o seu à direita, abaixo da arte. Desde Exodus (1998) a cor indica a raridade: preto comum, prata incomum, dourado rara e laranja-avermelhado rara mítica (criada em 2008)."]]
   };
   const AFACTS = [
-    [["Card name", "Nome"], "Abomination"], [["Mana cost", "Custo de mana"], ["{3}{B} · mana value 4", "{3}{B} · valor de mana 4"]],
+    [["Card name", "Nome"], "Abomination"], [["Mana cost", "Custo de mana"], ["{3}{B}{B} · mana value 5", "{3}{B}{B} · valor de mana 5"]],
     [["Type", "Tipo"], "Creature — Horror"], [["Rarity", "Raridade"], ["Uncommon", "Incomum"]], [["P/T", "P/R"], "2/6"],
-    [["Artist", "Artista"], "Mark Tedin"], [["Set", "Coleção"], ["Fourth Edition (4E), 1995", "Quarta Edição (4E), 1995"]], [["Printings", "Impressões"], "Legends · Fourth Edition"]
+    [["Artist", "Artista"], "Mark Tedin"], [["Set", "Coleção"], ["Fourth Edition (4E), 1995", "Quarta Edição (4E), 1995"]], [["Printings", "Impressões"], "Legends · Fourth Edition"],
+    [["Oracle text", "Texto Oracle"], "Whenever this creature blocks or becomes blocked by a green or white creature, destroy that creature at end of combat."]
   ];
   let anatSel = "cost", ocPrint = true;
   function renderAnat() {

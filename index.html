@@ -161,8 +161,12 @@
   .mc-type { background:#f1ead8; color:#15120c; border-radius:3px; padding:0 calc(var(--w)*.035); font-weight:600; font-size:calc(var(--w)*.075); line-height:1.5; }
   .mc-text { flex:0 0 30%; background:#e9e1cc; color:#1b1710; border-radius:2px; padding:calc(var(--w)*.03) calc(var(--w)*.04); font-size:calc(var(--w)*.075); line-height:1.25; overflow:hidden; font-family:"Cormorant Garamond",serif; font-weight:600; }
   .mc:not(.big) .mc-type, .mc.sm .mc-name { display:none; }
+  .mc.sm { padding:calc(var(--w)*.03); }
   .mc-pt { position:absolute; right:calc(var(--w)*.02); bottom:calc(var(--w)*.02); background:#f1ead8; color:#15120c; border:1px solid #6d675b; border-radius:3px; padding:0 calc(var(--w)*.045); font-weight:700; font-size:calc(var(--w)*.11); line-height:1.35; }
   .mc-tag { position:absolute; top:-7px; right:-5px; z-index:2; background:#0b0812; border:1px solid #c9a24b; border-radius:99px; padding:1px 6px; font-size:9px; color:#e3c77d; white-space:nowrap; max-width:110px; overflow:hidden; text-overflow:ellipsis; }
+  .mc.wb { background:#f3efe2; }
+  .mc-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border-radius:inherit; }
+  .mc-dmg { position:absolute; left:-5px; bottom:-6px; z-index:2; background:#7f1d1d; border:1px solid #fca5a5; border-radius:99px; padding:0 6px; font-size:11px; font-weight:700; color:#fff; }
   button.mc { cursor:pointer; }
   button.mc:hover { transform:translateY(-5px); box-shadow:0 0 0 2px #c9a24b; }
   .mc.dim { opacity:.5; }
@@ -1186,13 +1190,13 @@
      SIMULATOR
   ========================================================= */
   const CARDS = {
-    land: { k: "land", n: ["Land", "Terreno"], c: 0 },
-    scout: { k: "cre", n: ["Elf Scout", "Batedor Élfico"], c: 1, p: 1, t: 1 },
-    bear: { k: "cre", n: ["Grizzly Bears", "Ursos Pardos"], c: 2, p: 2, t: 2 },
-    drake: { k: "cre", n: ["Wind Drake", "Dragonete do Vento"], c: 3, p: 2, t: 2, fly: true },
-    giant: { k: "cre", n: ["Hill Giant", "Gigante da Colina"], c: 4, p: 3, t: 3 },
-    wurm: { k: "cre", n: ["Ancient Wurm", "Vorme Ancestral"], c: 5, p: 5, t: 5 },
-    shock: { k: "burn", n: ["Shock", "Choque"], c: 1 }
+    land: { k: "land", n: ["Forest", "Forest"], c: 0 },
+    scout: { k: "cre", n: ["Mons's Goblin Raiders", "Mons's Goblin Raiders"], c: 1, p: 1, t: 1 },
+    bear: { k: "cre", n: ["Grizzly Bears", "Grizzly Bears"], c: 2, p: 2, t: 2 },
+    drake: { k: "cre", n: ["Wind Drake", "Wind Drake"], c: 3, p: 2, t: 2, fly: true },
+    giant: { k: "cre", n: ["Hill Giant", "Hill Giant"], c: 4, p: 3, t: 3 },
+    wurm: { k: "cre", n: ["Craw Wurm", "Craw Wurm"], c: 6, p: 6, t: 4 },
+    shock: { k: "burn", n: ["Shock", "Shock"], c: 1 }
   };
   const LIST = { land: 13, scout: 3, bear: 4, drake: 2, giant: 3, wurm: 2, shock: 3 };
   let uid = 0, gid = 0, G;
@@ -1272,8 +1276,8 @@
   function shockAt(target) {
     const P = G.you, c = P.hand[G.target];
     P.hand.splice(G.target, 1); P.tapped += c.c; G.target = null; P.gy.push(c);
-    if (target === "face") { G.bot.life -= 2; log(["Shock deals 2 damage to the bot.", "Choque causa 2 de dano ao bot."]); }
-    else { target.dmg += 2; log([`Shock deals 2 damage to ${target.n[0]}.`, `Choque causa 2 de dano a ${target.n[1]}.`]); }
+    if (target === "face") { G.bot.life -= 2; log(["Shock deals 2 damage to the bot.", "Shock causa 2 de dano ao bot."]); }
+    else { target.dmg += 2; log([`Shock deals 2 damage to ${target.n[0]}.`, `Shock causa 2 de dano a ${target.n[1]}.`]); }
     cleanup();
   }
   function botBlocks(attackers) {
@@ -1326,8 +1330,8 @@
           const tgt = Y.board.filter(c => alive(c) <= 2).sort((a, b) => b.c - a.c)[0];
           if (tgt || Y.life <= 6) {
             B.hand.splice(B.hand.indexOf(sh), 1); B.tapped += 1; B.gy.push(sh);
-            if (tgt) { tgt.dmg += 2; log([`The bot casts Shock on your ${tgt.n[0]}.`, `O bot conjura Choque no seu ${tgt.n[1]}.`]); }
-            else { Y.life -= 2; log(["The bot casts Shock on you: 2 damage.", "O bot conjura Choque em você: 2 de dano."]); }
+            if (tgt) { tgt.dmg += 2; log([`The bot casts Shock on your ${tgt.n[0]}.`, `O bot conjura Shock no seu ${tgt.n[1]}.`]); }
+            else { Y.life -= 2; log(["The bot casts Shock on you: 2 damage.", "O bot conjura Shock em você: 2 de dano."]); }
             cleanup(); acted = true;
           }
         }
@@ -1362,7 +1366,7 @@
   function hint() {
     if (G.over) return G.over === "win" ? ["You won! That is the whole loop: lands, spells, combat. Real Magic adds thousands of cards on top.", "Você venceu! Esse é o ciclo todo: terrenos, mágicas, combate. O Magic real põe milhares de cartas em cima disso."] : ["Defeat. Try again: play a land every turn and keep blockers back when you are behind.", "Derrota. Tente de novo: jogue um terreno todo turno e guarde bloqueadores quando estiver atrás."];
     if (G.msg) return G.msg;
-    if (G.target !== null) return ["Shock deals 2 damage. Click an enemy creature or the opponent's portrait.", "Choque causa 2 de dano. Clique em uma criatura inimiga ou no retrato do oponente."];
+    if (G.target !== null) return ["Shock deals 2 damage. Click an enemy creature or the opponent's portrait.", "Shock causa 2 de dano. Clique em uma criatura inimiga ou no retrato do oponente."];
     const Y = G.you;
     if (G.phase === "bot") return ["Waiting for the opponent…", "Aguardando o oponente…"];
     if (G.phase === "block") return G.pick ? ["Now click the attacker it should block. Flyers can only be blocked by flyers.", "Agora clique no atacante que ela deve bloquear. Voadores só são bloqueados por voadores."] : ["The bot attacks (red glow). Click one of your untapped creatures to block with, or confirm with no blocks and take the damage.", "O bot ataca (brilho vermelho). Clique em uma criatura sua desvirada para bloquear, ou confirme sem bloqueios e leve o dano."];
@@ -1371,26 +1375,29 @@
     if (Y.hand.some(c => c.k !== "land" && c.c <= mana(Y))) return [`You have ${mana(Y)} mana. Click a spell you can afford: its cost is the number in the corner.`, `Você tem ${mana(Y)} de mana. Clique em uma mágica que possa pagar: o custo é o número no canto.`];
     return G.phase === "main1" ? ["Nothing else to cast. Go to combat.", "Nada mais para conjurar. Vá para o combate."] : ["Second main phase done? End your turn.", "Segunda fase principal pronta? Encerre o turno."];
   }
-  // [glyph, art gradient, frame color, type line, rules text]
+  // [glyph, art gradient, frame color, type line, rules text, Gatherer image id, white border]
+  // The drawn frame stays underneath as the fallback when an image does not load.
+  const SIMIMG = "https://gatherer-static.wizards.com/Cards/medium/";
   const SIMLOOK = {
-    land: ["🌲", "#3c6b47,#14291b", "l", ["Land", "Terreno"], ["Tap: add 1 mana.", "Vire: gera 1 mana."]],
-    scout: ["🧝", "#4f7d4a,#1a3020", "g", ["Creature — Elf", "Criatura — Elfo"], ["", ""]],
-    bear: ["🐻", "#6a7a3c,#232c16", "g", ["Creature — Bear", "Criatura — Urso"], ["", ""]],
-    drake: ["🐉", "#4b7fae,#152a44", "u", ["Creature — Drake", "Criatura — Dragonete"], ["Flying (only flyers can block it).", "Voar (só voadores a bloqueiam)."]],
-    giant: ["🗿", "#a85a3c,#3a1a12", "r", ["Creature — Giant", "Criatura — Gigante"], ["", ""]],
-    wurm: ["🐍", "#3f7a52,#11281a", "g", ["Creature — Wurm", "Criatura — Vorme"], ["", ""]],
-    shock: ["⚡", "#c9562f,#40150b", "r", ["Instant", "Mágica instantânea"], ["Shock deals 2 damage to any target.", "Choque causa 2 de dano a qualquer alvo."]]
+    land: ["🌲", "#3c6b47,#14291b", "l", ["Land", "Terreno"], ["Tap: add 1 mana.", "Vire: gera 1 mana."], "DF0227E6A93719A406788B4ADC390C21DCB8D42FDF1248FA46D009A0688E4969", 1],
+    scout: ["👺", "#a85a3c,#3a1a12", "r", ["Creature — Goblin", "Criatura — Goblin"], ["", ""], "8BCBEA947635BFC45CB7D8B92EA58CB780B602D4DB7611FF5E3C7070F3CE7A0E", 1],
+    bear: ["🐻", "#6a7a3c,#232c16", "g", ["Creature — Bear", "Criatura — Urso"], ["", ""], "E325CE86C303F1185EBDB0C59080CE393E6EF3B9FB3985F82179D3902A31FC21", 1],
+    drake: ["🐉", "#4b7fae,#152a44", "u", ["Creature — Drake", "Criatura — Dragonete"], ["Flying (only flyers can block it).", "Voar (só voadores a bloqueiam)."], "E82E5BB3A8DF20B33CB38FD1EFDCBAF390D38454F9EEFDBE2D1143D7907619DA", 0],
+    giant: ["🗿", "#a85a3c,#3a1a12", "r", ["Creature — Giant", "Criatura — Gigante"], ["", ""], "01FA4E48DE3FDC9AD9FE2483F3DD65A77CB5F8D83F423F1694F1BC8872796857", 1],
+    wurm: ["🐍", "#3f7a52,#11281a", "g", ["Creature — Wurm", "Criatura — Vorme"], ["", ""], "3DE5B59AEACB18CA71A0E12D7F46A0B5D6DE82C1A493DD863342E90456429BD2", 1],
+    shock: ["⚡", "#c9562f,#40150b", "r", ["Instant", "Mágica instantânea"], ["Shock deals 2 damage to any target.", "Shock causa 2 de dano a qualquer alvo."], "DFD2EEBBDA9C933319470670429F6B235602F61EE0455360E571C0A67BE4D17A", 0]
   };
   function cardHtml(c, o = {}) {
     const L = SIMLOOK[c.key], big = !!o.big;
-    const cls = ["mc", "f-" + L[2], big ? "big" : "", o.cls || "", c.tapped ? "tapped" : ""].filter(Boolean).join(" ");
+    const cls = ["mc", "f-" + L[2], L[6] ? "wb" : "", big ? "big" : "", o.cls || "", c.tapped ? "tapped" : ""].filter(Boolean).join(" ");
     const body = `<span class="mc-in">
         <span class="mc-name"><span class="truncate">${tr(c.n)}</span>${c.k !== "land" ? `<span class="mc-cost">${c.c}</span>` : ""}</span>
         <span class="mc-art" style="background:linear-gradient(160deg,${L[1]})" aria-hidden="true">${L[0]}</span>
         <span class="mc-type truncate">${tr(L[3])}</span>
         ${big ? `<span class="mc-text">${tr(L[4])}</span>` : ""}
         ${c.k === "cre" ? `<span class="mc-pt">${c.p}/${c.t}${c.dmg ? `<span class="text-red-700"> −${c.dmg}</span>` : ""}</span>` : ""}
-      </span>${o.tag ? `<span class="mc-tag">${o.tag}</span>` : ""}`;
+        <img class="mc-img" src="${SIMIMG}${L[5]}.webp" alt="" referrerpolicy="no-referrer" onerror="this.remove()">
+      </span>${c.dmg ? `<span class="mc-dmg">−${c.dmg}</span>` : ""}${o.tag ? `<span class="mc-tag">${o.tag}</span>` : ""}`;
     return o.act ? `<button class="${cls}" data-act="${o.act}" data-v="${o.v}">${body}</button>` : `<div class="${cls}">${body}</div>`;
   }
   const SIMPH = [["Untap", "Desvirar"], ["Upkeep", "Manutenção"], ["Draw", "Compra"], ["Main", "Principal"], ["Begin Combat", "Início do Combate"], ["Attack", "Ataque"], ["Block", "Bloqueio"], ["Damage", "Dano"], ["End Combat", "Fim do Combate"], ["Main", "Principal"], ["End", "Final"], ["Cleanup", "Limpeza"]];
@@ -1471,7 +1478,7 @@
       </div>
     </div>
     <div class="flex flex-wrap items-start gap-3 mt-3">
-      <p class="text-[11px] text-mute flex-1 min-w-[240px]">${tr(["Simplified on purpose: one color of mana, one blocker per attacker, and Shock only on your own turn. In real Magic an instant like Shock can be cast at almost any time. Cards here are drawn for the tutorial, not real printings.", "Simplificado de propósito: uma cor de mana, um bloqueador por atacante e Choque só no seu turno. No Magic real, uma instantânea como Choque pode ser conjurada quase a qualquer momento. As cartas aqui foram desenhadas para o tutorial, não são impressões reais."])}</p>
+      <p class="text-[11px] text-mute flex-1 min-w-[240px]">${tr(["Simplified on purpose: one color of mana, one blocker per attacker, and Shock only on your own turn. In real Magic an instant like Shock can be cast at almost any time. Card images are real printings loaded from Gatherer (Fourth Edition, Tempest, Stronghold). Colors are ignored here: any land pays for any spell.", "Simplificado de propósito: uma cor de mana, um bloqueador por atacante e Shock só no seu turno. No Magic real, uma instantânea como Shock pode ser conjurada quase a qualquer momento. As imagens são impressões reais carregadas do Gatherer (Quarta Edição, Tempest, Stronghold). As cores são ignoradas aqui: qualquer terreno paga qualquer mágica."])}</p>
       ${G.over ? "" : `<button class="sbtn sbtn-s" data-act="restart">${tr(["Restart", "Reiniciar"])}</button>`}
     </div>`;
     const ph = $("#sim .mt-ph.on"), bar = $("#sim .mt-phases");
